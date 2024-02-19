@@ -1,5 +1,6 @@
 const { broadcast } = require("./broadcast");
 const dgram = require("dgram");
+const net = require("net");
 const server = dgram.createSocket("udp4");
 
 const BROADCAST_ADDR = "192.168.68.255";
@@ -18,6 +19,8 @@ const initialBroadcast = () => {
 };
 initialBroadcast();
 
+const sendTCPAck = (_IP, _PORT) => {};
+
 server.on("listening", function () {
     const address = server.address();
     console.log(`UDP Client listening on ${address.address}:${address.port}`);
@@ -28,4 +31,12 @@ server.on("message", function (message, remote) {
     console.log(
         `Received message from ${remote.address}:${remote.port} - ${message}`
     );
+
+    const data = JSON.parse(message);
+    if (data?.method == "SEND") {
+        console.log(
+            `Sending TCP Acknowledgement to ${remote.address}:${remote.port}`
+        );
+        sendTCPAck(rinfo.address, rinfo.port);
+    }
 });

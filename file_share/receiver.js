@@ -1,29 +1,26 @@
-const net = require("net");
-const fs = require("fs");
+const net = require("net")
+const fs = require("fs")
 
-function magic(file = "./sender/file.jpg") {
-    let server,
-        istream = fs.createReadStream(file);
+let socket;
 
-    server = net.createServer((socket) => {
-        socket.pipe(process.stdout);
-        istream.on("readable", function () {
-            let data;
-            while ((data = this.read())) {
-                socket.write(data);
-            }
-        });
-        istream.on("end", function () {
-            socket.end();
-        });
-        socket.on("end", () => {
-            server.close(() => {
-                console.log("\nTransfer is done!");
-            });
-        });
+function magic() {
+    socket = net.connect(8000, '192.168.0.107')
+
+    let ostream = fs.createWriteStream("./file.png");
+    let date = new Date(),
+        size = 0,
+        elapsed;
+    socket.on('data', chunk => {
+        size += chunk.length;
+        elapsed = new Date() - date;
+        socket.write(`\r${(size / (1024 * 1024)).toFixed(2)} MB of data was sent. Total elapsed time is ${elapsed / 1000} s`)
+        process.stdout.write(`\r${(size / (1024 * 1024)).toFixed(2)} MB of data was sent. Total elapsed time is ${elapsed / 1000} s`);
+        ostream.write(chunk);
     });
-
-    server.listen(8000, "192.168.0.107");
+    socket.on("end", () => {
+        console.log(`\nFinished getting file. speed was: ${((size / (1024 * 1024)) / (elapsed / 1000)).toFixed(2)} MB/s`);
+        process.exit();
+    });
 }
 
-magic();
+magic()
