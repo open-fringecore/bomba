@@ -3,7 +3,7 @@ const dgram = require("dgram");
 const server = dgram.createSocket("udp4");
 
 const BROADCAST_ADDR = "192.168.68.255";
-const PORT = 12345;
+const MY_PORT = 9039;
 
 const ackSend = (_IP, _PORT) => {
     const msg = {
@@ -13,7 +13,7 @@ const ackSend = (_IP, _PORT) => {
     broadcast(server, _IP, _PORT, JSON.stringify(msg));
 };
 
-server.bind(PORT);
+server.bind(MY_PORT);
 
 server.on("listening", function () {
     const address = server.address();
@@ -21,11 +21,13 @@ server.on("listening", function () {
 });
 
 server.on("message", (msg, rinfo) => {
-    console.log(`Server received: ${msg} from ${rinfo.address}:${rinfo.port}`);
+    console.log(
+        `← Server received: ${msg} from ${rinfo.address}:${rinfo.port}`
+    );
     const data = JSON.parse(msg);
     if (data?.method == "RECEIVE") {
         console.log(
-            `Sending Acknowledgement to ${rinfo.address}:${rinfo.port}`
+            `→ → Sending Acknowledgement to ${rinfo.address}:${rinfo.port}`
         );
         ackSend(rinfo.address, rinfo.port);
     }

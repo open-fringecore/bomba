@@ -4,10 +4,10 @@ const net = require("net");
 const server = dgram.createSocket("udp4");
 
 const BROADCAST_ADDR = "192.168.68.255";
-const BROADCAST_PORT = 12345;
-const PORT = 9999;
+const SENDER_PORT = 9039;
+const MY_PORT = 9040;
 
-server.bind(PORT);
+server.bind(MY_PORT);
 
 // ! Initial Broadcast
 const initialBroadcast = () => {
@@ -15,7 +15,7 @@ const initialBroadcast = () => {
         method: "RECEIVE",
         name: "Mr. Zeus",
     };
-    broadcast(server, BROADCAST_ADDR, BROADCAST_PORT, JSON.stringify(msg));
+    broadcast(server, BROADCAST_ADDR, SENDER_PORT, JSON.stringify(msg));
 };
 initialBroadcast();
 
@@ -29,14 +29,14 @@ server.on("listening", function () {
 
 server.on("message", function (message, remote) {
     console.log(
-        `Received message from ${remote.address}:${remote.port} - ${message}`
+        `← Received message from ${remote.address}:${remote.port} - ${message}`
     );
 
     const data = JSON.parse(message);
     if (data?.method == "SEND") {
         console.log(
-            `Sending TCP Acknowledgement to ${remote.address}:${remote.port}`
+            `→ → Sending TCP Acknowledgement to ${remote.address}:${remote.port}`
         );
-        sendTCPAck(rinfo.address, rinfo.port);
+        sendTCPAck(remote.address, remote.port);
     }
 });
