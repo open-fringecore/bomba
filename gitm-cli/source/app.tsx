@@ -13,8 +13,6 @@ export default function App({name = 'Stranger'}: Props) {
 
 	return (
 		<Box flexDirection="column">
-			<Text>{process.argv[2]}</Text>
-
 			{action == null && <AsciiIntro />}
 
 			{action == 'SEND' && <Sender></Sender>}

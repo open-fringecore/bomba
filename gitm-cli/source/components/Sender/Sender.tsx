@@ -1,12 +1,15 @@
 import React from 'react';
 import {Box, Text} from 'ink';
-import SenderList from '../List/SenderList.js';
+import SenderList from '../Misc/SenderList.js';
+import {Spinner} from '../Misc/Spinner.js';
 
 const Sender = () => {
 	return (
 		<Box flexDirection="column">
-			<Text>Hello</Text>
-			<SenderList />
+			<Text>
+				<Spinner /> Sending
+			</Text>
+			{/* <SenderList /> */}
 		</Box>
 	);
 };

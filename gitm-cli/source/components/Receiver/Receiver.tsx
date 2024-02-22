@@ -1,8 +1,16 @@
 import React from 'react';
-import {Text} from 'ink';
+import {Box, Text} from 'ink';
+import {Spinner} from '../Misc/Spinner.js';
 
 const Receiver = () => {
-	return <Text>Hello</Text>;
+	return (
+		<Box flexDirection="column">
+			<Text>
+				<Spinner /> Receiving
+			</Text>
+			{/* <SenderList /> */}
+		</Box>
+	);
 };
 
 export default Receiver;
