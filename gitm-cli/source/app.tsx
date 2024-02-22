@@ -1,19 +1,24 @@
-import React from 'react';
-import {Box} from 'ink';
+import React, {useState} from 'react';
+import {Box, Text} from 'ink';
 import AsciiIntro from './components/AsciiArt/AsciiIntro.js';
-import SenderList from './components/List/SenderList.js';
+import Sender from './components/Sender/Sender.js';
+import Receiver from './components/Receiver/Receiver.js';
 
 type Props = {
 	name: string | undefined;
 };
 
 export default function App({name = 'Stranger'}: Props) {
+	const [action, setAction] = useState(process.argv[2]);
+
 	return (
 		<Box flexDirection="column">
-			{/* <Box>
-				<AsciiIntro />
-			</Box> */}
-			<SenderList />
+			<Text>{process.argv[2]}</Text>
+
+			{action == null && <AsciiIntro />}
+
+			{action == 'SEND' && <Sender></Sender>}
+			{action == 'RECEIVE' && <Receiver></Receiver>}
 		</Box>
 	);
 }
