@@ -16,7 +16,7 @@ export const useFileDownloader = (filePath: string) => {
 		});
 	});
 
-	app.listen(PORT, () => {
+	app.listen(PORT, '192.168.68.204', () => {
 		console.log(`Server is running on http://localhost:${PORT}`);
 	});
 };
