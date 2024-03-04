@@ -49,7 +49,7 @@ const Sender = () => {
 		});
 
 		const ackSend = (_IP: string, _PORT: number) => {
-			const url = `http://${_IP}:${OTHER_TCP_PORT}/request-to-receive`;
+			const url = `http://${_IP}:${OTHER_TCP_PORT}/request-to-receive?fileName=${fileName}`;
 
 			fetch(url)
 				.then(response => response.json())

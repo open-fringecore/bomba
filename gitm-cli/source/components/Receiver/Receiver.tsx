@@ -22,9 +22,10 @@ const Receiver = () => {
 		const app = express();
 
 		app.get('/request-to-receive', (req, res) => {
-			console.log(`✅✅✅ Receive request acknowledged`);
+			const {fileName} = req.query;
+			console.log(`✅✅✅ Receive request acknowledged`, fileName);
 
-			useFileDownloader(req.ip, OTHER_TCP_PORT);
+			useFileDownloader(req.ip, OTHER_TCP_PORT, fileName as string);
 
 			res.json('Downloading....');
 		});

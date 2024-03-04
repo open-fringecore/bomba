@@ -6,18 +6,10 @@ import fs from 'fs';
 export const useFileDownloader = (
 	MY_IP: string | undefined,
 	OTHER_TCP_PORT: number,
+	FILENAME: string,
 ) => {
 	const url = `http://${MY_IP}:${OTHER_TCP_PORT}/download`;
-	const path = '/home/rifat/Works/gitm/gitm-cli/receive_files/test.jpg';
-
-	// fetch(url)
-	// 	.then(response => response.json())
-	// 	.then(data => {
-	// 		console.log(data);
-	// 	})
-	// 	.catch(error => {
-	// 		console.error('Error:', error);
-	// 	});
+	const path = `/home/rifat/Works/gitm/gitm-cli/receive_files/${FILENAME}`;
 
 	http
 		.get(url, (res: any) => {
