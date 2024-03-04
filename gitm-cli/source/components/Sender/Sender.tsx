@@ -4,9 +4,12 @@ import SenderList from '../Misc/SenderList.js';
 import {Spinner} from '../Misc/Spinner.js';
 import dgram from 'dgram';
 import useBroadcast from '../../functions/broadcast.js';
-import {useFileDownloader} from '../../functions/useFileDownloader.js';
+import {useFileDownloadServer} from '../../functions/useFileDownloadServer.js';
 
+const MY_IP = '192.168.68.204';
 const MY_PORT = 9039;
+const MY_TCP_PORT = 6969;
+const OTHER_TCP_PORT = 3040;
 
 const Sender = () => {
 	const path = '/home/rifat/Works/gitm/gitm-cli/send_files' || process.cwd(); // FIXME: FIX Static
@@ -14,9 +17,16 @@ const Sender = () => {
 	const filePath = `${path}/${fileName}`;
 
 	const [isSending, setIsSending] = useState(false);
+	const [isHttpStarted, setIsHttpServerStarted] = useState(false);
 
 	const {broadcast} = useBroadcast();
-	useFileDownloader(filePath);
+
+	useEffect(() => {
+		if (!isHttpStarted) {
+			useFileDownloadServer(MY_IP, MY_TCP_PORT, filePath);
+			setIsHttpServerStarted(true);
+		}
+	}, [isHttpStarted]);
 
 	useEffect(() => {
 		const server = dgram.createSocket('udp4');
@@ -29,7 +39,7 @@ const Sender = () => {
 
 		server.on('message', (msg, rinfo) => {
 			console.log(
-				`← Server received: ${msg} from ${rinfo.address}:${rinfo.port}`,
+				`<---------------- Server received: ${msg} from ${rinfo.address}:${rinfo.port}`,
 			);
 			const data = JSON.parse(msg?.toString());
 			if (data?.method == 'RECEIVE' && !isSending) {
@@ -39,11 +49,16 @@ const Sender = () => {
 		});
 
 		const ackSend = (_IP: string, _PORT: number) => {
-			const msg = {
-				method: 'SEND',
-				name: 'Mr. Thor',
-			};
-			// broadcast(server, _IP, _PORT, JSON.stringify(msg));
+			const url = `http://${_IP}:${OTHER_TCP_PORT}/request-to-receive`;
+
+			fetch(url)
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
 		};
 
 		server.on('error', err => {

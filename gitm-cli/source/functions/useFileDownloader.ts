@@ -1,22 +1,18 @@
 import express, {Request, Response} from 'express';
 import path from 'path';
 
-export const useFileDownloader = (filePath: string) => {
-	const app = express();
-	const PORT = 3333;
+export const useFileDownloader = (
+	MY_IP: string | undefined,
+	OTHER_TCP_PORT: number,
+) => {
+	const url = `http://${MY_IP}:${OTHER_TCP_PORT}/download`;
 
-	app.get('/download', (req: Request, res: Response) => {
-		res.download(filePath, 'BRAIN.jpg', (err: any) => {
-			if (err) {
-				console.error('Error downloading the file:', err);
-				if (!res.headersSent) {
-					res.status(500).send('Error downloading the file');
-				}
-			}
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			console.log(data);
+		})
+		.catch(error => {
+			console.error('Error:', error);
 		});
-	});
-
-	app.listen(PORT, '192.168.68.204', () => {
-		console.log(`Server is running on http://localhost:${PORT}`);
-	});
 };

@@ -3,8 +3,13 @@ import {Box, Text} from 'ink';
 import {Spinner} from '../Misc/Spinner.js';
 import dgram from 'dgram';
 import useBroadcast from '../../functions/broadcast.js';
+import express, {Request, Response} from 'express';
+import {useFileDownloader} from '../../functions/useFileDownloader.js';
 
-const MY_PORT = 9040;
+const MY_IP = '192.168.68.204';
+const MY_UDP_PORT = 9040;
+const MY_TCP_PORT = 3040;
+const OTHER_TCP_PORT = 6969;
 const BROADCAST_ADDR = '192.168.68.255';
 const SENDER_PORT = 9039;
 
@@ -14,8 +19,30 @@ const Receiver = () => {
 	const {broadcast} = useBroadcast();
 
 	useEffect(() => {
+		const app = express();
+
+		app.get('/request-to-receive', (req, res) => {
+			console.log(`✅✅✅ Receive request acknowledged`);
+
+			useFileDownloader(req.ip, OTHER_TCP_PORT);
+
+			res.json('Downloading....');
+		});
+
+		const server = app.listen(MY_TCP_PORT, MY_IP, () => {
+			console.log(`Server is running on http://localhost:${MY_TCP_PORT}`);
+		});
+
+		return () => {
+			server.close(() => {
+				console.log('Server stopped listening for requests.');
+			});
+		};
+	}, []);
+
+	useEffect(() => {
 		const server = dgram.createSocket('udp4');
-		server.bind(MY_PORT);
+		server.bind(MY_UDP_PORT);
 
 		// ! Initial Broadcast
 		const initialBroadcast = () => {
