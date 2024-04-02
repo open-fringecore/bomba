@@ -6,11 +6,11 @@ import useBroadcast from '../../functions/broadcast.js';
 import express, {Request, Response} from 'express';
 import {useFileDownloader} from '../../functions/useFileDownloader.js';
 
-const MY_IP = '192.168.68.204'; // FIXME: FIX Static
+const MY_IP = '192.168.0.105'; // FIXME: FIX Static
 const MY_UDP_PORT = 9040;
 const MY_TCP_PORT = 3040;
 const OTHER_TCP_PORT = 6969;
-const BROADCAST_ADDR = '192.168.68.255'; // FIXME: FIX Static
+const BROADCAST_ADDR = '192.168.0.255'; // FIXME: FIX Static
 const SENDER_PORT = 9039;
 
 const Receiver = () => {

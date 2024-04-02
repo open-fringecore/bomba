@@ -6,7 +6,7 @@ import dgram from 'dgram';
 import useBroadcast from '../../functions/broadcast.js';
 import {useFileDownloadServer} from '../../functions/useFileDownloadServer.js';
 
-const MY_IP = '192.168.68.112'; // FIXME: FIX Static
+const MY_IP = '192.168.0.105'; // FIXME: FIX Static
 const MY_PORT = 9039;
 const MY_TCP_PORT = 6969;
 const OTHER_TCP_PORT = 3040;
