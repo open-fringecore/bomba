@@ -30,6 +30,7 @@ export const useSenderUdpServer = (
 		server.on('listening', function () {
 			const address = server.address();
 			console.log(`Listening on ${address.address}:${address.port}`);
+			server.setBroadcast(true);
 		});
 
 		server.on('message', (msg, rinfo) => {
