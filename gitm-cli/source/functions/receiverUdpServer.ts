@@ -1,5 +1,5 @@
 import dgram from 'dgram';
-import {useEffect} from 'react';
+import {useCallback, useEffect} from 'react';
 import useBroadcast from './broadcast.js';
 import {useFileDownloader} from './useFileDownloader.js';
 
@@ -17,7 +17,6 @@ export const useReceiverUdpServer = (
 		const server = dgram.createSocket('udp4');
 		server.bind(MY_UDP_PORT);
 
-		// ! Initial Broadcast
 		const initialBroadcast = () => {
 			const msg = {
 				method: 'RECEIVE',

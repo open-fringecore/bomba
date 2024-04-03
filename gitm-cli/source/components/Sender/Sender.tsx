@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Box, Text} from 'ink';
 import {Spinner} from '../Misc/Spinner.js';
 import {useSenderTcpServer} from '../../functions/senderTcpServer.js';
@@ -19,6 +19,22 @@ const Sender = () => {
 
 	const [isSending, setIsSending] = useState(false);
 
+	const sendTcpReceiveRequest = useCallback(
+		(_IP: string) => {
+			const url = `http://${_IP}:${OTHER_TCP_PORT}/request-to-receive?fileName=${fileName}`;
+
+			fetch(url)
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
+		},
+		[OTHER_TCP_PORT, fileName],
+	);
+
 	useSenderTcpServer(MY_IP, MY_TCP_PORT, filePath);
 	useSenderUdpServer(
 		BROADCAST_ADDR,
@@ -28,11 +44,12 @@ const Sender = () => {
 		fileName,
 		isSending,
 		setIsSending,
+		sendTcpReceiveRequest,
 	);
 
 	return (
 		<Box flexDirection="column">
-			{!isSending && (
+			{isSending && (
 				<Text>
 					<Spinner /> Sending
 				</Text>

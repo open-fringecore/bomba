@@ -1,5 +1,5 @@
 import dgram from 'dgram';
-import {useEffect} from 'react';
+import {useCallback, useEffect} from 'react';
 import useBroadcast from './broadcast.js';
 
 export const useSenderUdpServer = (
@@ -10,6 +10,7 @@ export const useSenderUdpServer = (
 	fileName: string | undefined,
 	isSending: boolean,
 	setIsSending: (state: boolean) => void,
+	sendTcpReceiveRequest: (ip: string) => void,
 ) => {
 	const {broadcast} = useBroadcast();
 
@@ -17,7 +18,6 @@ export const useSenderUdpServer = (
 		const server = dgram.createSocket('udp4');
 		server.bind(MY_UDP_PORT);
 
-		// ! Initial Broadcast
 		const initialBroadcast = () => {
 			const msg = {
 				method: 'SEND',
@@ -41,22 +41,9 @@ export const useSenderUdpServer = (
 			const data = JSON.parse(msg?.toString());
 			if (data?.method == 'RECEIVE' && !isSending) {
 				setIsSending(true);
-				sendTcpReceiveRequest(rinfo.address, rinfo.port);
+				sendTcpReceiveRequest(rinfo.address);
 			}
 		});
-
-		const sendTcpReceiveRequest = (_IP: string, _PORT: number) => {
-			const url = `http://${_IP}:${OTHER_TCP_PORT}/request-to-receive?fileName=${fileName}`;
-
-			fetch(url)
-				.then(response => response.json())
-				.then(data => {
-					console.log(data);
-				})
-				.catch(error => {
-					console.error('Error:', error);
-				});
-		};
 
 		server.on('error', err => {
 			console.error(`server error:\n${err.stack}`);
