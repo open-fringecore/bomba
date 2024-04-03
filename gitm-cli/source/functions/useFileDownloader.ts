@@ -9,7 +9,7 @@ export const useFileDownloader = (
 	FILENAME: string,
 ) => {
 	const url = `http://${MY_IP}:${OTHER_TCP_PORT}/download`;
-	const path = `/home/rifat/Works/gitm/gitm-cli/receive_files/${FILENAME}`;
+	const path = `${process.cwd()}/receive_files/${FILENAME}`;
 
 	http
 		.get(url, (res: any) => {

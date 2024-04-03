@@ -5,6 +5,7 @@ import dgram from 'dgram';
 import useBroadcast from '../../functions/broadcast.js';
 import express, {Request, Response} from 'express';
 import {useFileDownloader} from '../../functions/useFileDownloader.js';
+import {useReceiverTcpServer} from '../../functions/receiverTcpServer.js';
 
 const MY_IP = '192.168.0.105'; // FIXME: FIX Static
 const MY_UDP_PORT = 9040;
@@ -17,29 +18,7 @@ const Receiver = () => {
 	const [isReceiving, setIsReceiving] = useState(false);
 
 	const {broadcast} = useBroadcast();
-
-	useEffect(() => {
-		const app = express();
-
-		app.get('/request-to-receive', (req, res) => {
-			const {fileName} = req.query;
-			console.log(`✅✅✅ Receive request acknowledged`, fileName);
-
-			useFileDownloader(req.ip, OTHER_TCP_PORT, fileName as string);
-
-			res.json('Downloading....');
-		});
-
-		const server = app.listen(MY_TCP_PORT, MY_IP, () => {
-			console.log(`Server is running on http://localhost:${MY_TCP_PORT}`);
-		});
-
-		return () => {
-			server.close(() => {
-				console.log('Server stopped listening for requests.');
-			});
-		};
-	}, []);
+	useReceiverTcpServer(MY_IP, MY_TCP_PORT, OTHER_TCP_PORT);
 
 	useEffect(() => {
 		const server = dgram.createSocket('udp4');
@@ -68,11 +47,26 @@ const Receiver = () => {
 
 			const data = JSON.parse(message?.toString());
 			if (data?.method == 'SEND') {
+				// TODO:: Handle Multiple Senders here.
+
 				console.log(
 					`→ → Sending TCP Acknowledgement to ${remote.address}:${remote.port}`,
 				);
 			}
 		});
+
+		const sendTcpSendRequest = (_IP: string, _PORT: number) => {
+			const url = `http://${_IP}:${OTHER_TCP_PORT}/request-to-send`;
+
+			fetch(url)
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
+		};
 
 		return () => {};
 	}, []);

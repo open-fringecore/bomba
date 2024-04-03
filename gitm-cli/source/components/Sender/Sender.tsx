@@ -4,7 +4,7 @@ import SenderList from '../Misc/SenderList.js';
 import {Spinner} from '../Misc/Spinner.js';
 import dgram from 'dgram';
 import useBroadcast from '../../functions/broadcast.js';
-import {useFileDownloadServer} from '../../functions/useFileDownloadServer.js';
+import {useSenderTcpServer} from '../../functions/senderTcpServer.js';
 
 const MY_IP = '192.168.0.105'; // FIXME: FIX Static
 const MY_PORT = 9039;
@@ -15,19 +15,12 @@ const Sender = () => {
 	const path = process.cwd() + '/send_files'; // FIXME: FIX Static
 	const fileName = process.argv[3];
 	const filePath = `${path}/${fileName}`;
-	console.log('xxxxxxxxxxxxx', path);
+	console.log('🌆🌇🌉🏞🌃🏙🌄🌅🌁', path);
 
 	const [isSending, setIsSending] = useState(false);
-	const [isHttpStarted, setIsHttpServerStarted] = useState(false);
 
 	const {broadcast} = useBroadcast();
-
-	useEffect(() => {
-		if (!isHttpStarted) {
-			useFileDownloadServer(MY_IP, MY_TCP_PORT, filePath);
-			setIsHttpServerStarted(true);
-		}
-	}, [isHttpStarted]);
+	useSenderTcpServer(MY_IP, MY_TCP_PORT, filePath);
 
 	useEffect(() => {
 		const server = dgram.createSocket('udp4');
@@ -45,11 +38,11 @@ const Sender = () => {
 			const data = JSON.parse(msg?.toString());
 			if (data?.method == 'RECEIVE' && !isSending) {
 				setIsSending(true);
-				ackSend(rinfo.address, rinfo.port);
+				sendTcpReceiveRequest(rinfo.address, rinfo.port);
 			}
 		});
 
-		const ackSend = (_IP: string, _PORT: number) => {
+		const sendTcpReceiveRequest = (_IP: string, _PORT: number) => {
 			const url = `http://${_IP}:${OTHER_TCP_PORT}/request-to-receive?fileName=${fileName}`;
 
 			fetch(url)
