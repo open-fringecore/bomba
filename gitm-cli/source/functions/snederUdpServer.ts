@@ -1,6 +1,7 @@
 import dgram from 'dgram';
 import {useCallback, useEffect} from 'react';
 import useBroadcast from './broadcast.js';
+import {getRandomBanglaName} from './helper.js';
 
 export const useSenderUdpServer = (
 	BROADCAST_ADDR: string,
@@ -19,9 +20,11 @@ export const useSenderUdpServer = (
 		server.bind(MY_UDP_PORT);
 
 		const initialBroadcast = () => {
+			const name = getRandomBanglaName();
+			console.log(`My name is: ${name}`);
 			const msg = {
 				method: 'SEND',
-				name: 'Mr. Thor',
+				name: name,
 				fileName: fileName,
 			};
 			broadcast(server, BROADCAST_ADDR, OTHER_UDP_PORT, JSON.stringify(msg));

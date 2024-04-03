@@ -11,8 +11,8 @@
 		"build": "tsc",
 		"watch": "tsc --watch",
 		"start": "node ./dist/cli.js",
-		"ne": "node ./dist/cli.js SEND",
-		"de": "node ./dist/cli.js RECEIVE",
+		"send": "node ./dist/cli.js SEND",
+		"receive": "node ./dist/cli.js RECEIVE",
 		"test": "prettier --check . && xo && ava"
 	},
 	"files": [

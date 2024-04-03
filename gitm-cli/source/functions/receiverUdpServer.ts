@@ -2,6 +2,7 @@ import dgram from 'dgram';
 import {useCallback, useEffect} from 'react';
 import useBroadcast from './broadcast.js';
 import {useFileDownloader} from './useFileDownloader.js';
+import {SendersType} from '../components/Receiver/Receiver.js';
 
 export const useReceiverUdpServer = (
 	BROADCAST_ADDR: string,
@@ -10,6 +11,8 @@ export const useReceiverUdpServer = (
 	OTHER_TCP_PORT: number,
 	isReceiving: boolean,
 	setIsReceiving: (state: boolean) => void,
+	senders: SendersType,
+	setSenders: (state: SendersType) => void,
 ) => {
 	const {broadcast} = useBroadcast();
 
@@ -20,7 +23,7 @@ export const useReceiverUdpServer = (
 		const initialBroadcast = () => {
 			const msg = {
 				method: 'RECEIVE',
-				name: 'Mr. Zeus',
+				name: 'Zarflupt Binglequash',
 			};
 			broadcast(server, BROADCAST_ADDR, OTHER_UDP_PORT, JSON.stringify(msg));
 		};
@@ -39,18 +42,26 @@ export const useReceiverUdpServer = (
 
 			const data = JSON.parse(message?.toString());
 			if (data?.method == 'SEND') {
-				// TODO:: Handle Multiple Senders here.
+				setSenders([
+					...(senders ?? []),
+					{
+						name: data?.name,
+						ip: remote.address,
+						fileName: data.fileName,
+					},
+				]);
 
-				if (data?.fileName) {
-					console.log(
-						`→ → Downloading ${data.fileName} from ${remote.address}:${remote.port}`,
-					);
-					useFileDownloader(
-						remote.address,
-						OTHER_TCP_PORT,
-						data.fileName as string,
-					);
-				}
+				// TODO:: Handle Multiple Senders here.
+				// if (data?.fileName) {
+				// 	console.log(
+				// 		`→ → Downloading ${data.fileName} from ${remote.address}:${remote.port}`,
+				// 	);
+				// 	useFileDownloader(
+				// 		remote.address,
+				// 		OTHER_TCP_PORT,
+				// 		data.fileName as string,
+				// 	);
+				// }
 			}
 		});
 
