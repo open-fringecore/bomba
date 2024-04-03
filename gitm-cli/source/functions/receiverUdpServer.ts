@@ -1,6 +1,7 @@
 import dgram from 'dgram';
 import {useEffect} from 'react';
 import useBroadcast from './broadcast.js';
+import {useFileDownloader} from './useFileDownloader.js';
 
 export const useReceiverUdpServer = (
 	BROADCAST_ADDR: string,
@@ -41,24 +42,18 @@ export const useReceiverUdpServer = (
 			if (data?.method == 'SEND') {
 				// TODO:: Handle Multiple Senders here.
 
-				console.log(
-					`→ → Sending TCP Acknowledgement to ${remote.address}:${remote.port}`,
-				);
+				if (data?.fileName) {
+					console.log(
+						`→ → Downloading ${data.fileName} from ${remote.address}:${remote.port}`,
+					);
+					useFileDownloader(
+						remote.address,
+						OTHER_TCP_PORT,
+						data.fileName as string,
+					);
+				}
 			}
 		});
-
-		const sendTcpSendRequest = (_IP: string, _PORT: number) => {
-			const url = `http://${_IP}:${OTHER_TCP_PORT}/request-to-send`;
-
-			fetch(url)
-				.then(response => response.json())
-				.then(data => {
-					console.log(data);
-				})
-				.catch(error => {
-					console.error('Error:', error);
-				});
-		};
 
 		server.on('error', err => {
 			console.error(`server error:\n${err.stack}`);

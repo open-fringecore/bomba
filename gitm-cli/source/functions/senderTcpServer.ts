@@ -11,7 +11,6 @@ export const useSenderTcpServer = (
 		const app = express();
 
 		app.get('/download', (req: Request, res: Response) => {
-			console.log('filePath', filePath);
 			res.download(filePath, 'BRAIN.jpg', (err: any) => {
 				if (err) {
 					console.error('Error downloading the file:', err);

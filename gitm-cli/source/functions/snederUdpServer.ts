@@ -22,6 +22,7 @@ export const useSenderUdpServer = (
 			const msg = {
 				method: 'SEND',
 				name: 'Mr. Thor',
+				fileName: fileName,
 			};
 			broadcast(server, BROADCAST_ADDR, OTHER_UDP_PORT, JSON.stringify(msg));
 		};
