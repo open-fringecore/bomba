@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Text} from 'ink';
-import SenderList from '../Misc/SenderList.js';
 import {Spinner} from '../Misc/Spinner.js';
-import useBroadcast from '../../functions/broadcast.js';
 import {useSenderTcpServer} from '../../functions/senderTcpServer.js';
 import {useSenderUdpServer} from '../../functions/snederUdpServer.js';
 

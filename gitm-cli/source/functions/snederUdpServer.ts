@@ -1,5 +1,3 @@
-import express, {Request, Response} from 'express';
-import path from 'path';
 import dgram from 'dgram';
 import {useEffect} from 'react';
 import useBroadcast from './broadcast.js';
@@ -22,8 +20,8 @@ export const useSenderUdpServer = (
 		// ! Initial Broadcast
 		const initialBroadcast = () => {
 			const msg = {
-				method: 'RECEIVE',
-				name: 'Mr. Zeus',
+				method: 'SEND',
+				name: 'Mr. Thor',
 			};
 			broadcast(server, BROADCAST_ADDR, OTHER_UDP_PORT, JSON.stringify(msg));
 		};
