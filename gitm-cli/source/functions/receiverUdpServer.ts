@@ -60,6 +60,13 @@ export const useReceiverUdpServer = (
 				});
 		};
 
-		return () => {};
+		server.on('error', err => {
+			console.error(`server error:\n${err.stack}`);
+			server.close();
+		});
+
+		return () => {
+			server.close();
+		};
 	}, []);
 };

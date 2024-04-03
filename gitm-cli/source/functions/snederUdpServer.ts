@@ -62,7 +62,6 @@ export const useSenderUdpServer = (
 		});
 
 		return () => {
-			console.log('Cleanup...');
 			server.close();
 		};
 	}, []);
