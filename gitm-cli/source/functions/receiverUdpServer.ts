@@ -5,10 +5,10 @@ import {useEffect} from 'react';
 import useBroadcast from './broadcast.js';
 
 export const useReceiverUdpServer = (
-	MY_UDP_PORT: number,
-	OTHER_TCP_PORT: number,
-	SENDER_PORT: number,
 	BROADCAST_ADDR: string,
+	MY_UDP_PORT: number,
+	OTHER_UDP_PORT: number,
+	OTHER_TCP_PORT: number,
 	isReceiving: boolean,
 	setIsReceiving: (state: boolean) => void,
 ) => {
@@ -24,7 +24,7 @@ export const useReceiverUdpServer = (
 				method: 'RECEIVE',
 				name: 'Mr. Zeus',
 			};
-			broadcast(server, BROADCAST_ADDR, SENDER_PORT, JSON.stringify(msg));
+			broadcast(server, BROADCAST_ADDR, OTHER_UDP_PORT, JSON.stringify(msg));
 		};
 		initialBroadcast();
 

@@ -2,17 +2,32 @@ import express, {Request, Response} from 'express';
 import path from 'path';
 import dgram from 'dgram';
 import {useEffect} from 'react';
+import useBroadcast from './broadcast.js';
 
 export const useSenderUdpServer = (
-	MY_PORT: number,
+	BROADCAST_ADDR: string,
+	MY_UDP_PORT: number,
+	OTHER_UDP_PORT: number,
 	OTHER_TCP_PORT: number,
 	fileName: string | undefined,
 	isSending: boolean,
 	setIsSending: (state: boolean) => void,
 ) => {
+	const {broadcast} = useBroadcast();
+
 	useEffect(() => {
 		const server = dgram.createSocket('udp4');
-		server.bind(MY_PORT);
+		server.bind(MY_UDP_PORT);
+
+		// ! Initial Broadcast
+		const initialBroadcast = () => {
+			const msg = {
+				method: 'RECEIVE',
+				name: 'Mr. Zeus',
+			};
+			broadcast(server, BROADCAST_ADDR, OTHER_UDP_PORT, JSON.stringify(msg));
+		};
+		initialBroadcast();
 
 		server.on('listening', function () {
 			const address = server.address();
