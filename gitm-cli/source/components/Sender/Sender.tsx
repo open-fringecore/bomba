@@ -3,13 +3,8 @@ import {Box, Text} from 'ink';
 import {Spinner} from '../Misc/Spinner.js';
 import {useSenderTcpServer} from '../../functions/senderTcpServer.js';
 import {useSenderUdpServer} from '../../functions/snederUdpServer.js';
-
-const MY_IP = '192.168.0.105'; // FIXME: FIX Static
-const BROADCAST_ADDR = '192.168.0.255'; // FIXME: FIX Static
-const MY_UDP_PORT = 9039;
-const MY_TCP_PORT = 6969;
-const OTHER_UDP_PORT = 9040;
-const OTHER_TCP_PORT = 3040;
+import {$senderInfo} from '../../stores/senderStore.js';
+import {useStore} from '@nanostores/react';
 
 const Sender = () => {
 	const path = process.cwd() + '/send_files'; // FIXME: FIX Static
@@ -17,11 +12,13 @@ const Sender = () => {
 	const filePath = `${path}/${fileName}`;
 	console.log('🌆🌇🌉🏞🌃🏙🌄🌅🌁', path);
 
+	const senderInfo = useStore($senderInfo);
+
 	const [isSending, setIsSending] = useState(false);
 
 	const sendTcpReceiveRequest = useCallback(
 		(_IP: string) => {
-			const url = `http://${_IP}:${OTHER_TCP_PORT}/request-to-receive?fileName=${fileName}`;
+			const url = `http://${_IP}:${senderInfo.OTHER_TCP_PORT}/request-to-receive?fileName=${fileName}`;
 
 			fetch(url)
 				.then(response => response.json())
@@ -32,15 +29,15 @@ const Sender = () => {
 					console.error('Error:', error);
 				});
 		},
-		[OTHER_TCP_PORT, fileName],
+		[senderInfo.OTHER_TCP_PORT, fileName],
 	);
 
-	useSenderTcpServer(MY_IP, MY_TCP_PORT, filePath);
+	useSenderTcpServer(senderInfo.MY_IP, senderInfo.MY_TCP_PORT, filePath);
 	useSenderUdpServer(
-		BROADCAST_ADDR,
-		MY_UDP_PORT,
-		OTHER_UDP_PORT,
-		OTHER_TCP_PORT,
+		senderInfo.BROADCAST_ADDR,
+		senderInfo.MY_UDP_PORT,
+		senderInfo.OTHER_UDP_PORT,
+		senderInfo.OTHER_TCP_PORT,
 		fileName,
 		isSending,
 		setIsSending,
