@@ -8,13 +8,13 @@ import tty from 'node:tty';
 const cli = meow(
 	`
 	Usage
-	  $ gitm-cli
+	  $ bomba
 
 	Options
 		--name  Your name
 
 	Examples
-	  $ gitm-cli --name=Jane
+	  $ bomba --name=Jane
 	  Hello, Jane
 `,
 	{

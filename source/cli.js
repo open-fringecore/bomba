@@ -5,13 +5,13 @@ import meow from 'meow';
 import App from './app.js';
 const cli = meow(`
 	Usage
-	  $ gitm-cli
+	  $ bomba
 
 	Options
 		--name  Your name
 
 	Examples
-	  $ gitm-cli --name=Jane
+	  $ bomba --name=Jane
 	  Hello, Jane
 `, {
     importMeta: import.meta,

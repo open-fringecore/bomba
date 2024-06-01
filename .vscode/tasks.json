@@ -6,7 +6,7 @@
         {
             "label": "runSc",
             "type": "shell",
-            "command": "cd gitm-cli && pnpm start",
+            "command": "pnpm start",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
