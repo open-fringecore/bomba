@@ -16,3 +16,7 @@ export function getRandomBanglaName() {
 
 	return names[randomIndex];
 }
+
+export const hasNullValue = (obj: {[key: string]: any}): boolean => {
+	return Object.values(obj).some(value => value === null);
+};

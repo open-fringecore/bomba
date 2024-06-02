@@ -3,7 +3,7 @@ import {Box, Text} from 'ink';
 import {Spinner} from '../Misc/Spinner.js';
 import {useReceiverTcpServer} from '../../functions/receiverTcpServer.js';
 import {useReceiverUdpServer} from '../../functions/receiverUdpServer.js';
-import SenderList from '../Misc/SenderList.js';
+import SenderList from '../Misc/UserList.js';
 import {useStore} from '@nanostores/react';
 import {$receiverInfo} from '../../stores/receiverStore.js';
 
@@ -54,7 +54,7 @@ const Receiver = () => {
 					<Spinner /> Receiving
 				</Text>
 			)}
-			{senders && <SenderList senders={senders} />}
+			{/* {senders && <SenderList users={senders} />} */}
 		</Box>
 	);
 };

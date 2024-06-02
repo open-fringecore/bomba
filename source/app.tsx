@@ -6,6 +6,9 @@ import Receiver from './components/Receiver/Receiver.js';
 import Discover from './components/Discover.js';
 import useLocalIP from './functions/ip.js';
 import useComputerName from './functions/name.js';
+import {useStore} from '@nanostores/react';
+import {$baseInfo} from './stores/baseStore.js';
+import {hasNullValue} from './functions/helper.js';
 
 type Props = {
 	name: string | undefined;
@@ -17,11 +20,13 @@ export default function App({name = 'Stranger'}: Props) {
 	useLocalIP();
 	useComputerName();
 
+	const baseInfo = useStore($baseInfo);
+
 	return (
 		<Box flexDirection="column">
 			{/* {action == null && <AsciiIntro />} */}
 
-			<Discover />
+			{!hasNullValue(baseInfo) && <Discover />}
 			{action == 'SEND' && <Sender></Sender>}
 			{action == 'RECEIVE' && <Receiver></Receiver>}
 		</Box>
