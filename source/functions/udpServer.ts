@@ -9,7 +9,6 @@ export const useUdpServer = (
 	MY_IP: string,
 	UDP_PORT: number,
 	HTTP_PORT: number,
-	// sendHttpDiscoverMe: (ip: string) => void,
 ) => {
 	const {broadcast} = useBroadcast();
 
@@ -65,8 +64,6 @@ export const useUdpServer = (
 					server.send(message, rinfo.port, rinfo.address);
 				}
 			}
-
-			// sendHttpDiscoverMe(rinfo.address);
 		});
 
 		server.on('error', err => {
