@@ -4,7 +4,7 @@ import AsciiIntro from './components/AsciiArt/AsciiIntro.js';
 import Sender from './components/Sender/Sender.js';
 import Receiver from './components/Receiver/Receiver.js';
 import Discover from './components/Discover.js';
-import useLocalIP, {getLocalIP} from './functions/ip.js';
+import useLocalIP from './functions/ip.js';
 import useComputerName from './functions/name.js';
 
 type Props = {
@@ -22,8 +22,8 @@ export default function App({name = 'Stranger'}: Props) {
 			{/* {action == null && <AsciiIntro />} */}
 
 			<Discover />
-			{/* {action == 'SEND' && <Sender></Sender>} */}
-			{/* {action == 'RECEIVE' && <Receiver></Receiver>} */}
+			{action == 'SEND' && <Sender></Sender>}
+			{action == 'RECEIVE' && <Receiver></Receiver>}
 		</Box>
 	);
 }
