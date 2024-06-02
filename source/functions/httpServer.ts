@@ -6,7 +6,9 @@ export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
 		const app = express();
 
 		app.get('/discover', (req, res) => {
-			res.send('Hello World!');
+			res.json({
+				msg: 'Hello World!',
+			});
 		});
 
 		const server = app.listen(TCP_PORT, MY_IP, () => {
