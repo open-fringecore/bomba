@@ -2,7 +2,9 @@
 	"name": "bomba",
 	"version": "0.0.0",
 	"license": "MIT",
-	"bin": "dist/cli.js",
+	"bin": {
+		"bomba": "dist/cli.js"
+	},
 	"type": "module",
 	"engines": {
 		"node": ">=16"
