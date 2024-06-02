@@ -5,6 +5,7 @@ import Sender from './components/Sender/Sender.js';
 import Receiver from './components/Receiver/Receiver.js';
 import Discover from './components/Discover.js';
 import useLocalIP, {getLocalIP} from './functions/ip.js';
+import useComputerName from './functions/name.js';
 
 type Props = {
 	name: string | undefined;
@@ -14,6 +15,7 @@ export default function App({name = 'Stranger'}: Props) {
 	const [action, setAction] = useState(process.argv[2]);
 
 	useLocalIP();
+	useComputerName();
 
 	return (
 		<Box flexDirection="column">

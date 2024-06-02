@@ -32,16 +32,14 @@ export const getLocalIP = (): {
 	};
 };
 
-const useLocalIP = (): {} => {
-	const baseInfo = useStore($baseInfo);
-
+const useLocalIP = () => {
 	useEffect(() => {
 		const {address} = getLocalIP();
 
-		$baseInfo.set({...baseInfo, MY_IP: address});
+		$baseInfo.set({...$baseInfo.get(), MY_IP: address});
 	}, []);
 
-	return {};
+	return;
 };
 
 export default useLocalIP;
