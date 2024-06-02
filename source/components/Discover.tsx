@@ -6,6 +6,7 @@ import {$baseInfo, $users} from '../stores/baseStore.js';
 import {useUdpServer} from '../functions/udpServer.js';
 import {hasNullValue} from '../functions/helper.js';
 import SenderList from './Misc/UserList.js';
+import {useHttpServer} from '../functions/httpServer.js';
 
 const Discover = () => {
 	const baseInfo = useStore($baseInfo);
@@ -25,7 +26,9 @@ const Discover = () => {
 		baseInfo.BROADCAST_ADDR,
 		baseInfo.MY_IP,
 		baseInfo.UDP_PORT,
+		baseInfo.HTTP_PORT,
 	);
+	useHttpServer(baseInfo.MY_IP, baseInfo.HTTP_PORT);
 
 	return (
 		<Box flexDirection="column">

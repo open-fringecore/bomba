@@ -8,6 +8,7 @@ export const useUdpServer = (
 	BROADCAST_ADDR: string,
 	MY_IP: string,
 	UDP_PORT: number,
+	HTTP_PORT: number,
 ) => {
 	const {broadcast} = useBroadcast();
 
@@ -20,6 +21,7 @@ export const useUdpServer = (
 				method: 'DISCOVER',
 				name: NAME,
 				ip: MY_IP,
+				httpPort: HTTP_PORT,
 			};
 			broadcast(server, BROADCAST_ADDR, UDP_PORT, JSON.stringify(msg));
 		};

@@ -8,6 +8,18 @@ const server = dgram.createSocket('udp4');
 // Event listener for incoming messages
 server.on('message', (message, rinfo) => {
 	console.log(`Server got: ${message} from ${rinfo.address}:${rinfo.port}`);
+
+	const data = JSON.parse(msg?.toString());
+
+	const url = `http://${rinfo.address}:${data.httpPort}/discover`;
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			console.log(data);
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
 });
 
 // Bind to the port and address

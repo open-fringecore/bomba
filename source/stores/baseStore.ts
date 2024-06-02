@@ -5,6 +5,7 @@ type InfoType = {
 	MY_NAME: string | null;
 	BROADCAST_ADDR: string | null;
 	UDP_PORT: number;
+	HTTP_PORT: number;
 };
 
 export const $baseInfo = atom<InfoType>({
@@ -12,6 +13,7 @@ export const $baseInfo = atom<InfoType>({
 	MY_NAME: null,
 	BROADCAST_ADDR: null,
 	UDP_PORT: 8008,
+	HTTP_PORT: 8119,
 });
 
 export type UserType = {
@@ -23,11 +25,11 @@ export const $users = atom<UserType[]>([
 	{
 		ip: 'xxxxxxxx',
 		name: 'Ghost',
-		port: 6969,
+		port: 8008,
 	},
 	{
 		ip: 'yyyyyyy',
 		name: 'Spawn',
-		port: 6969,
+		port: 8008,
 	},
 ]);
