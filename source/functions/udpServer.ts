@@ -52,16 +52,15 @@ export const useUdpServer = (
 					ip: rinfo.address,
 					name: data.name,
 				});
+				console.log('isAlreadyAdded', isAlreadyAdded);
 
 				if (!isAlreadyAdded) {
-					const message = Buffer.from(
-						JSON.stringify({
-							method: 'SELF',
-							name: NAME,
-							ip: MY_IP,
-							httpPort: HTTP_PORT,
-						}),
-					);
+					const message = JSON.stringify({
+						method: 'SELF',
+						name: NAME,
+						ip: MY_IP,
+						httpPort: HTTP_PORT,
+					});
 
 					server.send(message, rinfo.port, rinfo.address);
 				}
