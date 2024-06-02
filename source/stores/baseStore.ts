@@ -22,12 +22,12 @@ export type UserType = {
 };
 export const $users = atom<UserType[]>([
 	{
-		ip: 'xxxxxxxx',
 		name: 'Ghost',
+		ip: 'xxxxxxxx',
 	},
 	{
-		ip: 'yyyyyyy',
 		name: 'Spawn',
+		ip: 'yyyyyyy',
 	},
 ]);
 
