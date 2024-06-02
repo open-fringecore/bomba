@@ -9,7 +9,7 @@ const server = dgram.createSocket('udp4');
 server.on('message', (message, rinfo) => {
 	console.log(`Server got: ${message} from ${rinfo.address}:${rinfo.port}`);
 
-	const data = JSON.parse(msg?.toString());
+	const data = JSON.parse(message?.toString());
 
 	const url = `http://${rinfo.address}:${data.httpPort}/discover`;
 	fetch(url)
