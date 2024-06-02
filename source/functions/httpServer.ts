@@ -1,6 +1,6 @@
 import express from 'express';
 import {useEffect} from 'react';
-import {$users} from '../stores/baseStore.js';
+import {$users, addUser} from '../stores/baseStore.js';
 
 export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
 	useEffect(() => {
@@ -8,13 +8,10 @@ export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
 		app.use(express.json());
 
 		app.post('/discover', (req, res) => {
-			$users.set([
-				...$users.get(),
-				{
-					name: req.body.name,
-					ip: req.body.ip,
-				},
-			]);
+			addUser({
+				name: req.body.name,
+				ip: req.body.ip,
+			});
 
 			res.json({
 				msg: 'Discovery Successful!',

@@ -1,7 +1,7 @@
 import dgram from 'dgram';
 import {useCallback, useEffect} from 'react';
 import useBroadcast from './broadcast.js';
-import {$users} from '../stores/baseStore.js';
+import {$users, addUser} from '../stores/baseStore.js';
 
 export const useUdpServer = (
 	NAME: string,
@@ -44,13 +44,10 @@ export const useUdpServer = (
 			);
 			const data = JSON.parse(msg?.toString());
 			if (data?.method == 'DISCOVER') {
-				$users.set([
-					...$users.get(),
-					{
-						ip: rinfo.address,
-						name: data.name,
-					},
-				]);
+				addUser({
+					ip: rinfo.address,
+					name: data.name,
+				});
 			}
 			sendHttpDiscoverMe(rinfo.address);
 		});

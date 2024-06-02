@@ -30,3 +30,15 @@ export const $users = atom<UserType[]>([
 		name: 'Spawn',
 	},
 ]);
+
+export const addUser = (newUser: UserType) => {
+	const currentUsers = $users.get();
+
+	const isUserAlreadyExist = currentUsers?.find(item => item.ip == newUser.ip);
+
+	if (isUserAlreadyExist) {
+		return;
+	}
+
+	$users.set([...currentUsers, newUser]);
+};
