@@ -1,12 +1,21 @@
 import express from 'express';
 import {useEffect} from 'react';
+import {$users} from '../stores/baseStore.js';
 
 export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
 	useEffect(() => {
 		const app = express();
+		app.use(express.json());
 
 		app.post('/discover', (req, res) => {
-			console.log('++++++++++++++++++', req.body);
+			$users.set([
+				...$users.get(),
+				{
+					name: req.body.name,
+					ip: req.body.ip,
+					port: req.body.port,
+				},
+			]);
 
 			res.json({
 				msg: 'Hello World!',
