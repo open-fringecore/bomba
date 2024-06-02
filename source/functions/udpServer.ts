@@ -9,7 +9,7 @@ export const useUdpServer = (
 	MY_IP: string,
 	UDP_PORT: number,
 	HTTP_PORT: number,
-	sendHttpDiscoverMe: (ip: string) => void,
+	// sendHttpDiscoverMe: (ip: string) => void,
 ) => {
 	const {broadcast} = useBroadcast();
 
@@ -19,19 +19,21 @@ export const useUdpServer = (
 
 		const initialBroadcast = () => {
 			const msg = {
-				method: 'DISCOVER',
+				method: 'SELF',
 				name: NAME,
 				ip: MY_IP,
 				httpPort: HTTP_PORT,
 			};
+
 			broadcast(server, BROADCAST_ADDR, UDP_PORT, JSON.stringify(msg));
 		};
-		initialBroadcast();
 
 		server.on('listening', function () {
 			const address = server.address();
 			console.log(`Listening on ${address.address}:${address.port}`);
 			server.setBroadcast(true);
+
+			initialBroadcast();
 		});
 
 		server.on('message', (msg, rinfo) => {
@@ -42,14 +44,30 @@ export const useUdpServer = (
 			console.log(
 				`<-- Server received: ${msg} from ${rinfo.address}:${rinfo.port}`,
 			);
+
 			const data = JSON.parse(msg?.toString());
-			if (data?.method == 'DISCOVER') {
-				addUser({
+
+			if (data?.method == 'SELF') {
+				const isAlreadyAdded = !addUser({
 					ip: rinfo.address,
 					name: data.name,
 				});
+
+				if (!isAlreadyAdded) {
+					const message = Buffer.from(
+						JSON.stringify({
+							method: 'SELF',
+							name: NAME,
+							ip: MY_IP,
+							httpPort: HTTP_PORT,
+						}),
+					);
+
+					server.send(message, rinfo.port, rinfo.address);
+				}
 			}
-			sendHttpDiscoverMe(rinfo.address);
+
+			// sendHttpDiscoverMe(rinfo.address);
 		});
 
 		server.on('error', err => {

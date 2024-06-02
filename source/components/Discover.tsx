@@ -10,7 +10,7 @@ import {useHttpServer} from '../functions/httpServer.js';
 
 const Discover = () => {
 	const baseInfo = useStore($baseInfo);
-	const users = useStore($users);
+	const peers = useStore($users);
 
 	if (
 		!baseInfo.MY_NAME ||
@@ -21,31 +21,31 @@ const Discover = () => {
 		throw new Error('Base Info Data not set properly');
 	}
 
-	const sendHttpDiscoverMe = useCallback(
-		(_IP: string) => {
-			const data = {
-				name: baseInfo.MY_NAME,
-				ip: baseInfo.MY_IP,
-			};
+	// const sendHttpDiscoverMe = useCallback(
+	// 	(_IP: string) => {
+	// 		const data = {
+	// 			name: baseInfo.MY_NAME,
+	// 			ip: baseInfo.MY_IP,
+	// 		};
 
-			const url = `http://${_IP}:${baseInfo.HTTP_PORT}/discover`;
-			fetch(url, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
-			})
-				.then(response => response.json())
-				.then(data => {
-					console.log(data);
-				})
-				.catch(error => {
-					console.error('Error:', error);
-				});
-		},
-		[baseInfo, baseInfo?.HTTP_PORT],
-	);
+	// 		const url = `http://${_IP}:${baseInfo.HTTP_PORT}/discover`;
+	// 		fetch(url, {
+	// 			method: 'POST',
+	// 			headers: {
+	// 				'Content-Type': 'application/json',
+	// 			},
+	// 			body: JSON.stringify(data),
+	// 		})
+	// 			.then(response => response.json())
+	// 			.then(data => {
+	// 				console.log(data);
+	// 			})
+	// 			.catch(error => {
+	// 				console.error('Error:', error);
+	// 			});
+	// 	},
+	// 	[baseInfo, baseInfo?.HTTP_PORT],
+	// );
 
 	useUdpServer(
 		baseInfo.MY_NAME,
@@ -53,9 +53,10 @@ const Discover = () => {
 		baseInfo.MY_IP,
 		baseInfo.UDP_PORT,
 		baseInfo.HTTP_PORT,
-		sendHttpDiscoverMe,
+		// sendHttpDiscoverMe,
 	);
-	useHttpServer(baseInfo.MY_IP, baseInfo.HTTP_PORT);
+
+	// useHttpServer(baseInfo.MY_IP, baseInfo.HTTP_PORT);
 
 	return (
 		<Box flexDirection="column">

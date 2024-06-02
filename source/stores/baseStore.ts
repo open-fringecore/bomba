@@ -37,8 +37,9 @@ export const addUser = (newUser: UserType) => {
 	const isUserAlreadyExist = currentUsers?.find(item => item.ip == newUser.ip);
 
 	if (isUserAlreadyExist) {
-		return;
+		return false;
 	}
 
 	$users.set([...currentUsers, newUser]);
+	return true;
 };
