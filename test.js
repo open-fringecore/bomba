@@ -9,10 +9,22 @@ const server = dgram.createSocket('udp4');
 server.on('message', (message, rinfo) => {
 	console.log(`Server got: ${message} from ${rinfo.address}:${rinfo.port}`);
 
-	const data = JSON.parse(message?.toString());
+	const rdata = JSON.parse(message?.toString());
 
-	const url = `http://${rinfo.address}:${data.httpPort}/discover`;
-	fetch(url)
+	const data = {
+		name: 'John Doe',
+		ip: '192.168.68.161',
+		port: rdata.httpPort,
+	};
+
+	const url = `http://${rinfo.address}:${rdata.httpPort}/discover`;
+	fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	})
 		.then(response => response.json())
 		.then(data => {
 			console.log(data);

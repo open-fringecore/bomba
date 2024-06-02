@@ -5,7 +5,9 @@ export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
 	useEffect(() => {
 		const app = express();
 
-		app.get('/discover', (req, res) => {
+		app.post('/discover', (req, res) => {
+			console.log('++++++++++++++++++', req.body);
+
 			res.json({
 				msg: 'Hello World!',
 			});
