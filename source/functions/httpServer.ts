@@ -18,7 +18,7 @@ export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
 			]);
 
 			res.json({
-				msg: 'Hello World!',
+				msg: 'Discovery Successful!',
 			});
 		});
 
