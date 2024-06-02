@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Box, Text} from 'ink';
 import {Spinner} from './Misc/Spinner.js';
 import {useStore} from '@nanostores/react';
@@ -10,7 +10,17 @@ import {useHttpServer} from '../functions/httpServer.js';
 
 const Discover = () => {
 	const baseInfo = useStore($baseInfo);
-	const peers = useStore($users);
+	const discoveredPeers = useStore($users);
+
+	const connectedPeers = useState<
+		{
+			ip: string;
+			name: string;
+			isSending: boolean;
+			sendFilename: string;
+			httpPort: number;
+		}[]
+	>([]);
 
 	if (
 		!baseInfo.MY_NAME ||
@@ -57,6 +67,15 @@ const Discover = () => {
 	);
 
 	// useHttpServer(baseInfo.MY_IP, baseInfo.HTTP_PORT);
+
+	useEffect(() => {
+		// for every peer,
+		// create websocket connection
+		// if websocket connection already exists, don't create nerw connection
+		// if websocket connected add to servers list.
+		// if websocket disconnected remove from servers lsit.
+		// if websocket didn't dconnect don't add to servers list.
+	}, [discoveredPeers]);
 
 	return (
 		<Box flexDirection="column">
