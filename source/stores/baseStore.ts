@@ -19,17 +19,14 @@ export const $baseInfo = atom<InfoType>({
 export type UserType = {
 	ip: string;
 	name: string;
-	port: number;
 };
 export const $users = atom<UserType[]>([
 	{
 		ip: 'xxxxxxxx',
 		name: 'Ghost',
-		port: 8008,
 	},
 	{
 		ip: 'yyyyyyy',
 		name: 'Spawn',
-		port: 8008,
 	},
 ]);

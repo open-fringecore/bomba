@@ -13,7 +13,6 @@ export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
 				{
 					name: req.body.name,
 					ip: req.body.ip,
-					port: req.body.port,
 				},
 			]);
 
