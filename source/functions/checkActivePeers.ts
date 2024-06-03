@@ -10,11 +10,11 @@ export const useActivePeers = () => {
 			fetch(`http:/${ip}:${port}/get-active-status`)
 				.then(response => response.json())
 				.then(data => {
-					console.log('🟢 Peer Active 🟢');
+					// console.log('🟢 Peer Active 🟢');
 					pollingPeers(ip, port);
 				})
 				.catch(error => {
-					console.log('⭕ Peer Gone ⭕');
+					// console.log('⭕ Peer Gone ⭕');
 					removePeer(ip);
 				});
 		},

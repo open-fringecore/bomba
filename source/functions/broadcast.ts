@@ -17,7 +17,7 @@ const useBroadcast = () => {
 			ADDRESS,
 			(err: Error | null): void => {
 				if (err) throw err;
-				console.log(`Broadcast sent to ${ADDRESS}:${PORT}`);
+				// console.log(`Broadcast sent to ${ADDRESS}:${PORT}`);
 				// server.close();
 			},
 		);
