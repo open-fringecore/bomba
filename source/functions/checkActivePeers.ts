@@ -1,5 +1,5 @@
 import {useCallback, useEffect} from 'react';
-import {$peers} from '../stores/baseStore.js';
+import {$peers, removePeer} from '../stores/baseStore.js';
 import {useStore} from '@nanostores/react';
 
 export const useActivePeers = () => {
@@ -15,6 +15,7 @@ export const useActivePeers = () => {
 				})
 				.catch(error => {
 					console.log('⭕ Peer Gone ⭕');
+					removePeer(ip);
 				});
 		},
 		[peers],
