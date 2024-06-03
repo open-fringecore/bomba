@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Newline, Text, useInput, useStdin} from 'ink';
-import {useFileDownloader} from '../../functions/useFileDownloader.js';
 import {useStore} from '@nanostores/react';
 import {$receiverInfo} from '../../stores/receiverStore.js';
 import {PeerType} from '../../stores/baseStore.js';

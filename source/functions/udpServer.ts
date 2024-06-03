@@ -1,5 +1,5 @@
 import dgram from 'dgram';
-import {useCallback, useEffect} from 'react';
+import {useEffect} from 'react';
 import useBroadcast from './broadcast.js';
 import {addUser} from '../stores/baseStore.js';
 
