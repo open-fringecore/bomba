@@ -7,20 +7,21 @@ import {useUdpServer} from '../functions/udpServer.js';
 import {hasNullValue} from '../functions/helper.js';
 import SenderList from './Misc/UserList.js';
 import {useHttpServer} from '../functions/httpServer.js';
+import {useActivePeers} from '../functions/checkActivePeers.js';
 
 const Discover = () => {
 	const baseInfo = useStore($baseInfo);
 	const discoveredPeers = useStore($peers);
 
-	const connectedPeers = useState<
-		{
-			ip: string;
-			name: string;
-			isSending: boolean;
-			sendFilename: string;
-			httpPort: number;
-		}[]
-	>([]);
+	// const connectedPeers = useState<
+	// 	{
+	// 		ip: string;
+	// 		name: string;
+	// 		isSending: boolean;
+	// 		sendFilename: string;
+	// 		httpPort: number;
+	// 	}[]
+	// >([]);
 
 	if (
 		!baseInfo.MY_NAME ||
@@ -39,7 +40,8 @@ const Discover = () => {
 		baseInfo.HTTP_PORT,
 	);
 
-	// useHttpServer(baseInfo.MY_IP, baseInfo.HTTP_PORT);
+	useHttpServer(baseInfo.MY_IP, baseInfo.HTTP_PORT);
+	useActivePeers();
 
 	useEffect(() => {
 		// for every peer,

@@ -22,20 +22,7 @@ export type PeerType = {
 	isSending: boolean;
 	httpPort: number;
 };
-export const $peers = atom<PeerType[]>([
-	{
-		name: 'Ghost',
-		ip: 'xxxxxxxx',
-		isSending: false,
-		httpPort: 8779,
-	},
-	{
-		name: 'Spawn',
-		ip: 'yyyyyyy',
-		isSending: false,
-		httpPort: 8779,
-	},
-]);
+export const $peers = atom<PeerType[]>([]);
 
 export const addUser = (newUser: PeerType) => {
 	const currentUsers = $peers.get();
