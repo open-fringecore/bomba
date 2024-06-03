@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {Box, Text} from 'ink';
 import {Spinner} from './Misc/Spinner.js';
 import {useStore} from '@nanostores/react';
-import {$baseInfo, $users} from '../stores/baseStore.js';
+import {$baseInfo, $peers} from '../stores/baseStore.js';
 import {useUdpServer} from '../functions/udpServer.js';
 import {hasNullValue} from '../functions/helper.js';
 import SenderList from './Misc/UserList.js';
@@ -10,7 +10,7 @@ import {useHttpServer} from '../functions/httpServer.js';
 
 const Discover = () => {
 	const baseInfo = useStore($baseInfo);
-	const discoveredPeers = useStore($users);
+	const discoveredPeers = useStore($peers);
 
 	const connectedPeers = useState<
 		{

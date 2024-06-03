@@ -16,23 +16,29 @@ export const $baseInfo = atom<InfoType>({
 	HTTP_PORT: 8779,
 });
 
-export type UserType = {
+export type PeerType = {
 	ip: string;
 	name: string;
+	isSending: boolean;
+	httpPort: number;
 };
-export const $users = atom<UserType[]>([
+export const $peers = atom<PeerType[]>([
 	{
 		name: 'Ghost',
 		ip: 'xxxxxxxx',
+		isSending: false,
+		httpPort: 8779,
 	},
 	{
 		name: 'Spawn',
 		ip: 'yyyyyyy',
+		isSending: false,
+		httpPort: 8779,
 	},
 ]);
 
-export const addUser = (newUser: UserType) => {
-	const currentUsers = $users.get();
+export const addUser = (newUser: PeerType) => {
+	const currentUsers = $peers.get();
 
 	const isUserAlreadyExist = currentUsers?.find(item => item.ip == newUser.ip);
 
@@ -40,6 +46,6 @@ export const addUser = (newUser: UserType) => {
 		return false;
 	}
 
-	$users.set([...currentUsers, newUser]);
+	$peers.set([...currentUsers, newUser]);
 	return true;
 };

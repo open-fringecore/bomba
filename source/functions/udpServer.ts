@@ -1,7 +1,7 @@
 import dgram from 'dgram';
 import {useCallback, useEffect} from 'react';
 import useBroadcast from './broadcast.js';
-import {$users, addUser} from '../stores/baseStore.js';
+import {addUser} from '../stores/baseStore.js';
 
 export const useUdpServer = (
 	NAME: string,
@@ -22,6 +22,7 @@ export const useUdpServer = (
 				name: NAME,
 				ip: MY_IP,
 				httpPort: HTTP_PORT,
+				isBroadcast: true,
 			};
 
 			broadcast(server, BROADCAST_ADDR, UDP_PORT, JSON.stringify(msg));
@@ -50,15 +51,18 @@ export const useUdpServer = (
 				const isAlreadyAdded = !addUser({
 					ip: rinfo.address,
 					name: data.name,
+					isSending: false,
+					httpPort: data?.httpPort,
 				});
 				console.log('isAlreadyAdded', isAlreadyAdded);
 
-				if (!isAlreadyAdded) {
+				if (!isAlreadyAdded || data?.isBroadcast) {
 					const message = JSON.stringify({
 						method: 'SELF',
 						name: NAME,
 						ip: MY_IP,
 						httpPort: HTTP_PORT,
+						isBroadcast: false,
 					});
 
 					server.send(message, rinfo.port, rinfo.address);
