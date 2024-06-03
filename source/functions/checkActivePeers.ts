@@ -10,12 +10,11 @@ export const useActivePeers = () => {
 			fetch(`http:/${ip}:${port}/get-active-status`)
 				.then(response => response.json())
 				.then(data => {
-					console.log(data);
+					console.log('🟢 Peer Active 🟢');
 					pollingPeers(ip, port);
 				})
 				.catch(error => {
-					console.log('🟢 Peer Gone 🟢');
-					console.error('Error:', error);
+					console.log('⭕ Peer Gone ⭕');
 				});
 		},
 		[peers],
@@ -23,7 +22,6 @@ export const useActivePeers = () => {
 
 	useEffect(() => {
 		peers.forEach(peer => {
-			console.log('🚧');
 			pollingPeers(peer.ip, peer.httpPort);
 		});
 	}, [peers]);

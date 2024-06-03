@@ -1,7 +1,7 @@
 import dgram from 'dgram';
 import {useEffect} from 'react';
 import useBroadcast from './broadcast.js';
-import {addUser} from '../stores/baseStore.js';
+import {addPeer} from '../stores/baseStore.js';
 
 export const useUdpServer = (
 	NAME: string,
@@ -48,7 +48,7 @@ export const useUdpServer = (
 			const data = JSON.parse(msg?.toString());
 
 			if (data?.method == 'SELF') {
-				const isAlreadyAdded = !addUser({
+				const isAlreadyAdded = !addPeer({
 					ip: rinfo.address,
 					name: data.name,
 					isSending: false,

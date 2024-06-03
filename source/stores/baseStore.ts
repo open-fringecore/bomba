@@ -24,7 +24,7 @@ export type PeerType = {
 };
 export const $peers = atom<PeerType[]>([]);
 
-export const addUser = (newUser: PeerType) => {
+export const addPeer = (newUser: PeerType) => {
 	const currentUsers = $peers.get();
 
 	const isUserAlreadyExist = currentUsers?.find(item => item.ip == newUser.ip);
@@ -35,4 +35,10 @@ export const addUser = (newUser: PeerType) => {
 
 	$peers.set([...currentUsers, newUser]);
 	return true;
+};
+
+export const removePeer = (ip: string) => {
+	const currentUsers = $peers.get();
+	const filteredPeers = currentUsers?.filter(item => item.ip != ip);
+	$peers.set(filteredPeers);
 };

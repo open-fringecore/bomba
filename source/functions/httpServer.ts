@@ -14,9 +14,8 @@ export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
 
 		app.get('/get-active-status', (req, res) => {
 			setTimeout(() => {
-				console.log('⭕ Clearing Interval ⭕');
 				res.json({active: true});
-			}, 30000);
+			}, 10000);
 		});
 
 		const server = app.listen(TCP_PORT, MY_IP, () => {
