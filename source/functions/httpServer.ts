@@ -13,13 +13,9 @@ export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
 		});
 
 		app.get('/get-active-status', (req, res) => {
-			const checkForMessages = setInterval(() => {
-				res.json({active: true});
-			}, 1000);
-
 			setTimeout(() => {
-				clearInterval(checkForMessages);
-				res.json({active: false});
+				console.log('⭕ Clearing Interval ⭕');
+				res.json({active: true});
 			}, 30000);
 		});
 

@@ -14,6 +14,7 @@ export const useActivePeers = () => {
 					pollingPeers(ip, port);
 				})
 				.catch(error => {
+					console.log('🟢 Peer Gone 🟢');
 					console.error('Error:', error);
 				});
 		},

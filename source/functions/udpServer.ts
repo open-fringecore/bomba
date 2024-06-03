@@ -54,7 +54,6 @@ export const useUdpServer = (
 					isSending: false,
 					httpPort: data?.httpPort,
 				});
-				console.log('isAlreadyAdded', isAlreadyAdded);
 
 				if (!isAlreadyAdded || data?.isBroadcast) {
 					const message = JSON.stringify({
