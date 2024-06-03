@@ -13,7 +13,7 @@ export const $baseInfo = atom<InfoType>({
 	MY_NAME: null,
 	BROADCAST_ADDR: null,
 	UDP_PORT: 8008,
-	HTTP_PORT: 8119,
+	HTTP_PORT: 8779,
 });
 
 export type UserType = {

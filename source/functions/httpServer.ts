@@ -13,6 +13,17 @@ export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
 			});
 		});
 
+		app.get('/poll', (req, res) => {
+			const checkForMessages = setInterval(() => {
+				res.json({active: true});
+			}, 1000);
+
+			setTimeout(() => {
+				clearInterval(checkForMessages);
+				res.json({active: false});
+			}, 30000);
+		});
+
 		const server = app.listen(TCP_PORT, MY_IP, () => {
 			console.log(`Server is running on http://${MY_IP}:${TCP_PORT}`);
 		});

@@ -6,7 +6,7 @@ import {$baseInfo, $users} from '../stores/baseStore.js';
 import {useUdpServer} from '../functions/udpServer.js';
 import {hasNullValue} from '../functions/helper.js';
 import SenderList from './Misc/UserList.js';
-// import {useHttpServer} from '../functions/httpServer.js';
+import {useHttpServer} from '../functions/httpServer.js';
 
 const Discover = () => {
 	const baseInfo = useStore($baseInfo);
