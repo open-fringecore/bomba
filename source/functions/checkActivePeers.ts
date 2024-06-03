@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useRef} from 'react';
 import {$peers, removePeer} from '../stores/baseStore.js';
 import {useStore} from '@nanostores/react';
 
@@ -7,7 +7,7 @@ export const useActivePeers = () => {
 
 	const pollingPeers = useCallback(
 		(ip: string, port: number) => {
-			fetch(`http:/${ip}:${port}/get-active-status`)
+			fetch(`http://${ip}:${port}/get-active-status`)
 				.then(response => response.json())
 				.then(data => {
 					// console.log('🟢 Peer Active 🟢');

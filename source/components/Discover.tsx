@@ -31,6 +31,7 @@ const Discover = () => {
 	);
 
 	useHttpServer(baseInfo.MY_IP, baseInfo.HTTP_PORT);
+
 	useActivePeers();
 
 	return (
