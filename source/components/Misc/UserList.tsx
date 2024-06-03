@@ -3,10 +3,10 @@ import {Box, Newline, Text, useInput, useStdin} from 'ink';
 import {useFileDownloader} from '../../functions/useFileDownloader.js';
 import {useStore} from '@nanostores/react';
 import {$receiverInfo} from '../../stores/receiverStore.js';
-import {UserType} from '../../stores/baseStore.js';
+import {PeerType} from '../../stores/baseStore.js';
 
 type PropType = {
-	users: UserType[];
+	users: PeerType[];
 };
 
 export default function UserList({users}: PropType) {
