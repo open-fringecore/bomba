@@ -2,16 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {Box, Text} from 'ink';
 import {Spinner} from './Misc/Spinner.js';
 import {useStore} from '@nanostores/react';
-import {$baseInfo, $peers} from '../stores/baseStore.js';
+import {$baseInfo, $connectedPeers} from '../stores/baseStore.js';
 import {useUdpServer} from '../functions/udpServer.js';
 import {hasNullValue} from '../functions/helper.js';
-import SenderList from './Misc/UserList.js';
+import PeerList from './Misc/PeerList.js';
 import {useHttpServer} from '../functions/httpServer.js';
-import {useActivePeers} from '../functions/checkActivePeers.js';
+import {useActivePeers} from '../functions/useActivePeers.js';
 
 const Discover = () => {
 	const baseInfo = useStore($baseInfo);
-	const discoveredPeers = useStore($peers);
+	const connectedPeers = useStore($connectedPeers);
 
 	if (
 		!baseInfo.MY_NAME ||
@@ -41,7 +41,7 @@ const Discover = () => {
 					<Spinner /> Discovering
 				</Text>
 			)}
-			{discoveredPeers && <SenderList users={discoveredPeers} />}
+			{connectedPeers && <PeerList peers={connectedPeers} />}
 		</Box>
 	);
 };

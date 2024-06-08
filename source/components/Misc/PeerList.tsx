@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Box, Newline, Text, useInput, useStdin} from 'ink';
 import {useStore} from '@nanostores/react';
 import {$receiverInfo} from '../../stores/receiverStore.js';
-import {PeerType} from '../../stores/baseStore.js';
+import {ConnectedPeerType} from '../../stores/baseStore.js';
 
 type PropType = {
-	users: PeerType[];
+	peers: ConnectedPeerType[];
 };
 
-export default function UserList({users}: PropType) {
-	if (!users) throw new Error('No sender found');
+export default function PeerList({peers}: PropType) {
+	if (!peers) throw new Error('No sender found');
 
 	const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -17,14 +17,14 @@ export default function UserList({users}: PropType) {
 
 	useInput((input, key) => {
 		if (key.downArrow) {
-			setSelectedIndex(prevIndex => (prevIndex + 1) % users.length);
+			setSelectedIndex(prevIndex => (prevIndex + 1) % peers.length);
 		} else if (key.upArrow) {
 			setSelectedIndex(
-				prevIndex => (prevIndex - 1 + users.length) % users.length,
+				prevIndex => (prevIndex - 1 + peers.length) % peers.length,
 			);
 		} else if (key.return) {
-			console.log(users[selectedIndex]);
-			// const fileName = users[selectedIndex]?.fileName;
+			console.log(peers[selectedIndex]);
+			// const fileName = peers[selectedIndex]?.fileName;
 			// if (fileName) {
 			// 	useFileDownloader(
 			// 		receiverInfo.MY_IP,
@@ -39,7 +39,7 @@ export default function UserList({users}: PropType) {
 
 	return (
 		<Box flexDirection="column" marginTop={1} marginLeft={1}>
-			{users.map((item, index) => (
+			{peers.map((item, index) => (
 				<Box
 					key={index}
 					borderColor={index === selectedIndex ? 'green' : 'black'}
