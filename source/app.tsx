@@ -5,7 +5,7 @@ import Discover from './components/Discover.js';
 import useLocalIP from './functions/ip.js';
 import useComputerName from './functions/name.js';
 import {useStore} from '@nanostores/react';
-import {$baseInfo} from './stores/baseStore.js';
+import {$action, $baseInfo} from './stores/baseStore.js';
 import {hasNullValue} from './functions/helper.js';
 import {useCommands} from './functions/commands.js';
 
@@ -19,12 +19,15 @@ export default function App({name = 'Stranger'}: Props) {
 	useComputerName();
 
 	const baseInfo = useStore($baseInfo);
+	const action = useStore($action);
 
 	return (
 		<Box flexDirection="column">
-			{/* {action == null && <AsciiIntro />} */}
+			{action == 'NOTHING' && <AsciiIntro />}
 
-			{!hasNullValue(baseInfo) && <Discover />}
+			{!hasNullValue(baseInfo) && ['SEND', 'RECEIVE'].includes(action) && (
+				<Discover />
+			)}
 		</Box>
 	);
 }

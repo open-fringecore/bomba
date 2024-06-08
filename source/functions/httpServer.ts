@@ -1,7 +1,12 @@
 import express from 'express';
 import {useEffect} from 'react';
 
-export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
+export const useHttpServer = (
+	MY_IP: string,
+	TCP_PORT: number,
+	isSending: boolean,
+	sendingFileNames: string[] | null,
+) => {
 	useEffect(() => {
 		const app = express();
 		app.use(express.json());
@@ -12,7 +17,14 @@ export const useHttpServer = (MY_IP: string, TCP_PORT: number) => {
 			});
 		});
 
-		app.get('/get-active-status', (req, res) => {
+		app.get('/get-active-peer', (req, res) => {
+			if (req.body.isFirstCall) {
+				res.json({
+					isSending,
+					sendingFileNames,
+				});
+			}
+
 			setTimeout(() => {
 				res.json({active: true});
 			}, 10000);

@@ -12,23 +12,27 @@ export const useActivePeers = () => {
 	const discoveredPeers = useStore($discoveredPeers);
 
 	const pollingDiscoveredPeers = useCallback(
-		(discoveredPeer: DiscoveredPeerType) => {
+		(discoveredPeer: DiscoveredPeerType, isFirstCall: boolean) => {
 			fetch(
-				`http://${discoveredPeer.ip}:${discoveredPeer.httpPort}/get-active-status`,
+				`http://${discoveredPeer.ip}:${
+					discoveredPeer.httpPort
+				}/get-active-peer?${isFirstCall ? 'isFirstCall' : ''}`,
 			)
 				.then(response => response.json())
 				.then(data => {
 					// console.log('🟢 Peer Active 🟢');
 
-					addConnectedPeer({
-						id: discoveredPeer.id,
-						ip: discoveredPeer.ip,
-						name: discoveredPeer.name,
-						httpPort: discoveredPeer.httpPort,
-						isSending: false,
-						sendFileNames: [''],
-					});
-					pollingDiscoveredPeers(discoveredPeer);
+					if (isFirstCall) {
+						addConnectedPeer({
+							id: discoveredPeer.id,
+							ip: discoveredPeer.ip,
+							name: discoveredPeer.name,
+							httpPort: discoveredPeer.httpPort,
+							isSending: data.isSending,
+							sendFileNames: data.sendingFileNames,
+						});
+					}
+					pollingDiscoveredPeers(discoveredPeer, false);
 				})
 				.catch(error => {
 					// console.log('⭕ Peer Gone ⭕');
@@ -43,15 +47,7 @@ export const useActivePeers = () => {
 		Object.keys(discoveredPeers).forEach(peerID => {
 			const peer = discoveredPeers[peerID];
 			if (peer) {
-				addConnectedPeer({
-					id: peer.id,
-					ip: peer.ip,
-					name: peer.name,
-					httpPort: peer.httpPort,
-					isSending: false,
-					sendFileNames: [''],
-				});
-				pollingDiscoveredPeers(peer);
+				pollingDiscoveredPeers(peer, true);
 			}
 		});
 	}, [discoveredPeers]);

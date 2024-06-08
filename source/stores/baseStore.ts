@@ -19,3 +19,6 @@ export const $baseInfo = atom<InfoType>({
 	UDP_PORT: 8008,
 	HTTP_PORT: (await getFreePort()) ?? 8779,
 });
+
+export const $action = atom<'SEND' | 'RECEIVE' | 'NOTHING'>('NOTHING');
+export const $sendingFiles = atom<string[] | null>(null);
