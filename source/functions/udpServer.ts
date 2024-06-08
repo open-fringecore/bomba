@@ -38,12 +38,12 @@ export const useUdpServer = (
 			initialBroadcast();
 		});
 
-		server.on('message', (msg, rinfo) => {
+		server.on('message', (receivedMsg, rinfo) => {
 			if (rinfo.address == MY_IP) {
 				return;
 			}
 
-			const data = JSON.parse(msg?.toString());
+			const data = JSON.parse(receivedMsg?.toString());
 
 			console.log(`<-- Received From: ${rinfo.address}:${rinfo.port}`);
 			console.log('DATA:', data);
@@ -57,7 +57,10 @@ export const useUdpServer = (
 				});
 
 				if (!isAlreadyAdded || data?.isBroadcast) {
-					const message = JSON.stringify({...msg, isBroadcast: false});
+					const message = JSON.stringify({
+						...msg,
+						isBroadcast: false,
+					});
 
 					server.send(message, rinfo.port, rinfo.address);
 				}
