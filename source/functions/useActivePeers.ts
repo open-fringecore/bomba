@@ -21,6 +21,7 @@ export const useActivePeers = () => {
 					// console.log('🟢 Peer Active 🟢');
 
 					addConnectedPeer({
+						id: discoveredPeer.id,
 						ip: discoveredPeer.ip,
 						name: discoveredPeer.name,
 						httpPort: discoveredPeer.httpPort,
@@ -39,15 +40,19 @@ export const useActivePeers = () => {
 	);
 
 	useEffect(() => {
-		discoveredPeers.forEach(peer => {
-			addConnectedPeer({
-				ip: peer.ip,
-				name: peer.name,
-				httpPort: peer.httpPort,
-				isSending: false,
-				sendFilenames: [''],
-			});
-			pollingDiscoveredPeers(peer);
+		Object.keys(discoveredPeers).forEach(peerID => {
+			const peer = discoveredPeers[peerID];
+			if (peer) {
+				addConnectedPeer({
+					id: peer.id,
+					ip: peer.ip,
+					name: peer.name,
+					httpPort: peer.httpPort,
+					isSending: false,
+					sendFilenames: [''],
+				});
+				pollingDiscoveredPeers(peer);
+			}
 		});
 	}, [discoveredPeers]);
 };

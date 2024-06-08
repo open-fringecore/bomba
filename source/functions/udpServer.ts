@@ -49,6 +49,7 @@ export const useUdpServer = (
 
 			if (data?.method == 'SELF') {
 				const isAlreadyAdded = !addDiscoveredPeer({
+					id: data.id,
 					ip: rinfo.address,
 					name: data.name,
 					httpPort: data?.httpPort,

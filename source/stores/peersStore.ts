@@ -1,62 +1,64 @@
 import {atom} from 'nanostores';
 
 export type DiscoveredPeerType = {
+	id: string;
 	ip: string;
 	name: string;
 	httpPort: number;
 };
-export type DiscoveredPeersType = {
+type DiscoveredPeersType = {
 	[key: string]: DiscoveredPeerType;
 };
-export const $discoveredPeers = atom<DiscoveredPeerType[]>([]);
+export const $discoveredPeers = atom<DiscoveredPeersType>({});
 
 export const addDiscoveredPeer = (newPeer: DiscoveredPeerType) => {
 	const currDiscoveredPeers = $discoveredPeers.get();
 
-	const isPeerAlreadyExist = currDiscoveredPeers?.find(
-		item => item.ip == newPeer.ip,
-	);
-
-	if (isPeerAlreadyExist) {
+	if (currDiscoveredPeers[newPeer.id]) {
 		return false;
 	}
 
-	$discoveredPeers.set([...currDiscoveredPeers, newPeer]);
+	$discoveredPeers.set({...currDiscoveredPeers, [newPeer.id]: newPeer});
 	return true;
 };
 
-export const removeDiscoveredPeer = (ip: string) => {
+export const removeDiscoveredPeer = (id: string) => {
 	const currDiscoveredPeers = $discoveredPeers.get();
-	const filteredPeers = currDiscoveredPeers?.filter(item => item.ip != ip);
-	$discoveredPeers.set(filteredPeers);
+
+	if (currDiscoveredPeers.hasOwnProperty(id)) {
+		delete currDiscoveredPeers[id];
+	}
+	$discoveredPeers.set(currDiscoveredPeers);
 };
 
 export type ConnectedPeerType = {
+	id: string;
 	ip: string;
 	name: string;
 	isSending: boolean;
 	sendFilenames: string[];
 	httpPort: number;
 };
-export const $connectedPeers = atom<ConnectedPeerType[]>([]);
+export type ConnectedPeersType = {
+	[key: string]: DiscoveredPeerType;
+};
+export const $connectedPeers = atom<ConnectedPeersType>({});
 
 export const addConnectedPeer = (newPeer: ConnectedPeerType) => {
 	const currConnectedPeers = $connectedPeers.get();
 
-	const isPeerAlreadyExist = currConnectedPeers?.find(
-		item => item.ip == newPeer.ip,
-	);
-
-	if (isPeerAlreadyExist) {
+	if (currConnectedPeers[newPeer.id]) {
 		return false;
 	}
 
-	$connectedPeers.set([...currConnectedPeers, newPeer]);
+	$connectedPeers.set({...currConnectedPeers, [newPeer.id]: newPeer});
 	return true;
 };
 
-export const removeConnectedPeer = (ip: string) => {
+export const removeConnectedPeer = (id: string) => {
 	const currConnectedPeers = $connectedPeers.get();
-	const filteredPeers = currConnectedPeers?.filter(item => item.ip != ip);
-	$connectedPeers.set(filteredPeers);
+	if (currConnectedPeers.hasOwnProperty(id)) {
+		delete currConnectedPeers[id];
+	}
+	$connectedPeers.set(currConnectedPeers);
 };
