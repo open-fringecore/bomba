@@ -48,6 +48,7 @@ export default function PeerList({peers}: PropType) {
 					paddingX={1}
 				>
 					<Text>{peers[key]?.name}</Text>
+					<Text>{peers[key]?.name}</Text>
 				</Box>
 			))}
 		</Box>
