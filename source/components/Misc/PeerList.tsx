@@ -20,7 +20,11 @@ export default function PeerList({peers}: PropType) {
 				prevIndex => (prevIndex - 1 + peersIds.length) % peersIds.length,
 			);
 		} else if (key.return) {
-			console.log(peers[selectedIndex]);
+			const peerID = peersIds[selectedIndex];
+			if (!peerID) {
+				return;
+			}
+			console.log(peers[peerID]);
 			// const fileName = peers[selectedIndex]?.fileName;
 			// if (fileName) {
 			// 	useFileDownloader(
