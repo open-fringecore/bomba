@@ -38,6 +38,13 @@ export const useActivePeers = () => {
 
 	useEffect(() => {
 		discoveredPeers.forEach(peer => {
+			addConnectedPeer({
+				ip: peer.ip,
+				name: peer.name,
+				httpPort: peer.httpPort,
+				isSending: false,
+				sendFilenames: [''],
+			});
 			pollingDiscoveredPeers(peer);
 		});
 	}, [discoveredPeers]);
