@@ -2,11 +2,11 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Newline, Text, useInput, useStdin} from 'ink';
 import {ConnectedPeersType} from '../../stores/peersStore.js';
 
-type PropType = {
+type PropsType = {
 	peers: ConnectedPeersType;
 };
 
-export default function PeerList({peers}: PropType) {
+export default function PeerList({peers}: PropsType) {
 	if (!peers) throw new Error('No sender found');
 
 	const peersIds = useMemo(() => Object.keys(peers).map(key => key), [peers]);
@@ -48,7 +48,7 @@ export default function PeerList({peers}: PropType) {
 					paddingX={1}
 				>
 					<Text>{peers[key]?.name}</Text>
-					<Text>{peers[key]?.name}</Text>
+					<Text>{peers[key]?.sendFileNames?.toString()}</Text>
 				</Box>
 			))}
 		</Box>

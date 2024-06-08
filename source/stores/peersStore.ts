@@ -40,7 +40,7 @@ export type ConnectedPeerType = {
 	httpPort: number;
 };
 export type ConnectedPeersType = {
-	[key: string]: DiscoveredPeerType;
+	[key: string]: ConnectedPeerType;
 };
 export const $connectedPeers = atom<ConnectedPeersType>({});
 
