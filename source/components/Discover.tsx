@@ -24,6 +24,7 @@ const Discover = () => {
 	}
 
 	useUdpServer(
+		baseInfo.MY_ID,
 		baseInfo.MY_NAME,
 		baseInfo.BROADCAST_ADDR,
 		baseInfo.MY_IP,

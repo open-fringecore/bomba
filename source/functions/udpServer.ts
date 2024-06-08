@@ -4,6 +4,7 @@ import useBroadcast from './broadcast.js';
 import {addDiscoveredPeer} from '../stores/peersStore.js';
 
 export const useUdpServer = (
+	MY_ID: string,
 	NAME: string,
 	BROADCAST_ADDR: string,
 	MY_IP: string,
@@ -20,6 +21,7 @@ export const useUdpServer = (
 			const msg = {
 				method: 'SELF',
 				name: NAME,
+				id: MY_ID,
 				ip: MY_IP,
 				httpPort: HTTP_PORT,
 				isBroadcast: true,
@@ -59,6 +61,7 @@ export const useUdpServer = (
 					const message = JSON.stringify({
 						method: 'SELF',
 						name: NAME,
+						id: MY_ID,
 						ip: MY_IP,
 						httpPort: HTTP_PORT,
 						isBroadcast: false,

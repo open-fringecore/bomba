@@ -26,7 +26,7 @@ export const useActivePeers = () => {
 						name: discoveredPeer.name,
 						httpPort: discoveredPeer.httpPort,
 						isSending: false,
-						sendFilenames: [''],
+						sendFileNames: [''],
 					});
 					pollingDiscoveredPeers(discoveredPeer);
 				})
@@ -49,7 +49,7 @@ export const useActivePeers = () => {
 					name: peer.name,
 					httpPort: peer.httpPort,
 					isSending: false,
-					sendFilenames: [''],
+					sendFileNames: [''],
 				});
 				pollingDiscoveredPeers(peer);
 			}

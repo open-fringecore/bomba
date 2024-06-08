@@ -7,14 +7,14 @@ import useComputerName from './functions/name.js';
 import {useStore} from '@nanostores/react';
 import {$baseInfo} from './stores/baseStore.js';
 import {hasNullValue} from './functions/helper.js';
+import {useCommands} from './functions/commands.js';
 
 type Props = {
 	name: string | undefined;
 };
 
 export default function App({name = 'Stranger'}: Props) {
-	const [action, setAction] = useState(process.argv[2]);
-
+	useCommands();
 	useLocalIP();
 	useComputerName();
 
