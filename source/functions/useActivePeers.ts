@@ -4,7 +4,8 @@ import {
 	addConnectedPeer,
 	DiscoveredPeerType,
 	removeConnectedPeer,
-} from '../stores/baseStore.js';
+	removeDiscoveredPeer,
+} from '../stores/peersStore.js';
 import {useStore} from '@nanostores/react';
 
 export const useActivePeers = () => {
@@ -31,6 +32,7 @@ export const useActivePeers = () => {
 				.catch(error => {
 					// console.log('⭕ Peer Gone ⭕');
 					removeConnectedPeer(discoveredPeer.ip);
+					removeDiscoveredPeer(discoveredPeer.ip);
 				});
 		},
 		[discoveredPeers],

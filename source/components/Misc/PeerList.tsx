@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Box, Newline, Text, useInput, useStdin} from 'ink';
 import {useStore} from '@nanostores/react';
 import {$receiverInfo} from '../../stores/receiverStore.js';
-import {ConnectedPeerType} from '../../stores/baseStore.js';
+import {ConnectedPeerType} from '../../stores/peersStore.js';
 
 type PropType = {
 	peers: ConnectedPeerType[];

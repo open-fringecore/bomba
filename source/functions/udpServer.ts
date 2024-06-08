@@ -1,7 +1,7 @@
 import dgram from 'dgram';
 import {useEffect} from 'react';
 import useBroadcast from './broadcast.js';
-import {addDiscoveredPeer} from '../stores/baseStore.js';
+import {addDiscoveredPeer} from '../stores/peersStore.js';
 
 export const useUdpServer = (
 	NAME: string,

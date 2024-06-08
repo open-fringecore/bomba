@@ -22,11 +22,13 @@
 	],
 	"dependencies": {
 		"@nanostores/react": "^0.7.2",
+		"@types/uuid": "^9.0.8",
 		"express": "^4.18.2",
 		"ink": "^4.1.0",
 		"meow": "^11.0.0",
 		"nanostores": "^0.10.3",
-		"react": "^18.2.0"
+		"react": "^18.2.0",
+		"uuid": "^9.0.1"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^3.0.1",
