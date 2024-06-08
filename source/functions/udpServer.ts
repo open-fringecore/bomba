@@ -41,9 +41,9 @@ export const useUdpServer = (
 				return;
 			}
 
-			// console.log(
-			// 	`<-- Server received: ${msg} from ${rinfo.address}:${rinfo.port}`,
-			// );
+			console.log(
+				`<-- Server received: ${msg} from ${rinfo.address}:${rinfo.port}`,
+			);
 
 			const data = JSON.parse(msg?.toString());
 
