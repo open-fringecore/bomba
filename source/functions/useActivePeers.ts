@@ -12,17 +12,17 @@ export const useActivePeers = () => {
 	const discoveredPeers = useStore($discoveredPeers);
 
 	const pollingDiscoveredPeers = useCallback(
-		(discoveredPeer: DiscoveredPeerType, isFirstCall: boolean) => {
+		(discoveredPeer: DiscoveredPeerType, is_first_call: boolean) => {
 			fetch(
 				`http://${discoveredPeer.ip}:${
 					discoveredPeer.httpPort
-				}/get-active-peer?${isFirstCall ? 'isFirstCall' : ''}`,
+				}/get-active-peer?${is_first_call ? 'is_first_call' : ''}`,
 			)
 				.then(response => response.json())
 				.then(data => {
-					console.log('🟢 Peer Active 🟢');
+					// console.log('🟢 Peer Active 🟢');
 
-					if (isFirstCall) {
+					if (is_first_call) {
 						addConnectedPeer({
 							id: discoveredPeer.id,
 							ip: discoveredPeer.ip,
@@ -35,7 +35,7 @@ export const useActivePeers = () => {
 					pollingDiscoveredPeers(discoveredPeer, false);
 				})
 				.catch(error => {
-					console.log('⭕ Peer Gone ⭕');
+					// console.log('⭕ Peer Gone ⭕');
 					removeConnectedPeer(discoveredPeer.ip);
 					removeDiscoveredPeer(discoveredPeer.ip);
 				});

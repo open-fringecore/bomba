@@ -18,7 +18,7 @@ export const useHttpServer = (
 		});
 
 		app.get('/get-active-peer', (req, res) => {
-			if (req.query['isFirstCall']) {
+			if (typeof req.query['is_first_call'] == 'string') {
 				res.json({
 					isSending,
 					sendingFileNames,
