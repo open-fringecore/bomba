@@ -57,9 +57,7 @@ export const useUdpServer = (
 				});
 
 				if (!isAlreadyAdded || data?.isBroadcast) {
-					const message = Buffer.from(
-						JSON.stringify({...msg, isBroadcast: false}),
-					);
+					const message = JSON.stringify({...msg, isBroadcast: false});
 
 					server.send(message, rinfo.port, rinfo.address);
 				}
