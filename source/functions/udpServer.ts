@@ -13,7 +13,7 @@ export const useUdpServer = (
 	const {broadcast} = useBroadcast();
 
 	useEffect(() => {
-		const server = dgram.createSocket('udp4');
+		const server = dgram.createSocket({type: 'udp4', reuseAddr: true});
 		server.bind(UDP_PORT);
 
 		const initialBroadcast = () => {
