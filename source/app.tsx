@@ -25,6 +25,8 @@ export default function App({name = 'Stranger'}: Props) {
 		<Box flexDirection="column">
 			{action == 'NOTHING' && <AsciiIntro />}
 
+			<Text>--{baseInfo.MY_IP}--</Text>
+
 			{!hasNullValue(baseInfo) && ['SEND', 'RECEIVE'].includes(action) && (
 				<Discover />
 			)}
