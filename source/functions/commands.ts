@@ -20,7 +20,7 @@ export const useCommands = () => {
 					console.log(`Hey, ${options.name}\n`);
 				}
 
-				if (files) {
+				if (files && files.length > 0) {
 					console.log('Files:', files, '\n');
 					$action.set('SEND');
 					$sendingFiles.set(files);
