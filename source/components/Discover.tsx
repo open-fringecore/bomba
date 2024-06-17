@@ -41,7 +41,7 @@ const Discover = () => {
 		sendingFiles,
 	);
 
-	// useActivePeers();
+	useActivePeers();
 
 	return (
 		<Box flexDirection="column">
