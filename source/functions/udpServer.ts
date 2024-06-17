@@ -39,9 +39,9 @@ export const useUdpServer = (
 		});
 
 		server.on('message', (receivedMsg, rinfo) => {
-			// if (rinfo.address == MY_IP) {
-			// 	return;
-			// }
+			if (rinfo.address == MY_IP) {
+				return;
+			}
 
 			const data = JSON.parse(receivedMsg?.toString());
 
