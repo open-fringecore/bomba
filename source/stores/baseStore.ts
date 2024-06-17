@@ -16,7 +16,7 @@ export const $baseInfo = atom<InfoType>({
 	MY_IP: null,
 	MY_NAME: null,
 	BROADCAST_ADDR: null,
-	UDP_PORT: 5544,
+	UDP_PORT: 8008,
 	HTTP_PORT: (await getFreePort()) ?? 8779,
 });
 

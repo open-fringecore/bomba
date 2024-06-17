@@ -14,7 +14,7 @@ export const useUdpServer = (
 	const {broadcast} = useBroadcast();
 
 	useEffect(() => {
-		const server = dgram.createSocket({type: 'udp4'});
+		const server = dgram.createSocket({type: 'udp4', reuseAddr: true});
 		server.bind(UDP_PORT);
 
 		const msg = {
@@ -39,9 +39,9 @@ export const useUdpServer = (
 		});
 
 		server.on('message', (receivedMsg, rinfo) => {
-			if (rinfo.address == MY_IP) {
-				return;
-			}
+			// if (rinfo.address == MY_IP) {
+			// 	return;
+			// }
 
 			const data = JSON.parse(receivedMsg?.toString());
 
