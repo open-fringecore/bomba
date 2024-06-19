@@ -46,7 +46,7 @@ export const useUdpServer = (
 			const data = JSON.parse(receivedMsg?.toString());
 
 			console.log(`<-- Received From: ${rinfo.address}:${rinfo.port}`);
-			console.log('DATA:', data);
+			// console.log('DATA:', data);
 
 			if (data?.method == 'SELF') {
 				const isAlreadyAdded = !addDiscoveredPeer({

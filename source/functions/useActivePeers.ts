@@ -13,6 +13,8 @@ export const useActivePeers = () => {
 
 	const pollingDiscoveredPeers = useCallback(
 		(discoveredPeer: DiscoveredPeerType, is_first_call: boolean) => {
+			console.log('🚀');
+
 			fetch(
 				`http://${discoveredPeer.ip}:${
 					discoveredPeer.httpPort
