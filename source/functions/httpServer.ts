@@ -23,11 +23,11 @@ export const useHttpServer = (
 					isSending,
 					sendingFileNames,
 				});
+			} else {
+				setTimeout(() => {
+					return res.json({active: true});
+				}, 10000);
 			}
-
-			setTimeout(() => {
-				return res.json({active: true});
-			}, 10000);
 		});
 
 		const server = app.listen(TCP_PORT, MY_IP, () => {
