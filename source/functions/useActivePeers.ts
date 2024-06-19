@@ -38,6 +38,7 @@ export const useActivePeers = () => {
 				})
 				.catch(error => {
 					console.log('⭕ Peer Gone ⭕');
+					console.log(error);
 					removeConnectedPeer(discoveredPeer.id);
 					removeDiscoveredPeer(discoveredPeer.id);
 				});
@@ -46,6 +47,7 @@ export const useActivePeers = () => {
 	);
 
 	useEffect(() => {
+		console.log('discoveredPeers', discoveredPeers);
 		Object.keys(discoveredPeers).forEach(peerID => {
 			const peer = discoveredPeers[peerID];
 			if (peer) {
