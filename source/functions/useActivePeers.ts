@@ -13,8 +13,6 @@ export const useActivePeers = () => {
 
 	const pollingDiscoveredPeers = useCallback(
 		(discoveredPeer: DiscoveredPeerType, is_first_call: boolean) => {
-			console.log('🚀');
-
 			fetch(
 				`http://${discoveredPeer.ip}:${
 					discoveredPeer.httpPort
@@ -47,7 +45,6 @@ export const useActivePeers = () => {
 	);
 
 	useEffect(() => {
-		console.log('discoveredPeers', discoveredPeers);
 		Object.keys(discoveredPeers).forEach(peerID => {
 			const peer = discoveredPeers[peerID];
 			if (peer) {
