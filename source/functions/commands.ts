@@ -1,5 +1,5 @@
 // import {Command} from 'commander';
-import yargs from 'yargs';
+import yargs, {Arguments} from 'yargs';
 import {hideBin} from 'yargs/helpers';
 import express from 'express';
 import {useEffect, useMemo} from 'react';
@@ -38,31 +38,42 @@ export const useCommands = () => {
 	// }, []);
 
 	useEffect(() => {
-		// const argv = yargs(hideBin(process.argv)).argv;
-		// console.log(argv);
-
-		const argv = yargs(hideBin(process.argv))
+		// ! TEST: pnpm start .\Brain.png .\brainfuck_code.png
+		yargs(hideBin(process.argv))
 			.command(
-				'serve [port]',
-				'start the server',
+				'chat',
+				'start chat',
 				yargs => {
-					return yargs.positional('port', {
-						describe: 'port to bind on',
-						default: 5000,
+					return yargs.positional('name', {
+						describe: 'a future chat feature',
+						type: 'string',
 					});
 				},
 				argv => {
-					if (argv['verbose']) console.info(`start server on :${argv.port}`);
+					console.info('Chat command:', argv);
 				},
 			)
-			.option('verbose', {
-				alias: 'v',
-				type: 'boolean',
-				description: 'Run with verbose logging',
-			})
-			.parse();
+			.command(
+				'* [files...]',
+				'Handles file operations',
+				yargs => {
+					return yargs.positional('files', {
+						describe: 'Optional list of files',
+						type: 'string',
+					});
+				},
+				argv => {
+					console.info('Command:', argv);
 
-		// console.log(argv['_']);
+					if (argv.files && argv.files?.length > 0) {
+						console.log('Sending');
+						$action.set('SEND');
+					} else {
+						console.log('Receiving');
+					}
+				},
+			)
+			.parse();
 
 		return () => {};
 	}, []);
