@@ -1,4 +1,4 @@
-import {atom} from 'nanostores';
+import {atom, deepMap} from 'nanostores';
 
 export type DiscoveredPeerType = {
 	id: string;
@@ -9,7 +9,7 @@ export type DiscoveredPeerType = {
 type DiscoveredPeersType = {
 	[key: string]: DiscoveredPeerType;
 };
-export const $discoveredPeers = atom<DiscoveredPeersType>({});
+export const $discoveredPeers = deepMap<DiscoveredPeersType>({});
 
 export const addDiscoveredPeer = (newPeer: DiscoveredPeerType) => {
 	const currDiscoveredPeers = $discoveredPeers.get();
@@ -26,9 +26,10 @@ export const removeDiscoveredPeer = (id: string) => {
 	const currDiscoveredPeers = $discoveredPeers.get();
 
 	if (currDiscoveredPeers.hasOwnProperty(id)) {
-		delete currDiscoveredPeers[id];
+		const updatedPeers = {...currDiscoveredPeers};
+		delete updatedPeers[id];
+		$discoveredPeers.set(updatedPeers);
 	}
-	$discoveredPeers.set(currDiscoveredPeers);
 };
 
 export type ConnectedPeerType = {
@@ -42,7 +43,7 @@ export type ConnectedPeerType = {
 export type ConnectedPeersType = {
 	[key: string]: ConnectedPeerType;
 };
-export const $connectedPeers = atom<ConnectedPeersType>({});
+export const $connectedPeers = deepMap<ConnectedPeersType>({});
 
 export const addConnectedPeer = (newPeer: ConnectedPeerType) => {
 	const currConnectedPeers = $connectedPeers.get();
@@ -59,8 +60,8 @@ export const removeConnectedPeer = (id: string) => {
 	const currConnectedPeers = $connectedPeers.get();
 
 	if (currConnectedPeers.hasOwnProperty(id)) {
-		delete currConnectedPeers[id];
+		const updatedPeers = {...currConnectedPeers};
+		delete updatedPeers[id];
+		$connectedPeers.set(updatedPeers);
 	}
-
-	$connectedPeers.set(currConnectedPeers);
 };
