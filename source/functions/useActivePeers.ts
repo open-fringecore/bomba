@@ -35,8 +35,8 @@ export const useActivePeers = () => {
 					pollingDiscoveredPeers(discoveredPeer, false);
 				})
 				.catch(error => {
-					console.log('⭕ Peer Gone ⭕');
-					console.log(error);
+					// console.log('⭕ Peer Gone ⭕');
+					// console.log(error);
 					removeConnectedPeer(discoveredPeer.id);
 					removeDiscoveredPeer(discoveredPeer.id);
 				});

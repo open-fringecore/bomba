@@ -57,8 +57,10 @@ export const addConnectedPeer = (newPeer: ConnectedPeerType) => {
 
 export const removeConnectedPeer = (id: string) => {
 	const currConnectedPeers = $connectedPeers.get();
+
 	if (currConnectedPeers.hasOwnProperty(id)) {
 		delete currConnectedPeers[id];
 	}
+
 	$connectedPeers.set(currConnectedPeers);
 };

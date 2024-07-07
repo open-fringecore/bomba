@@ -44,7 +44,7 @@ const Discover = () => {
 	useActivePeers();
 
 	useEffect(() => {
-		console.log(connectedPeers);
+		console.log('-------connectedPeers--------', connectedPeers);
 	}, [connectedPeers]);
 
 	return (
