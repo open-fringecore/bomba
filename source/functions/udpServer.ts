@@ -54,7 +54,7 @@ export const useUdpServer = (
 			}
 
 			console.log(`<-- Received From: ${data.name}:${data.id}`);
-			console.log('DATA:', data);
+			// console.log('DATA:', data);
 
 			if (data?.method == 'SELF') {
 				const isAlreadyAdded = !addDiscoveredPeer({
