@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Text} from 'ink';
+import {Box, Spacer, Text} from 'ink';
 import {Spinner} from './Misc/Spinner.js';
 import {useStore} from '@nanostores/react';
 import {$action, $baseInfo, $sendingFiles} from '../stores/baseStore.js';
@@ -48,6 +48,13 @@ const Discover = () => {
 			<Text>
 				<Spinner /> {action == 'SEND' ? 'Sending' : 'Receiving'}
 			</Text>
+
+			<Box borderColor={'red'} borderStyle={'double'} paddingX={1}>
+				<Text>{baseInfo.MY_NAME}</Text>
+				<Spacer />
+				<Text>{baseInfo.MY_ID}</Text>
+			</Box>
+
 			{connectedPeers && <PeerList peers={connectedPeers} />}
 		</Box>
 	);

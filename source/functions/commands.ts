@@ -31,13 +31,11 @@ export const useCommands = () => {
 					});
 				},
 				argv => {
-					console.info('Command:', argv);
+					// console.info('Command:', argv);
 
 					if (argv.files && argv.files?.length > 0) {
-						console.log('Sending');
 						$action.set('SEND');
 					} else {
-						console.log('Receiving');
 						$action.set('RECEIVE');
 					}
 				},

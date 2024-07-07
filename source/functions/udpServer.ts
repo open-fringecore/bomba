@@ -3,6 +3,14 @@ import {useEffect} from 'react';
 import useBroadcast from './broadcast.js';
 import {addDiscoveredPeer} from '../stores/peersStore.js';
 
+type UdpMsgType = {
+	method: string;
+	name: string;
+	id: string;
+	ip: string;
+	httpPort: number;
+	isBroadcast: boolean;
+};
 export const useUdpServer = (
 	MY_ID: string,
 	NAME: string,
@@ -17,7 +25,7 @@ export const useUdpServer = (
 		const server = dgram.createSocket({type: 'udp4', reuseAddr: true});
 		server.bind(UDP_PORT);
 
-		const msg = {
+		const msg: UdpMsgType = {
 			method: 'SELF',
 			name: NAME,
 			id: MY_ID,
@@ -39,14 +47,14 @@ export const useUdpServer = (
 		});
 
 		server.on('message', (receivedMsg, rinfo) => {
-			if (rinfo.address == MY_IP) {
+			const data: UdpMsgType = JSON.parse(receivedMsg?.toString());
+
+			if (data.id == MY_ID) {
 				return;
 			}
 
-			const data = JSON.parse(receivedMsg?.toString());
-
-			console.log(`<-- Received From: ${rinfo.address}:${rinfo.port}`);
-			// console.log('DATA:', data);
+			console.log(`<-- Received From: ${data.name}:${data.id}`);
+			console.log('DATA:', data);
 
 			if (data?.method == 'SELF') {
 				const isAlreadyAdded = !addDiscoveredPeer({
