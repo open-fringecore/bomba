@@ -43,6 +43,10 @@ const Discover = () => {
 
 	useActivePeers();
 
+	useEffect(() => {
+		console.log(connectedPeers);
+	}, [connectedPeers]);
+
 	return (
 		<Box flexDirection="column">
 			<Text>
