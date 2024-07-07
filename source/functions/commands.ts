@@ -38,6 +38,7 @@ export const useCommands = () => {
 						$action.set('SEND');
 					} else {
 						console.log('Receiving');
+						$action.set('RECEIVE');
 					}
 				},
 			)
