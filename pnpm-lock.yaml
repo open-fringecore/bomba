@@ -14,6 +14,9 @@ importers:
       '@types/uuid':
         specifier: ^9.0.8
         version: 9.0.8
+      '@types/yargs':
+        specifier: ^17.0.32
+        version: 17.0.32
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -35,6 +38,9 @@ importers:
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
+      yargs:
+        specifier: ^17.7.2
+        version: 17.7.2
     devDependencies:
       '@sindresorhus/tsconfig':
         specifier: ^3.0.1
@@ -264,6 +270,12 @@ packages:
 
   '@types/uuid@9.0.8':
     resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
+
+  '@types/yargs-parser@21.0.3':
+    resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
+
+  '@types/yargs@17.0.32':
+    resolution: {integrity: sha512-xQ67Yc/laOG5uMfX/093MRlGGCIBzZMarVa+gfNKJxWAIgykYpVGkBdbqEzGDDfCrVUj6Hiff4mTZ5BA6TmAog==}
 
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
@@ -2903,6 +2915,12 @@ snapshots:
       '@types/send': 0.17.4
 
   '@types/uuid@9.0.8': {}
+
+  '@types/yargs-parser@21.0.3': {}
+
+  '@types/yargs@17.0.32':
+    dependencies:
+      '@types/yargs-parser': 21.0.3
 
   '@ungap/structured-clone@1.2.0': {}
 

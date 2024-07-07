@@ -23,13 +23,15 @@
 	"dependencies": {
 		"@nanostores/react": "^0.7.2",
 		"@types/uuid": "^9.0.8",
+		"@types/yargs": "^17.0.32",
 		"commander": "^12.1.0",
 		"express": "^4.18.2",
 		"ink": "^4.1.0",
 		"meow": "^11.0.0",
 		"nanostores": "^0.10.3",
 		"react": "^18.2.0",
-		"uuid": "^9.0.1"
+		"uuid": "^9.0.1",
+		"yargs": "^17.7.2"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^3.0.1",

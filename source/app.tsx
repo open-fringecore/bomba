@@ -23,7 +23,7 @@ export default function App({name = 'Stranger'}: Props) {
 
 	return (
 		<Box flexDirection="column">
-			{action == 'NOTHING' && <AsciiIntro />}
+			{/* {action == 'NOTHING' && <AsciiIntro />} */}
 
 			{!hasNullValue(baseInfo) && ['SEND', 'RECEIVE'].includes(action) && (
 				<Discover />
