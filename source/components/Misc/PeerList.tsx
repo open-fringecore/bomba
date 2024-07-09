@@ -1,8 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Newline, Text, useInput, useStdin} from 'ink';
 import {ConnectedPeersType} from '../../stores/peersStore.js';
-import Color from 'ink-color-pipe';
-import SelectInput from 'ink-select-input';
 
 type PropsType = {
 	peers: ConnectedPeersType;
