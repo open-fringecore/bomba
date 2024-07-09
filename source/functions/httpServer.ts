@@ -46,12 +46,21 @@ export const useHttpServer = (
 				return res.status(404).json({msg: 'File not found!'});
 			}
 
-			res.download(filePath, path.basename(filePath), err => {
-				if (err) {
-					console.error('Error downloading file:', err);
-					res.status(500).send('Error downloading file');
-				}
-			});
+			const stat = fs.statSync(filePath);
+			const fileSize = stat.size;
+
+			res.setHeader('Content-Length', fileSize);
+			res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+
+			const fileStream = fs.createReadStream(filePath);
+			fileStream.pipe(res);
+
+			// res.download(filePath, path.basename(filePath), err => {
+			// 	if (err) {
+			// 		console.error('Error downloading file:', err);
+			// 		res.status(500).send('Error downloading file');
+			// 	}
+			// });
 		});
 
 		const server = app.listen(TCP_PORT, MY_IP, () => {

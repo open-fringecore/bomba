@@ -36,9 +36,13 @@ export default function PeerList({peers}: PropsType) {
 
 			console.log(selectedPeer);
 
-			fileNames?.forEach(fileName => {
+			fileNames?.forEach(async fileName => {
 				console.log(`Downloading: ${fileName}`);
-				useFileDownloader(selectedPeer.ip, selectedPeer.httpPort, fileName);
+				await useFileDownloader(
+					selectedPeer.ip,
+					selectedPeer.httpPort,
+					fileName,
+				);
 			});
 		}
 	});
