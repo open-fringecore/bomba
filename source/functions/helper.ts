@@ -1,3 +1,5 @@
+import os from 'os';
+
 export function getRandomBanglaName() {
 	const names = [
 		'অনিক',
@@ -22,5 +24,8 @@ export const hasNullValue = (obj: {[key: string]: any}): boolean => {
 };
 
 export const cleanFileName = (name: string) => {
-	return name.replace(/[\\/]/g, '');
+	// let temp = name.replace(/^\./, '');
+	// temp = name.replace('/', '');
+	// temp = name.replace('', '');
+	return name.replace(/[\\/]/g, '').replace(/^\./, '');
 };
