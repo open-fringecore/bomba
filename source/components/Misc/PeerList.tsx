@@ -2,6 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Newline, Text, useInput, useStdin} from 'ink';
 import {ConnectedPeersType} from '../../stores/peersStore.js';
 import Color from 'ink-color-pipe';
+import SelectInput from 'ink-select-input';
 
 type PropsType = {
 	peers: ConnectedPeersType;
@@ -39,9 +40,13 @@ export default function PeerList({peers}: PropsType) {
 		}
 	});
 
+	const handleSelect = (item: any) => {
+		console.log(item);
+	};
+
 	return (
 		<Box flexDirection="column" marginTop={1} marginLeft={1}>
-			{/* {Object.keys(peers).map(key => (
+			{Object.keys(peers).map(key => (
 				<Box
 					key={key}
 					borderColor={key === peersIds[selectedIndex] ? 'green' : 'black'}
@@ -51,11 +56,6 @@ export default function PeerList({peers}: PropsType) {
 					<Text>{peers[key]?.name}</Text>
 					<Text>{peers[key]?.sendFileNames?.toString()}</Text>
 				</Box>
-			))} */}
-			{Object.keys(peers).map(key => (
-				<Color styles={'bgRed.white'}>
-					{peers[key]?.name}: {peers[key]?.sendFileNames?.toString()}
-				</Color>
 			))}
 		</Box>
 	);
