@@ -1,10 +1,14 @@
 // import {Command} from 'commander';
-import yargs, {Arguments} from 'yargs';
+import yargs, {Arguments, Argv} from 'yargs';
 import {hideBin} from 'yargs/helpers';
 import express from 'express';
 import {useEffect, useMemo} from 'react';
 import {$action, $sendingFiles} from '../stores/baseStore.js';
 
+type DefaultArgvType = {
+	files?: string[];
+	[x: string]: any;
+};
 export const useCommands = () => {
 	useEffect(() => {
 		yargs(hideBin(process.argv))
@@ -24,17 +28,16 @@ export const useCommands = () => {
 			.command(
 				'* [files...]',
 				'Handles file operations',
-				yargs => {
+				(yargs: any) => {
 					return yargs.positional('files', {
 						describe: 'Optional list of files',
 						type: 'string',
 					});
 				},
-				argv => {
-					// console.info('Command:', argv);
-
+				(argv: DefaultArgvType) => {
 					if (argv.files && argv.files?.length > 0) {
 						$action.set('SEND');
+						$sendingFiles.set(argv.files);
 					} else {
 						$action.set('RECEIVE');
 					}
