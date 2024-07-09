@@ -3,7 +3,8 @@
 	"compilerOptions": {
 		"outDir": "dist",
 		"noUnusedLocals": false,
-		"noUnusedParameters": false 
+		"noUnusedParameters": false,
+		"noImplicitReturns": false
 	},
 	"include": ["source"]
 }

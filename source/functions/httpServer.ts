@@ -1,5 +1,7 @@
 import express from 'express';
 import {useEffect} from 'react';
+import fs from 'fs';
+import path from 'path';
 
 export const useHttpServer = (
 	MY_IP: string,
@@ -28,6 +30,28 @@ export const useHttpServer = (
 					res.json({active: true});
 				}, 10000);
 			}
+		});
+
+		app.get('/download/:filename', (req, res) => {
+			const {filename} = req.params;
+
+			if (!filename) {
+				return res.status(400).json({msg: 'filename required.'});
+			}
+
+			// const filePath = `${process.cwd()}/${filename}`;
+			const filePath = `D:\\Codings\\Works\\bomba\\send_files/${filename}`;
+
+			if (!fs.existsSync(filePath)) {
+				return res.status(404).json({msg: 'File not found!'});
+			}
+
+			res.download(filePath, path.basename(filePath), err => {
+				if (err) {
+					console.error('Error downloading file:', err);
+					res.status(500).send('Error downloading file');
+				}
+			});
 		});
 
 		const server = app.listen(TCP_PORT, MY_IP, () => {

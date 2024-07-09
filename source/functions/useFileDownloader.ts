@@ -8,7 +8,7 @@ export const useFileDownloader = (
 	OTHER_TCP_PORT: number,
 	FILENAME: string,
 ) => {
-	const url = `http://${MY_IP}:${OTHER_TCP_PORT}/download`;
+	const url = `http://${MY_IP}:${OTHER_TCP_PORT}/download/${FILENAME}`;
 	const path = `${process.cwd()}/receive_files/${FILENAME}`;
 
 	http
