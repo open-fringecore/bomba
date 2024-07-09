@@ -22,12 +22,17 @@ export default function PeerList({peers}: PropsType) {
 			);
 		} else if (key.return) {
 			const peerID = peersIds[selectedIndex];
-			if (!peerID || !peers[peerID]) {
-				console.log('Peer not found');
+			if (!peerID) {
+				console.log('Peer ID not found');
 				return;
 			}
 			const selectedPeer = peers[peerID];
 			const fileNames = selectedPeer?.sendFileNames;
+
+			if (!selectedPeer) {
+				console.log('Selected Peer not found');
+				return;
+			}
 
 			console.log(selectedPeer);
 
