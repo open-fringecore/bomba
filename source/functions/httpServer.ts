@@ -40,7 +40,7 @@ export const useHttpServer = (
 			}
 
 			// const filePath = `${process.cwd()}/${filename}`;
-			const filePath = `D:\\Codings\\Works\\bomba\\send_files/${filename}`;
+			const filePath = `${process.cwd()}/send_files/${filename}`;
 
 			if (!fs.existsSync(filePath)) {
 				return res.status(404).json({msg: 'File not found!'});
