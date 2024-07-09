@@ -43,6 +43,10 @@ const Discover = () => {
 
 	useActivePeers();
 
+	useEffect(() => {
+		console.log('-----------files----------', sendingFiles);
+	}, [sendingFiles]);
+
 	return (
 		<Box flexDirection="column">
 			<Text>
