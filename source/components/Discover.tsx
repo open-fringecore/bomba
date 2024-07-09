@@ -49,11 +49,11 @@ const Discover = () => {
 				<Spinner /> {action == 'SEND' ? 'Sending' : 'Receiving'}
 			</Text>
 
-			<Box borderColor={'red'} borderStyle={'double'} paddingX={1}>
+			{/* <Box borderColor={'red'} borderStyle={'double'} paddingX={1}>
 				<Text>{baseInfo.MY_NAME}</Text>
 				<Spacer />
 				<Text>{baseInfo.MY_ID}</Text>
-			</Box>
+			</Box> */}
 
 			{connectedPeers && <PeerList peers={connectedPeers} />}
 		</Box>
