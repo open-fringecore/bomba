@@ -20,7 +20,7 @@ export const useActivePeers = () => {
 			)
 				.then(response => response.json())
 				.then(data => {
-					console.log('🟢 Peer Active 🟢');
+					// console.log('🟢 Peer Active 🟢');
 
 					if (is_first_call) {
 						addConnectedPeer({

@@ -23,6 +23,9 @@ importers:
       ink:
         specifier: ^4.1.0
         version: 4.4.1(@types/react@18.3.3)(react@18.3.1)
+      ink-color-pipe:
+        specifier: ^3.0.0
+        version: 3.0.0(ink@4.4.1(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       meow:
         specifier: ^11.0.0
         version: 11.0.0
@@ -548,6 +551,10 @@ packages:
   cbor@8.1.0:
     resolution: {integrity: sha512-DwGjNW9omn6EwP70aXsn7FQJx5kO12tX0bZkaTjzdVFM6/7nhA4t0EENocKGx6D2Bch9PE2KzCUf5SceBdeijg==}
     engines: {node: '>=12.19'}
+
+  chalk-pipe@5.1.2:
+    resolution: {integrity: sha512-WNkhG5BHb2UOoyay3P61yNa9BBdYHrlk2mYYBpHlYKL3rDlxRUVXMPfAdLFcKxRvxztegK3hzj3Yj4QQ3z/0rA==}
+    engines: {node: '>=12'}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -1330,6 +1337,13 @@ packages:
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
+
+  ink-color-pipe@3.0.0:
+    resolution: {integrity: sha512-d/jrA0dE++6wNPrW4bj+954riqPMWmI2VBj/5d3ySx2H/dOY1MrAaZmz9CH19Hxr2EdpztH9NE81x1qH2F3YWQ==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      ink: '>=3.0.0'
+      react: '>=16.8.0'
 
   ink-testing-library@3.0.0:
     resolution: {integrity: sha512-ItyyoOmcm6yftb7c5mZI2HU22BWzue8PBbO3DStmY8B9xaqfKr7QJONiWOXcwVsOk/6HuVQ0v7N5xhPaR3jycA==}
@@ -3285,6 +3299,10 @@ snapshots:
     dependencies:
       nofilter: 3.1.0
 
+  chalk-pipe@5.1.2:
+    dependencies:
+      chalk: 4.1.2
+
   chalk@2.4.2:
     dependencies:
       ansi-styles: 3.2.1
@@ -4209,6 +4227,12 @@ snapshots:
       wrappy: 1.0.2
 
   inherits@2.0.4: {}
+
+  ink-color-pipe@3.0.0(ink@4.4.1(@types/react@18.3.3)(react@18.3.1))(react@18.3.1):
+    dependencies:
+      chalk-pipe: 5.1.2
+      ink: 4.4.1(@types/react@18.3.3)(react@18.3.1)
+      react: 18.3.1
 
   ink-testing-library@3.0.0(@types/react@18.3.3):
     optionalDependencies:
