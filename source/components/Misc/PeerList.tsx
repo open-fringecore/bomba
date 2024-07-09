@@ -1,6 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Newline, Text, useInput, useStdin} from 'ink';
 import {ConnectedPeersType} from '../../stores/peersStore.js';
+import {useFileDownloader} from '../../functions/useFileDownloader.js';
 
 type PropsType = {
 	peers: ConnectedPeersType;
@@ -21,20 +22,18 @@ export default function PeerList({peers}: PropsType) {
 			);
 		} else if (key.return) {
 			const peerID = peersIds[selectedIndex];
-			if (!peerID) {
+			if (!peerID || !peers[peerID]) {
+				console.log('Peer not found');
 				return;
 			}
-			console.log(peers[peerID]);
-			// const fileName = peers[selectedIndex]?.fileName;
-			// if (fileName) {
-			// 	useFileDownloader(
-			// 		receiverInfo.MY_IP,
-			// 		receiverInfo.OTHER_TCP_PORT,
-			// 		fileName,
-			// 	);
-			// } else {
-			// 	console.error('No filename.');
-			// }
+			const selectedPeer = peers[peerID];
+			const fileNames = selectedPeer?.sendFileNames;
+
+			console.log(selectedPeer);
+
+			fileNames?.forEach(fileName => {
+				useFileDownloader(selectedPeer.ip, selectedPeer.httpPort, fileName);
+			});
 		}
 	});
 
