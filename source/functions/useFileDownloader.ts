@@ -2,13 +2,15 @@ import express, {Request, Response} from 'express';
 import path from 'path';
 import http from 'http';
 import fs from 'fs';
+import {updateTransferProgress} from '../stores/fileHandlerStore.js';
+import {v4 as uuidv4} from 'uuid';
 
 // export const useFileDownloader = (
-// 	MY_IP: string | undefined,
-// 	OTHER_TCP_PORT: number,
+// 	PEER_IP: string | undefined,
+// 	PEER_TCP_PORT: number,
 // 	FILENAME: string,
 // ) => {
-// 	const url = `http://${MY_IP}:${OTHER_TCP_PORT}/download/${FILENAME}`;
+// 	const url = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
 // 	const outputPath = `${process.cwd()}/receive_files/${FILENAME}`;
 
 // 	http
@@ -28,12 +30,16 @@ import fs from 'fs';
 // };
 
 export const useFileDownloader = (
-	MY_IP: string | undefined,
-	OTHER_TCP_PORT: number,
+	PEER_ID: string,
+	PEER_IP: string,
+	PEER_TCP_PORT: number,
 	FILENAME: string,
 ): Promise<void> => {
-	const url = `http://${MY_IP}:${OTHER_TCP_PORT}/download/${FILENAME}`;
+	const url = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
 	const outputPath = `${process.cwd()}/receive_files/${FILENAME}`;
+
+	const FileID = uuidv4();
+	let progress = 0;
 
 	return new Promise<void>((resolve, reject) => {
 		fetch(url)
@@ -61,9 +67,11 @@ export const useFileDownloader = (
 					}
 					writer.write(value);
 					downloaded += value.length;
-					console.log(
-						`Progress: ${((downloaded / totalLength) * 100).toFixed(2)}%`,
-					);
+
+					progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
+
+					updateTransferProgress(PEER_ID, FileID, progress);
+					// console.log(`Progress: ${progress}%`);
 					pump();
 				};
 
