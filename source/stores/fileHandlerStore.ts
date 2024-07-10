@@ -6,6 +6,7 @@ type TransferInfoType = {
 	[peerID: string]: {
 		[fileID: string]: {
 			progress: number;
+			fileName: string;
 			// fileName: string;
 			// fileSize: number;
 			// downloadedSize: number;
@@ -19,9 +20,13 @@ export const updateTransferProgress = (
 	peerID: string,
 	fileID: string,
 	progress: number,
+	fileName: string,
 ) => {
 	// const currTransferData = $transferInfo.get();
 	// $transferInfo.set({...currTransferData, [peerID]: newPeer});
 
-	$transferInfo.setKey(`${peerID}.${fileID}.progress`, progress);
+	$transferInfo.setKey(`${peerID}.${fileID}`, {
+		progress: progress,
+		fileName: fileName,
+	});
 };

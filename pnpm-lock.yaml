@@ -26,9 +26,6 @@ importers:
       ink-color-pipe:
         specifier: ^3.0.0
         version: 3.0.0(ink@4.4.1(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
-      ink-progress-bar:
-        specifier: ^3.0.0
-        version: 3.0.0
       ink-select-input:
         specifier: ^6.0.0
         version: 6.0.0(ink@4.4.1(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
@@ -497,9 +494,6 @@ packages:
   binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
-
-  blacklist@1.1.4:
-    resolution: {integrity: sha512-DWdfwimA1WQxVC69Vs1Fy525NbYwisMSCdYQmW9zyzOByz9OB/tQwrKZ3T3pbTkuFjnkJFlJuyiDjPiXL5kzew==}
 
   blueimp-md5@2.19.0:
     resolution: {integrity: sha512-DRQrD6gJyy8FbiE4s+bDoXS9hiW3Vbx5uCdwvcCf3zLHL+Iv7LtGHLpr+GZV8rHG8tK766FGYBwRbu8pELTt+w==}
@@ -1357,9 +1351,6 @@ packages:
     peerDependencies:
       ink: '>=3.0.0'
       react: '>=16.8.0'
-
-  ink-progress-bar@3.0.0:
-    resolution: {integrity: sha512-GzByB3uEofqjyWC3VmdhYpBq+kzszu5Nwt/NruTDWa7fbw1E6sx6U1n6Kcsfj9D3qwR17dtC5w9uFVMyRA5HZw==}
 
   ink-select-input@6.0.0:
     resolution: {integrity: sha512-2mCbn1b9xeguA3qJiaf8Sx8W4MM005wACcLKwHWWJmJ8BapjsahmQPuY2U2qyGc817IdWFjNk/K41Vn39UlO4Q==}
@@ -3261,8 +3252,6 @@ snapshots:
 
   binary-extensions@2.3.0: {}
 
-  blacklist@1.1.4: {}
-
   blueimp-md5@2.19.0: {}
 
   body-parser@1.20.2:
@@ -4273,11 +4262,6 @@ snapshots:
       chalk-pipe: 5.1.2
       ink: 4.4.1(@types/react@18.3.3)(react@18.3.1)
       react: 18.3.1
-
-  ink-progress-bar@3.0.0:
-    dependencies:
-      blacklist: 1.1.4
-      prop-types: 15.8.1
 
   ink-select-input@6.0.0(ink@4.4.1(@types/react@18.3.3)(react@18.3.1))(react@18.3.1):
     dependencies:

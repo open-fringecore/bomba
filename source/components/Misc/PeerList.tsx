@@ -5,7 +5,7 @@ import {useFileDownloader} from '../../functions/useFileDownloader.js';
 import {useStore} from '@nanostores/react';
 import {$transferInfo} from '../../stores/fileHandlerStore.js';
 import FileTransferProgress from './FileTransferProgress.js';
-import ProgressBar from 'ink-progress-bar';
+import ProgressBar from './ProgressBar.js';
 
 type PropsType = {
 	peers: ConnectedPeersType;
@@ -57,27 +57,31 @@ export default function PeerList({peers}: PropsType) {
 	return (
 		<Box flexDirection="column" marginTop={1} marginLeft={1}>
 			{Object.keys(peers).map(key => (
-				<Box flexDirection="column">
+				<Box key={key} flexDirection="column">
 					<Box
-						key={key}
 						borderColor={key === peersIds[selectedIndex] ? 'green' : 'black'}
 						borderStyle={key === peersIds[selectedIndex] ? 'bold' : 'single'}
 						paddingX={1}
 					>
-						<Text>{peers[key]?.name}</Text>
-						<Text>{peers[key]?.sendFileNames?.toString()}</Text>
+						<Box flexDirection="column">
+							<Box marginBottom={1}>
+								<Text backgroundColor="green" color="white" bold>
+									{' '}
+									{peers[key]?.name}{' '}
+								</Text>
+							</Box>
+							{transferInfo[key] ? (
+								<FileTransferProgress
+									peerID={key}
+									transferData={transferInfo[key]!}
+								/>
+							) : (
+								<Text dimColor>{peers[key]?.sendFileNames?.toString()}</Text>
+							)}
+						</Box>
 					</Box>
-					<Text>{peers[key]?.name}</Text>
-					{transferInfo[key] && (
-						<FileTransferProgress
-							peerID={key}
-							transferData={transferInfo[key]!}
-						/>
-					)}
 				</Box>
 			))}
-
-			<ProgressBar left={50} percent={70} />
 		</Box>
 	);
 }
