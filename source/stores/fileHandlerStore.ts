@@ -2,16 +2,17 @@ import {deepMap} from 'nanostores';
 import {v4 as uuidv4} from 'uuid';
 import {getFreePort} from '../functions/freePort.js';
 
-type TransferInfoType = {
-	[peerID: string]: {
-		[fileID: string]: {
-			progress: number;
-			fileName: string;
-			// fileName: string;
-			// fileSize: number;
-			// downloadedSize: number;
-		};
+export type SingleTransferInfo = {
+	[fileID: string]: {
+		progress: number;
+		fileName: string;
+		// fileName: string;
+		// fileSize: number;
+		// downloadedSize: number;
 	};
+};
+export type TransferInfoType = {
+	[peerID: string]: SingleTransferInfo;
 };
 
 export const $transferInfo = deepMap<TransferInfoType>({});

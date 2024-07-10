@@ -1,22 +1,22 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
-import {$transferInfo} from '../../stores/fileHandlerStore.js';
+import {
+	$transferInfo,
+	SingleTransferInfo,
+} from '../../stores/fileHandlerStore.js';
 import {listenKeys} from 'nanostores';
 import ProgressBar from './ProgressBar.js';
+import {TaskList, Task} from 'ink-task-list';
+import spinners from 'cli-spinners';
 
 type PropType = {
 	peerID: string;
-	transferData: {
-		[fileID: string]: {
-			progress: number;
-			fileName: string;
-		};
-	};
+	transferData: SingleTransferInfo;
 };
 
 type SingleFileTransferItemType = {
 	progress: number;
-	fileName: string;
+	fileName?: string;
 };
 const SingleFileTransferItem = ({
 	progress,
@@ -24,7 +24,12 @@ const SingleFileTransferItem = ({
 }: SingleFileTransferItemType) => {
 	return (
 		<Box>
-			<ProgressBar left={2} percent={progress} title={fileName} />
+			<ProgressBar left={2} percent={progress} />
+			<Task
+				label={fileName ?? ''}
+				state={progress == 100 ? 'success' : 'loading'}
+				spinner={spinners.dots}
+			/>
 		</Box>
 	);
 };
@@ -37,7 +42,7 @@ const FileTransferProgress = ({peerID, transferData}: PropType) => {
 				<SingleFileTransferItem
 					key={key}
 					progress={transferData[key]?.progress ?? 0}
-					fileName={transferData[key]?.fileName ?? ''}
+					fileName={transferData[key]?.fileName}
 				/>
 			))}
 		</Box>

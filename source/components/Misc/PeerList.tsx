@@ -64,7 +64,7 @@ export default function PeerList({peers}: PropsType) {
 						paddingX={1}
 					>
 						<Box flexDirection="column">
-							<Box marginBottom={1}>
+							<Box>
 								<Text backgroundColor="green" color="white" bold>
 									{' '}
 									{peers[key]?.name}{' '}
@@ -76,7 +76,10 @@ export default function PeerList({peers}: PropsType) {
 									transferData={transferInfo[key]!}
 								/>
 							) : (
-								<Text dimColor>{peers[key]?.sendFileNames?.toString()}</Text>
+								<Text dimColor>
+									{peers[key]?.sendFileNames?.toString()}
+									{'⠀'}
+								</Text>
 							)}
 						</Box>
 					</Box>

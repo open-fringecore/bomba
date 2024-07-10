@@ -4,7 +4,7 @@ import {Box, Text} from 'ink';
 type PropType = {
 	left?: number;
 	percent: number;
-	title: string;
+	title?: string;
 };
 const emptyCharacter = '⠀';
 const fillCharacter = '█';
