@@ -23,8 +23,23 @@ export const useUdpServer = (
 	const {broadcast} = useBroadcast();
 
 	useEffect(() => {
-		const server = dgram.createSocket({type: 'udp4', reuseAddr: true});
-		server.bind(UDP_PORT);
+		const server = dgram.createSocket({
+			type: 'udp4',
+			reuseAddr: true,
+		});
+		server.bind({
+			port: UDP_PORT,
+			address: '0.0.0.0',
+			exclusive: false,
+		});
+		server.setOption(dgram.SOL_SOCKET, dgram.SO_REUSEPORT, true, err => {
+			if (err) {
+				console.error('Error setting SO_REUSEPORT:', err);
+				return;
+			}
+
+			console.log('SO_REUSEPORT option set successfully');
+		});
 
 		const msg: UdpMsgType = {
 			method: 'SELF',
