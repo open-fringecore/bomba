@@ -2,6 +2,7 @@ import dgram from 'dgram';
 import {useEffect} from 'react';
 import useBroadcast from './broadcast.js';
 import {addDiscoveredPeer} from '../stores/peersStore.js';
+import chalk from 'chalk';
 
 type UdpMsgType = {
 	method: string;
@@ -53,7 +54,11 @@ export const useUdpServer = (
 				return;
 			}
 
-			console.log(`<-- Received From: ${data.name}:${data.id}`);
+			console.log(
+				`${chalk.bgRed('<-- Received From:')} ${chalk.underline(data.name)}: ${
+					data.id
+				}`,
+			);
 			// console.log('DATA:', data);
 
 			if (data?.method == 'SELF') {
