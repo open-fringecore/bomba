@@ -1,0 +1,21 @@
+import * as fs from 'fs';
+import {fileURLToPath} from 'url';
+import {dirname, join} from 'path';
+
+export const logToFile = (...data: any[]): void => {
+	const output = data
+		.map(item =>
+			typeof item === 'object' ? JSON.stringify(item, null, 2) : item,
+		)
+		.join(' ');
+
+	const logEntry = `${output}\n`;
+
+	const filePath = `${process.cwd()}/log.txt`;
+
+	fs.appendFile(filePath, logEntry, err => {
+		if (err) {
+			console.error('Failed to write to file:', err);
+		}
+	});
+};

@@ -6,6 +6,7 @@ import {useStore} from '@nanostores/react';
 import {$transferInfo} from '../../stores/fileHandlerStore.js';
 import FileTransferProgress from './FileTransferProgress.js';
 import ProgressBar from './ProgressBar.js';
+import {logToFile} from '../../functions/log.js';
 
 type PropsType = {
 	peers: ConnectedPeersType;
@@ -57,9 +58,9 @@ export default function PeerList({peers}: PropsType) {
 		}
 	});
 
-	// useEffect(() => {
-	// 	console.log('-----------transferInfo----------', transferInfo);
-	// }, [transferInfo]);
+	useEffect(() => {
+		logToFile('-----------transferInfo----------', transferInfo);
+	}, [transferInfo]);
 
 	return (
 		<Box flexDirection="column" marginTop={1} marginLeft={1}>
