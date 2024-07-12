@@ -43,6 +43,7 @@ export const useCommands = () => {
 
 					if (argv.files && argv.files?.length > 0) {
 						$action.set('SEND');
+
 						$sendingFiles.set(argv.files?.map(file => cleanFileName(file)));
 					} else {
 						$action.set('RECEIVE');

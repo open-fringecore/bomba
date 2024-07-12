@@ -7,6 +7,12 @@ import {
 	removeDiscoveredPeer,
 } from '../stores/peersStore.js';
 import {useStore} from '@nanostores/react';
+import {v4 as uuidv4} from 'uuid';
+import {
+	$transferInfo,
+	removeSingleTransferInfo,
+	SingleTransferInfo,
+} from '../stores/fileHandlerStore.js';
 
 export const useActivePeers = () => {
 	const discoveredPeers = useStore($discoveredPeers);
@@ -29,8 +35,24 @@ export const useActivePeers = () => {
 							name: discoveredPeer.name,
 							httpPort: discoveredPeer.httpPort,
 							isSending: data.isSending,
-							sendFileNames: data.sendingFileNames,
 						});
+
+						const {sendingFileNames} = data;
+						if (sendingFileNames) {
+							const peerTransferInfo = sendingFileNames.reduce(
+								(acc: SingleTransferInfo, fileName: string, index: number) => {
+									acc[uuidv4()] = {
+										progress: 0,
+										fileName: fileName,
+										fileSize: 0, // TODO:: Fix
+										downloadedSize: 0,
+									};
+									return acc;
+								},
+								{},
+							);
+							$transferInfo.setKey(`${discoveredPeer.id}`, peerTransferInfo);
+						}
 					}
 					pollingDiscoveredPeers(discoveredPeer, false);
 				})
@@ -39,11 +61,13 @@ export const useActivePeers = () => {
 					// console.log(error);
 					removeConnectedPeer(discoveredPeer.id);
 					removeDiscoveredPeer(discoveredPeer.id);
+					removeSingleTransferInfo(discoveredPeer.id);
 				});
 		},
 		[discoveredPeers],
 	);
 
+	// TODO:: This code might cause issues like calling same peers multiple times
 	useEffect(() => {
 		Object.keys(discoveredPeers).forEach(peerID => {
 			const peer = discoveredPeers[peerID];

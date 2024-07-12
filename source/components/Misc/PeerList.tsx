@@ -33,14 +33,17 @@ export default function PeerList({peers}: PropsType) {
 				return;
 			}
 			const selectedPeer = peers[peerID];
-			const fileNames = selectedPeer?.sendFileNames;
+			const selectedPeerTransferInfo = transferInfo[peerID];
+			const fileNames = selectedPeerTransferInfo
+				? Object.values(selectedPeerTransferInfo).map(file => file.fileName)
+				: [];
 
 			if (!selectedPeer) {
 				console.log('Selected Peer not found');
 				return;
 			}
 
-			// console.log(selectedPeer);
+			console.log(selectedPeer, fileNames);
 
 			fileNames?.forEach(async fileName => {
 				console.log(`Downloading: ${fileName}`);
@@ -53,6 +56,10 @@ export default function PeerList({peers}: PropsType) {
 			});
 		}
 	});
+
+	useEffect(() => {
+		console.log('-----------transferInfo----------', transferInfo);
+	}, [transferInfo]);
 
 	return (
 		<Box flexDirection="column" marginTop={1} marginLeft={1}>
@@ -76,10 +83,7 @@ export default function PeerList({peers}: PropsType) {
 									transferData={transferInfo[key]!}
 								/>
 							) : (
-								<Text dimColor>
-									{peers[key]?.sendFileNames?.toString()}
-									{'⠀'}
-								</Text>
+								<></>
 							)}
 						</Box>
 					</Box>

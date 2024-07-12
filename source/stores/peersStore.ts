@@ -37,7 +37,6 @@ export type ConnectedPeerType = {
 	ip: string;
 	name: string;
 	isSending: boolean;
-	sendFileNames: string[];
 	httpPort: number;
 };
 export type ConnectedPeersType = {

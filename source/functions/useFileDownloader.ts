@@ -62,7 +62,7 @@ export const useFileDownloader = (
 					if (done) {
 						writer.end();
 						console.log('File downloaded successfully.');
-						resolve(); // Resolve the promise when download completes
+						resolve();
 						return;
 					}
 					writer.write(value);
@@ -70,17 +70,22 @@ export const useFileDownloader = (
 
 					progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
 
-					updateTransferProgress(PEER_ID, FileID, progress, FILENAME);
+					updateTransferProgress(PEER_ID, FileID, {
+						progress: progress,
+						fileName: FILENAME,
+						fileSize: totalLength,
+						downloadedSize: downloaded,
+					});
 					// console.log(`Progress: ${progress}%`);
 					pump();
 				};
 
 				pump();
 
-				writer.on('error', reject); // Handle writer errors
+				writer.on('error', reject);
 			})
 			.catch(err => {
-				reject(err); // Forward fetch errors
+				reject(err);
 			});
 	});
 };
