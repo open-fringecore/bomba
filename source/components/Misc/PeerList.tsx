@@ -35,13 +35,14 @@ export default function PeerList({peers}: PropsType) {
 				return;
 			}
 			const selectedPeer = peers[peerID];
-			const selectedPeerTransferInfo = transferInfo[peerID] ?? {};
-			// const fileNames = selectedPeerTransferInfo
-			// 	? Object.values(selectedPeerTransferInfo).map(file => file.fileName)
-			// 	: [];
+			const selectedPeerTransferInfo = transferInfo[peerID];
 
 			if (!selectedPeer) {
 				console.log('Selected Peer not found');
+				return;
+			}
+			if (!selectedPeerTransferInfo) {
+				console.log('⭕ No sending files found ⭕');
 				return;
 			}
 

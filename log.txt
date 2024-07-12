@@ -712,3 +712,285 @@ transferInfo Danny {
   }
 }
 〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Danny {}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Spawn {}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Danny {}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Spawn {}
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "fileName": "Brain.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "fileName": "explosion.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    }
+  }
+}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Ghost {}
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "fileName": "Brain.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "fileName": "explosion.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    }
+  }
+}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "fileName": "Brain.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 23.76,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 130865
+    }
+  }
+}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "fileName": "Brain.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 35.66,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 196401
+    }
+  }
+}
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "fileName": "Brain.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 47.56,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 261937
+    }
+  }
+}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "fileName": "Brain.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 59.45,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 327473
+    }
+  }
+}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "fileName": "Brain.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 71.35,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 393009
+    }
+  }
+}
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "fileName": "Brain.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 83.25,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 458545
+    }
+  }
+}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "fileName": "Brain.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 95.15,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 524081
+    }
+  }
+}
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "fileName": "Brain.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 100,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 550807
+    }
+  }
+}
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "fileName": "Brain.png",
+      "fileSize": 99999,
+      "progress": 0,
+      "downloadedSize": 7005
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 100,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 550807
+    }
+  }
+}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "progress": 63.78,
+      "fileName": "Brain.png",
+      "fileSize": 307944,
+      "downloadedSize": 196405
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 100,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 550807
+    }
+  }
+}
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "progress": 42.5,
+      "fileName": "Brain.png",
+      "fileSize": 307944,
+      "downloadedSize": 130869
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 100,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 550807
+    }
+  }
+}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "progress": 85.06,
+      "fileName": "Brain.png",
+      "fileSize": 307944,
+      "downloadedSize": 261941
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 100,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 550807
+    }
+  }
+}
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "progress": 100,
+      "fileName": "Brain.png",
+      "fileSize": 307944,
+      "downloadedSize": 307944
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 100,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 550807
+    }
+  }
+}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
+transferInfo Danny {
+  "ea0b9d9c-edc3-46de-95c2-15127d76aab7": {
+    "a7eedf30-698a-4c53-a55b-4883c79760a1": {
+      "progress": 100,
+      "fileName": "Brain.png",
+      "fileSize": 307944,
+      "downloadedSize": 307944
+    },
+    "8f3a06d4-f443-49da-b8e8-634688993411": {
+      "progress": 100,
+      "fileName": "explosion.png",
+      "fileSize": 550807,
+      "downloadedSize": 550807
+    }
+  }
+}
+〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄
