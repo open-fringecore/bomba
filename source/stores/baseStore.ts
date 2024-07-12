@@ -1,4 +1,4 @@
-import {atom} from 'nanostores';
+import {atom, map} from 'nanostores';
 import {v4 as uuidv4} from 'uuid';
 import {getFreePort} from '../functions/freePort.js';
 
@@ -11,7 +11,7 @@ type InfoType = {
 	HTTP_PORT: number;
 };
 
-export const $baseInfo = atom<InfoType>({
+export const $baseInfo = map<InfoType>({
 	MY_ID: uuidv4(),
 	MY_IP: null,
 	MY_NAME: null,

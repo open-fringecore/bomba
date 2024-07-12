@@ -9,8 +9,10 @@ function getComputerName(): string {
 
 const useComputerName = () => {
 	useEffect(() => {
-		const name = getComputerName();
-		$baseInfo.set({...$baseInfo.get(), MY_NAME: name});
+		if (!$baseInfo.get().MY_NAME) {
+			const name = getComputerName();
+			$baseInfo.set({...$baseInfo.get(), MY_NAME: name});
+		}
 	}, []);
 
 	return null;
