@@ -57,9 +57,9 @@ export default function PeerList({peers}: PropsType) {
 		}
 	});
 
-	useEffect(() => {
-		console.log('-----------transferInfo----------', transferInfo);
-	}, [transferInfo]);
+	// useEffect(() => {
+	// 	console.log('-----------transferInfo----------', transferInfo);
+	// }, [transferInfo]);
 
 	return (
 		<Box flexDirection="column" marginTop={1} marginLeft={1}>

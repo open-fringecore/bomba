@@ -13,6 +13,7 @@ import {
 	removeSingleTransferInfo,
 	SingleTransferInfo,
 } from '../stores/fileHandlerStore.js';
+import {SingleSendingFileType} from '../stores/baseStore.js';
 
 export const useActivePeers = () => {
 	const discoveredPeers = useStore($discoveredPeers);
@@ -26,7 +27,7 @@ export const useActivePeers = () => {
 			)
 				.then(response => response.json())
 				.then(data => {
-					// console.log('🟢 Peer Active 🟢');
+					console.log('🟢 Peer Active 🟢', data);
 
 					if (is_first_call) {
 						addConnectedPeer({
@@ -39,18 +40,18 @@ export const useActivePeers = () => {
 
 						const {sendingFileNames} = data;
 						if (sendingFileNames) {
-							const peerTransferInfo = sendingFileNames.reduce(
-								(acc: SingleTransferInfo, fileName: string, index: number) => {
-									acc[uuidv4()] = {
+							const peerTransferInfo = Object.entries(sendingFileNames)?.reduce(
+								(acc: SingleTransferInfo, [key, value]) => {
+									acc[key] = {
+										...(value as SingleSendingFileType),
 										progress: 0,
-										fileName: fileName,
-										fileSize: 0, // TODO:: Fix
-										downloadedSize: 0,
+										downloadedSize: 7005,
 									};
 									return acc;
 								},
 								{},
 							);
+
 							$transferInfo.setKey(`${discoveredPeer.id}`, peerTransferInfo);
 						}
 					}

@@ -3,8 +3,14 @@ import yargs, {Arguments, Argv} from 'yargs';
 import {hideBin} from 'yargs/helpers';
 import express from 'express';
 import {useEffect, useMemo} from 'react';
-import {$action, $baseInfo, $sendingFiles} from '../stores/baseStore.js';
-import {cleanFileName} from './helper.js';
+import {
+	$action,
+	$baseInfo,
+	$sendingFiles,
+	SendingFilesType,
+} from '../stores/baseStore.js';
+import {cleanFileName, getFileSize} from './helper.js';
+import {v4 as uuidv4} from 'uuid';
 
 type DefaultArgvType = {
 	files?: string[];
@@ -44,7 +50,23 @@ export const useCommands = () => {
 					if (argv.files && argv.files?.length > 0) {
 						$action.set('SEND');
 
-						$sendingFiles.set(argv.files?.map(file => cleanFileName(file)));
+						// $sendingFiles.set(argv.files?.map(file => cleanFileName(file)));
+						const peerTransferInfo = argv.files?.reduce(
+							(
+								acc: SendingFilesType,
+								uncleanFileName: string,
+								index: number,
+							) => {
+								const fileName = cleanFileName(uncleanFileName);
+								acc[uuidv4()] = {
+									fileName: fileName,
+									fileSize: getFileSize(fileName),
+								};
+								return acc;
+							},
+							{},
+						);
+						$sendingFiles.set(peerTransferInfo);
 					} else {
 						$action.set('RECEIVE');
 					}

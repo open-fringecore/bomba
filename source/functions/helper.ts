@@ -26,3 +26,8 @@ export const hasNullValue = (obj: {[key: string]: any}): boolean => {
 export const cleanFileName = (name: string) => {
 	return name.replace(/[\\/]/g, '').replace(/^\./, '');
 };
+
+// TODO:: Fix
+export const getFileSize = (fileName: string) => {
+	return 99999;
+};

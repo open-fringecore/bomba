@@ -21,4 +21,12 @@ export const $baseInfo = map<InfoType>({
 });
 
 export const $action = atom<'SEND' | 'RECEIVE' | 'NOTHING'>('NOTHING');
-export const $sendingFiles = atom<string[] | null>(null);
+
+export type SingleSendingFileType = {
+	fileName: string;
+	fileSize: number;
+};
+export type SendingFilesType = {
+	[fileID: string]: SingleSendingFileType;
+};
+export const $sendingFiles = atom<SendingFilesType | null>(null);

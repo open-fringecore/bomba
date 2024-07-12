@@ -2,12 +2,13 @@ import express from 'express';
 import {useEffect} from 'react';
 import fs from 'fs';
 import path from 'path';
+import {SendingFilesType} from '../stores/baseStore.js';
 
 export const useHttpServer = (
 	MY_IP: string,
 	TCP_PORT: number,
 	isSending: boolean,
-	sendingFileNames: string[] | null,
+	sendingFileNames: SendingFilesType | null,
 ) => {
 	useEffect(() => {
 		const app = express();
