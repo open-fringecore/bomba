@@ -7,6 +7,7 @@ import {$transferInfo} from '../../stores/fileHandlerStore.js';
 import FileTransferProgress from './FileTransferProgress.js';
 import ProgressBar from './ProgressBar.js';
 import {logToFile} from '../../functions/log.js';
+import {$baseInfo} from '../../stores/baseStore.js';
 
 type PropsType = {
 	peers: ConnectedPeersType;
@@ -34,32 +35,35 @@ export default function PeerList({peers}: PropsType) {
 				return;
 			}
 			const selectedPeer = peers[peerID];
-			const selectedPeerTransferInfo = transferInfo[peerID];
-			const fileNames = selectedPeerTransferInfo
-				? Object.values(selectedPeerTransferInfo).map(file => file.fileName)
-				: [];
+			const selectedPeerTransferInfo = transferInfo[peerID] ?? {};
+			// const fileNames = selectedPeerTransferInfo
+			// 	? Object.values(selectedPeerTransferInfo).map(file => file.fileName)
+			// 	: [];
 
 			if (!selectedPeer) {
 				console.log('Selected Peer not found');
 				return;
 			}
 
-			console.log(selectedPeer, fileNames);
+			// console.log(selectedPeer, fileNames);
 
-			fileNames?.forEach(async fileName => {
-				console.log(`Downloading: ${fileName}`);
-				await useFileDownloader(
-					selectedPeer.id,
-					selectedPeer.ip,
-					selectedPeer.httpPort,
-					fileName,
-				);
-			});
+			Object.entries(selectedPeerTransferInfo)?.forEach(
+				async ([key, value]) => {
+					console.log(`Downloading: ${value.fileName}`);
+					await useFileDownloader(
+						selectedPeer.id,
+						selectedPeer.ip,
+						selectedPeer.httpPort,
+						key,
+						value.fileName,
+					);
+				},
+			);
 		}
 	});
 
 	useEffect(() => {
-		logToFile('-----------transferInfo----------', transferInfo);
+		logToFile('transferInfo', $baseInfo.get().MY_NAME, transferInfo);
 	}, [transferInfo]);
 
 	return (

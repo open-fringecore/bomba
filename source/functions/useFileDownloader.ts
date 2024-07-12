@@ -33,12 +33,13 @@ export const useFileDownloader = (
 	PEER_ID: string,
 	PEER_IP: string,
 	PEER_TCP_PORT: number,
+	FILEID: string,
 	FILENAME: string,
 ): Promise<void> => {
 	const url = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
 	const outputPath = `${process.cwd()}/receive_files/${FILENAME}`;
 
-	const FileID = uuidv4();
+	// const FileID = uuidv4();
 	let progress = 0;
 
 	return new Promise<void>((resolve, reject) => {
@@ -70,7 +71,7 @@ export const useFileDownloader = (
 
 					progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
 
-					updateTransferProgress(PEER_ID, FileID, {
+					updateTransferProgress(PEER_ID, FILEID, {
 						progress: progress,
 						fileName: FILENAME,
 						fileSize: totalLength,
