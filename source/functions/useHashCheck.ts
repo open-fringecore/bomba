@@ -44,10 +44,12 @@ export const useHashCheck = async (
 			const sendFileHash = data.hash;
 			const receivedFileHash = await hashFile(outputPath);
 
-			if (sendFileHash != receivedFileHash) {
-				updateTransferInfoState(PEER_ID, FILEID, 'ERROR');
-			} else {
+			if (sendFileHash === receivedFileHash) {
+				console.log('HASH MATCHED');
 				updateTransferInfoState(PEER_ID, FILEID, 'SUCCESS');
+			} else {
+				console.log("HASH DIDN'T MATCHED");
+				updateTransferInfoState(PEER_ID, FILEID, 'ERROR');
 			}
 			resolve();
 		} catch (err) {
