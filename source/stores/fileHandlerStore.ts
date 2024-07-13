@@ -42,6 +42,14 @@ export const updateTransferProgress = (
 	});
 };
 
+export const updateTransferInfoState = (
+	peerID: string,
+	fileID: string,
+	state: TransferStates,
+) => {
+	$transferInfo.setKey(`${peerID}.${fileID}.state`, state);
+};
+
 export const removeSingleTransferInfo = (id: string) => {
 	const currTransferInfo = $transferInfo.get();
 

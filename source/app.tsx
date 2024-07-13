@@ -14,6 +14,8 @@ type Props = {
 };
 
 export default function App({name = 'Stranger'}: Props) {
+	console.clear();
+
 	useCommands();
 	useLocalIP();
 	useComputerName();

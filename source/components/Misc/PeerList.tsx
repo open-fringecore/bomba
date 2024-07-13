@@ -8,6 +8,7 @@ import FileTransfer from './FileTransfer.js';
 import ProgressBar from './ProgressBar.js';
 import {logToFile} from '../../functions/log.js';
 import {$baseInfo} from '../../stores/baseStore.js';
+import {useHashCheck} from '../../functions/useHashCheck.js';
 
 type PropsType = {
 	peers: ConnectedPeersType;
@@ -52,6 +53,13 @@ export default function PeerList({peers}: PropsType) {
 				async ([key, value]) => {
 					// console.log(`Downloading: ${value.fileName}`);
 					await useFileDownloader(
+						selectedPeer.id,
+						selectedPeer.ip,
+						selectedPeer.httpPort,
+						key,
+						value.fileName,
+					);
+					await useHashCheck(
 						selectedPeer.id,
 						selectedPeer.ip,
 						selectedPeer.httpPort,

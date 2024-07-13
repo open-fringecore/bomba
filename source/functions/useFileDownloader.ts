@@ -37,7 +37,7 @@ export const useFileDownloader = (
 	FILENAME: string,
 ): Promise<void> => {
 	const url = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
-	const outputPath = `${process.cwd()}/receive_files/${FILENAME}`;
+	const outputPath = `${process.cwd()}/receive_files/${FILENAME}`; // TODO:: Fix
 
 	// const FileID = uuidv4();
 	let progress = 0;
@@ -85,11 +85,6 @@ export const useFileDownloader = (
 				pump();
 
 				writer.on('error', reject);
-			})
-			.then(() => {
-				console.log(
-					'-----------------------------------------------------------',
-				);
 			})
 			.catch(err => {
 				reject(err);

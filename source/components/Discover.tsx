@@ -11,8 +11,6 @@ import {useHttpServer} from '../functions/httpServer.js';
 import {useActivePeers} from '../functions/useActivePeers.js';
 
 const Discover = () => {
-	console.clear();
-
 	const baseInfo = useStore($baseInfo);
 	const connectedPeers = useStore($connectedPeers);
 	const action = useStore($action);
