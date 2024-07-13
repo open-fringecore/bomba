@@ -14,14 +14,11 @@ type PropType = {
 	transferData: SingleTransferInfo;
 };
 
-type SingleFileTransferItemType = {
+type SingleFileTransferType = {
 	progress: number;
 	fileName?: string;
 };
-const SingleFileTransferItem = ({
-	progress,
-	fileName,
-}: SingleFileTransferItemType) => {
+const SingleFileTransfer = ({progress, fileName}: SingleFileTransferType) => {
 	return (
 		<Box>
 			<ProgressBar left={2} percent={progress} />
@@ -34,12 +31,12 @@ const SingleFileTransferItem = ({
 	);
 };
 
-const FileTransferProgress = ({peerID, transferData}: PropType) => {
+const FileTransfer = ({peerID, transferData}: PropType) => {
 	return (
 		<Box flexDirection="column">
 			<Text>Receiving Files...</Text>
 			{Object.keys(transferData).map(key => (
-				<SingleFileTransferItem
+				<SingleFileTransfer
 					key={key}
 					progress={transferData[key]?.progress ?? 0}
 					fileName={transferData[key]?.fileName}
@@ -49,4 +46,4 @@ const FileTransferProgress = ({peerID, transferData}: PropType) => {
 	);
 };
 
-export default FileTransferProgress;
+export default FileTransfer;

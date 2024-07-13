@@ -4,7 +4,7 @@ import {ConnectedPeersType} from '../../stores/peersStore.js';
 import {useFileDownloader} from '../../functions/useFileDownloader.js';
 import {useStore} from '@nanostores/react';
 import {$transferInfo} from '../../stores/fileHandlerStore.js';
-import FileTransferProgress from './FileTransferProgress.js';
+import FileTransfer from './FileTransfer.js';
 import ProgressBar from './ProgressBar.js';
 import {logToFile} from '../../functions/log.js';
 import {$baseInfo} from '../../stores/baseStore.js';
@@ -84,10 +84,7 @@ export default function PeerList({peers}: PropsType) {
 								</Text>
 							</Box>
 							{transferInfo[key] ? (
-								<FileTransferProgress
-									peerID={key}
-									transferData={transferInfo[key]!}
-								/>
+								<FileTransfer peerID={key} transferData={transferInfo[key]!} />
 							) : (
 								<></>
 							)}
