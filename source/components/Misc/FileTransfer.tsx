@@ -19,6 +19,8 @@ type SingleFileTransferType = {
 	progress: number;
 	fileName: string;
 	state: TransferStates;
+	isStartedTransferring: boolean;
+	isTransferComplete: boolean;
 };
 export type TaskStates = {
 	[key: string]: 'pending' | 'success' | 'error' | 'success' | 'loading';
@@ -28,6 +30,8 @@ const SingleFileTransfer = ({
 	progress,
 	fileName,
 	state,
+	isStartedTransferring,
+	isTransferComplete,
 }: SingleFileTransferType) => {
 	const taskState: TaskStates = {
 		DEFAULT: 'pending',
@@ -38,7 +42,9 @@ const SingleFileTransfer = ({
 
 	return (
 		<Box>
-			{state != 'DEFAULT' && <ProgressBar left={2} percent={progress} />}
+			{isStartedTransferring && !isTransferComplete && (
+				<ProgressBar left={2} percent={progress} />
+			)}
 			<Task
 				label={fileName ?? ''}
 				state={taskState[state]}
@@ -49,15 +55,52 @@ const SingleFileTransfer = ({
 };
 
 const FileTransfer = ({peerID, transferData}: PropType) => {
+	const totalDefault = useMemo(
+		() =>
+			Object.keys(transferData)?.reduce((acc, key) => {
+				const state = transferData[key]?.state ?? 'DEFAULT';
+				if (['DEFAULT'].includes(state)) {
+					return acc + 1;
+				} else {
+					return acc;
+				}
+			}, 0),
+		[transferData],
+	);
+	const totalComplete = useMemo(
+		() =>
+			Object.keys(transferData)?.reduce((acc, key) => {
+				const state = transferData[key]?.state ?? 'DEFAULT';
+				if (['SUCCESS', 'ERROR'].includes(state)) {
+					return acc + 1;
+				} else {
+					return acc;
+				}
+			}, 0),
+		[transferData],
+	);
+	const isStartedTransferring =
+		totalDefault !== Object.keys(transferData)?.length;
+	const isTransferComplete =
+		totalComplete === Object.keys(transferData)?.length;
+
 	return (
 		<Box flexDirection="column" marginTop={1}>
-			<Text dimColor>Receiving Files...</Text>
+			<Text dimColor={true}>
+				{isTransferComplete
+					? 'Files Transfer Complete 🎉'
+					: isStartedTransferring
+					? 'Receiving Files...'
+					: 'Files'}
+			</Text>
 			{Object.keys(transferData).map(key => (
 				<SingleFileTransfer
 					key={key}
 					progress={transferData[key]?.progress ?? 0}
 					fileName={transferData[key]?.fileName!}
 					state={transferData[key]?.state!}
+					isStartedTransferring={isStartedTransferring}
+					isTransferComplete={isTransferComplete}
 				/>
 			))}
 		</Box>
