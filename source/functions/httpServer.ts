@@ -82,7 +82,7 @@ export const useHttpServer = (
 			try {
 				const hash = await hashFile(filePath);
 				console.log(`Hash of the file is: ${hash}`);
-				return res.status(400).json({msg: 'Hash Successful!', hash});
+				return res.status(200).json({msg: 'Hash Successful!', hash});
 			} catch (err) {
 				console.error('Error hashing file:', err);
 				return res.status(400).json({msg: 'Hash Failed!'});
