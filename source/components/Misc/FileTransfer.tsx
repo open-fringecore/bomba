@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
 import {
 	$transferInfo,
-	SingleTransferInfo,
+	SinglePeerTransferInfo,
 	TransferStates,
 } from '../../stores/fileHandlerStore.js';
 import {listenKeys} from 'nanostores';
@@ -12,7 +12,7 @@ import spinners from 'cli-spinners';
 
 type PropType = {
 	peerID: string;
-	transferData: SingleTransferInfo;
+	transferData: SinglePeerTransferInfo;
 };
 
 type SingleFileTransferType = {

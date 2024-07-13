@@ -1,4 +1,6 @@
 import os from 'os';
+import crypto from 'crypto';
+import fs from 'fs';
 
 export function getRandomBanglaName() {
 	const names = [
@@ -30,4 +32,23 @@ export const cleanFileName = (name: string) => {
 // TODO:: Fix
 export const getFileSize = (fileName: string) => {
 	return 99999;
+};
+
+export const hashFile = (filePath: string) => {
+	return new Promise((resolve, reject) => {
+		const hash = crypto.createHash('sha256');
+		const stream = fs.createReadStream(filePath);
+
+		stream.on('data', chunk => {
+			hash.update(chunk);
+		});
+
+		stream.on('end', () => {
+			resolve(hash.digest('hex'));
+		});
+
+		stream.on('error', err => {
+			reject(err);
+		});
+	});
 };

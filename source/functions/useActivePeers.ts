@@ -11,7 +11,7 @@ import {v4 as uuidv4} from 'uuid';
 import {
 	$transferInfo,
 	removeSingleTransferInfo,
-	SingleTransferInfo,
+	SinglePeerTransferInfo,
 } from '../stores/fileHandlerStore.js';
 import {SingleSendingFileType} from '../stores/baseStore.js';
 
@@ -41,7 +41,7 @@ export const useActivePeers = () => {
 						const {sendingFileNames} = data;
 						if (sendingFileNames) {
 							const peerTransferInfo = Object.entries(sendingFileNames)?.reduce(
-								(acc: SingleTransferInfo, [key, value]) => {
+								(acc: SinglePeerTransferInfo, [key, value]) => {
 									acc[key] = {
 										...(value as SingleSendingFileType),
 										state: 'DEFAULT',

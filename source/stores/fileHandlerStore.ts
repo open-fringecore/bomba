@@ -3,17 +3,19 @@ import {v4 as uuidv4} from 'uuid';
 import {getFreePort} from '../functions/freePort.js';
 
 export type TransferStates = 'DEFAULT' | 'TRANSFERRING' | 'ERROR' | 'SUCCESS';
+
 export type SingleTransferInfo = {
-	[fileID: string]: {
-		state: TransferStates;
-		progress: number;
-		fileName: string;
-		fileSize: number;
-		downloadedSize: number;
-	};
+	state: TransferStates;
+	progress: number;
+	fileName: string;
+	fileSize: number;
+	downloadedSize: number;
+};
+export type SinglePeerTransferInfo = {
+	[fileID: string]: SingleTransferInfo;
 };
 export type TransferInfoType = {
-	[peerID: string]: SingleTransferInfo;
+	[peerID: string]: SinglePeerTransferInfo;
 };
 
 export const $transferInfo = deepMap<TransferInfoType>({});
@@ -21,13 +23,7 @@ export const $transferInfo = deepMap<TransferInfoType>({});
 export const updateTransferProgress = (
 	peerID: string,
 	fileID: string,
-	info: {
-		state: TransferStates;
-		progress: number;
-		fileName: string;
-		fileSize: number;
-		downloadedSize: number;
-	},
+	info: SingleTransferInfo,
 ) => {
 	// const currTransferData = $transferInfo.get();
 	// $transferInfo.set({...currTransferData, [peerID]: newPeer});
