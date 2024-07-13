@@ -50,7 +50,7 @@ export default function PeerList({peers}: PropsType) {
 
 			Object.entries(selectedPeerTransferInfo)?.forEach(
 				async ([key, value]) => {
-					console.log(`Downloading: ${value.fileName}`);
+					// console.log(`Downloading: ${value.fileName}`);
 					await useFileDownloader(
 						selectedPeer.id,
 						selectedPeer.ip,

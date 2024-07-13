@@ -62,7 +62,7 @@ export const useFileDownloader = (
 					const {done, value} = await reader.read();
 					if (done) {
 						writer.end();
-						console.log('File downloaded successfully.');
+						// console.log('File downloaded successfully.');
 						resolve();
 						return;
 					}
@@ -72,6 +72,7 @@ export const useFileDownloader = (
 					progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
 
 					updateTransferProgress(PEER_ID, FILEID, {
+						state: progress < 100 ? 'TRANSFERRING' : 'SUCCESS',
 						progress: progress,
 						fileName: FILENAME,
 						fileSize: totalLength,

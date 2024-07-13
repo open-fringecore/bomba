@@ -44,6 +44,7 @@ export const useActivePeers = () => {
 								(acc: SingleTransferInfo, [key, value]) => {
 									acc[key] = {
 										...(value as SingleSendingFileType),
+										state: 'DEFAULT',
 										progress: 0,
 										downloadedSize: 7005,
 									};
