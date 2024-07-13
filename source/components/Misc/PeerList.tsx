@@ -83,10 +83,8 @@ export default function PeerList({peers}: PropsType) {
 									{peers[key]?.name}{' '}
 								</Text>
 							</Box>
-							{transferInfo[key] ? (
+							{transferInfo[key] && (
 								<FileTransfer peerID={key} transferData={transferInfo[key]!} />
-							) : (
-								<></>
 							)}
 						</Box>
 					</Box>
