@@ -61,12 +61,21 @@ export const useUdpServer = (
 				return;
 			}
 
-			console.log(
-				`${chalk.bgRed('<-- Received From:')} ${chalk.underline(data.name)}: ${
-					data.id
-				}`,
-			);
 			// console.log('DATA:', data);
+			// ! DEBUGGING...
+			if (data?.isBroadcast) {
+				console.log(
+					`${chalk.bgYellow('<-- Broadcasted From:')} ${chalk.underline(
+						data.name,
+					)}: ${data.id?.slice(-5)}`,
+				);
+			} else {
+				console.log(
+					`${chalk.bgRed('<-- Received From:')} ${chalk.underline(
+						data.name,
+					)}: ${data.id?.slice(-5)}`,
+				);
+			}
 
 			if (data?.method == 'SELF') {
 				const isAlreadyAdded = !addDiscoveredPeer({
