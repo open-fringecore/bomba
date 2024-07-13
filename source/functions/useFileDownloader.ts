@@ -71,20 +71,25 @@ export const useFileDownloader = (
 
 					progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
 
+					// console.log(`Progress: ${progress}%`);
 					updateTransferProgress(PEER_ID, FILEID, {
-						state: progress < 100 ? 'TRANSFERRING' : 'SUCCESS',
+						state: progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
 						progress: progress,
 						fileName: FILENAME,
 						fileSize: totalLength,
 						downloadedSize: downloaded,
 					});
-					// console.log(`Progress: ${progress}%`);
 					pump();
 				};
 
 				pump();
 
 				writer.on('error', reject);
+			})
+			.then(() => {
+				console.log(
+					'-----------------------------------------------------------',
+				);
 			})
 			.catch(err => {
 				reject(err);

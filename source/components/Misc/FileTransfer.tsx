@@ -36,6 +36,7 @@ const SingleFileTransfer = ({
 	const taskState: TaskStates = {
 		DEFAULT: 'pending',
 		TRANSFERRING: 'loading',
+		TRANSFERRED: 'loading',
 		ERROR: 'error',
 		SUCCESS: 'success',
 	};
