@@ -8,7 +8,9 @@ import {
 import {listenKeys} from 'nanostores';
 import ProgressBar from './ProgressBar.js';
 import {TaskList, Task} from 'ink-task-list';
+import cliSpinners from 'cli-spinners';
 import {Spinner, spinners} from './Spinner.js';
+import CustomTask from './CustomTask.js';
 
 type PropType = {
 	peerID: string;
@@ -44,20 +46,14 @@ const SingleFileTransfer = ({
 	return (
 		<Box>
 			{isStartedTransferring && !isTransferComplete && (
-				<ProgressBar left={2} percent={progress} />
+				<ProgressBar left={1} percent={progress} />
 			)}
 			{/* <Task
 				label={fileName ?? ''}
 				state={taskState[state]}
-				spinner={spinners.dots}
+				spinner={cliSpinners.dots}
 			/> */}
-			{/* <Text>
-				<Text>✔</Text>
-				<Text>
-					<Spinner frames={spinners.dots} />
-				</Text>
-				<Text>{fileName}</Text>
-			</Text> */}
+			<CustomTask label={fileName ?? ''} state={taskState[state]} />
 		</Box>
 	);
 };

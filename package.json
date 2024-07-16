@@ -7,9 +7,10 @@
 	},
 	"type": "module",
 	"engines": {
-		"node": ">=16"
+		"node": ">=18"
 	},
 	"scripts": {
+		"node-version": "node -v",
 		"build": "tsc",
 		"watch": "tsc --watch",
 		"start": "node ./dist/cli.js",
@@ -70,5 +71,8 @@
 			"react/prop-types": "off"
 		}
 	},
-	"prettier": "@vdemedes/prettier-config"
+	"prettier": "@vdemedes/prettier-config",
+	"volta": {
+		"node": "20.15.1"
+	}
 }

@@ -48,7 +48,7 @@ export const Spinner = ({frames, color = 'yellow'}: PropType) => {
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setIndex(currentIndex => (currentIndex + 1) % frames.length);
-		}, 100);
+		}, 50);
 
 		return () => clearInterval(timer);
 	}, []);
