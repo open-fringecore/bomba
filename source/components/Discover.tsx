@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Spacer, Text} from 'ink';
-import {Spinner} from './Misc/Spinner.js';
+import {Spinner, spinners} from './Misc/Spinner.js';
 import {useStore} from '@nanostores/react';
 import {$action, $baseInfo, $sendingFiles} from '../stores/baseStore.js';
 import {$connectedPeers} from '../stores/peersStore.js';
@@ -46,7 +46,8 @@ const Discover = () => {
 	return (
 		<Box flexDirection="column">
 			<Text>
-				<Spinner /> {action == 'SEND' ? 'Sending' : 'Receiving'}
+				<Spinner frames={spinners.dotsRound} color="magenta" />{' '}
+				{action == 'SEND' ? 'Sending' : 'Receiving'}
 			</Text>
 
 			{/* <Box borderColor={'red'} borderStyle={'double'} paddingX={1}>

@@ -1,15 +1,48 @@
 import React, {useState, useEffect} from 'react';
 import {render, Text} from 'ink';
 
-export const Spinner = () => {
-	// const frames = "['-', '\\', '|', '/']";
-	const frames = ['⢎⡰', '⢎⡡', '⢎⡑', '⢎⠱', '⠎⡱', '⢊⡱', '⢌⡱', '⢆⡱'];
-	// const frames = ['▁', '▃', '▄', '▅', '▆', '▇', '█', '▇', '▆', '▅', '▄', '▃'];
-	// const frames = ['⠁', '⠂', '⠄', '⡀', '⢀', '⠠', '⠐', '⠈'];
-	// const frames = ['◰', '◳', '◲', '◱'];
-	// const frames = ['▉', '▊', '▋', '▌', '▍', '▎', '▏', '▎', '▍', '▌', '▋', '▊', '▉'];
-	// const frames = ['◡◡', '⊙⊙', '◠◠'];
+const dashSlash = ['-', '\\', '|', '/'];
+const dotsRound = ['⢎⡰', '⢎⡡', '⢎⡑', '⢎⠱', '⠎⡱', '⢊⡱', '⢌⡱', '⢆⡱'];
+const dots = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+const dotsMore = ['⣷', '⣯', '⣟', '⡿', '⢿', '⣻', '⣽', '⣾'];
+const dotsMoreReverse = ['⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'];
+const upDownBar = ['▁', '▃', '▄', '▅', '▆', '▇', '█', '▇', '▆', '▅', '▄', '▃'];
+const upDownDot = ['⠁', '⠂', '⠄', '⡀', '⢀', '⠠', '⠐', '⠈'];
+const boxInBox = ['◰', '◳', '◲', '◱'];
+const leftRightBar = [
+	'▉',
+	'▊',
+	'▋',
+	'▌',
+	'▍',
+	'▎',
+	'▏',
+	'▎',
+	'▍',
+	'▌',
+	'▋',
+	'▊',
+	'▉',
+];
+const eye = ['◡◡', '⊙⊙', '◠◠'];
+export const spinners = {
+	dashSlash,
+	dotsRound,
+	dots,
+	dotsMore,
+	dotsMoreReverse,
+	upDownBar,
+	upDownDot,
+	boxInBox,
+	leftRightBar,
+	eye,
+};
 
+type PropType = {
+	frames: string[];
+	color?: string;
+};
+export const Spinner = ({frames, color = 'yellow'}: PropType) => {
 	const [index, setIndex] = useState(0);
 
 	useEffect(() => {
@@ -20,5 +53,5 @@ export const Spinner = () => {
 		return () => clearInterval(timer);
 	}, []);
 
-	return <Text color="green">{frames[index]}</Text>;
+	return <Text color={color}>{frames[index]}</Text>;
 };
