@@ -36,7 +36,7 @@ export default function PeerList({peers}: PropsType) {
 				return;
 			}
 			const selectedPeer = peers[peerID];
-			const selectedPeerTransferInfo = transferInfo[peerID];
+			const selectedPeerTransferInfo = transferInfo[peerID]?.files;
 
 			if (!selectedPeer) {
 				console.log('Selected Peer not found');
@@ -71,9 +71,9 @@ export default function PeerList({peers}: PropsType) {
 		}
 	});
 
-	useEffect(() => {
-		logToFile('transferInfo', $baseInfo.get().MY_NAME, transferInfo);
-	}, [transferInfo]);
+	// useEffect(() => {
+	// 	logToFile('transferInfo', $baseInfo.get().MY_NAME, transferInfo);
+	// }, [transferInfo]);
 
 	return (
 		<Box flexDirection="column" marginTop={1} marginLeft={1}>

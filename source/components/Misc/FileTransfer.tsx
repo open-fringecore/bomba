@@ -1,92 +1,36 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
 import {
-	$transferInfo,
-	SinglePeerTransferInfo,
-	TransferStates,
+	SingleTransferInfo,
+	TransferFiles,
 } from '../../stores/fileHandlerStore.js';
-import {listenKeys} from 'nanostores';
-import ProgressBar from './ProgressBar.js';
-import {TaskList, Task} from 'ink-task-list';
-import cliSpinners from 'cli-spinners';
-import {Spinner, spinners} from './Spinner.js';
-import CustomTask from './CustomTask.js';
+import SingleFileTransfer from './SingleFileTransfer.js';
 
 type PropType = {
 	peerID: string;
-	transferData: SinglePeerTransferInfo;
+	transferData: SingleTransferInfo;
 };
-
-type SingleFileTransferType = {
-	progress: number;
-	fileName: string;
-	state: TransferStates;
-	isStartedTransferring: boolean;
-	isTransferComplete: boolean;
-};
-export type TaskStates = {
-	[key: string]: 'pending' | 'success' | 'error' | 'success' | 'loading';
-};
-
-const SingleFileTransfer = ({
-	progress,
-	fileName,
-	state,
-	isStartedTransferring,
-	isTransferComplete,
-}: SingleFileTransferType) => {
-	const taskState: TaskStates = {
-		DEFAULT: 'pending',
-		TRANSFERRING: 'loading',
-		TRANSFERRED: 'loading',
-		ERROR: 'error',
-		SUCCESS: 'success',
-	};
-
-	return (
-		<Box>
-			{isStartedTransferring && !isTransferComplete && (
-				<ProgressBar left={1} percent={progress} />
-			)}
-			{/* <Task
-				label={fileName ?? ''}
-				state={taskState[state]}
-				spinner={cliSpinners.dots}
-			/> */}
-			<CustomTask label={fileName ?? ''} state={taskState[state]} />
-		</Box>
-	);
-};
-
 const FileTransfer = ({peerID, transferData}: PropType) => {
+	const files = useMemo(() => transferData.files, [transferData]);
+
 	const totalDefault = useMemo(
 		() =>
-			Object.keys(transferData)?.reduce((acc, key) => {
-				const state = transferData[key]?.state ?? 'DEFAULT';
-				if (['DEFAULT'].includes(state)) {
-					return acc + 1;
-				} else {
-					return acc;
-				}
+			Object.keys(files)?.reduce((acc, key) => {
+				const state = files[key]?.state ?? 'DEFAULT';
+				return ['DEFAULT'].includes(state) ? acc + 1 : acc;
 			}, 0),
-		[transferData],
+		[files],
 	);
 	const totalComplete = useMemo(
 		() =>
-			Object.keys(transferData)?.reduce((acc, key) => {
-				const state = transferData[key]?.state ?? 'DEFAULT';
-				if (['SUCCESS', 'ERROR'].includes(state)) {
-					return acc + 1;
-				} else {
-					return acc;
-				}
+			Object.keys(files)?.reduce((acc, key) => {
+				const state = files[key]?.state ?? 'DEFAULT';
+				return ['SUCCESS', 'ERROR'].includes(state) ? acc + 1 : acc;
 			}, 0),
-		[transferData],
+		[files],
 	);
-	const isStartedTransferring =
-		totalDefault !== Object.keys(transferData)?.length;
-	const isTransferComplete =
-		totalComplete === Object.keys(transferData)?.length;
+	const isStartedTransferring = totalDefault !== Object.keys(files)?.length;
+	const isTransferComplete = totalComplete === Object.keys(files)?.length;
 
 	return (
 		<Box flexDirection="column" marginTop={1}>
@@ -100,12 +44,12 @@ const FileTransfer = ({peerID, transferData}: PropType) => {
 			<Text dimColor={true}>
 				TC: {totalComplete} - TF: {Object.keys(transferData)?.length}
 			</Text>
-			{Object.keys(transferData).map(key => (
+			{Object.keys(files).map(key => (
 				<SingleFileTransfer
 					key={key}
-					progress={transferData[key]?.progress ?? 0}
-					fileName={transferData[key]?.fileName!}
-					state={transferData[key]?.state!}
+					progress={files[key]?.progress ?? 0}
+					fileName={files[key]?.fileName!}
+					state={files[key]?.state!}
 					isStartedTransferring={isStartedTransferring}
 					isTransferComplete={isTransferComplete}
 				/>

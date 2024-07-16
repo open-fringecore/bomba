@@ -11,7 +11,7 @@ import {v4 as uuidv4} from 'uuid';
 import {
 	$transferInfo,
 	removeSingleTransferInfo,
-	SinglePeerTransferInfo,
+	TransferFiles,
 } from '../stores/fileHandlerStore.js';
 import {SingleSendingFileType} from '../stores/baseStore.js';
 
@@ -41,19 +41,24 @@ export const useActivePeers = () => {
 						const {sendingFileNames} = data;
 						if (sendingFileNames) {
 							const peerTransferInfo = Object.entries(sendingFileNames)?.reduce(
-								(acc: SinglePeerTransferInfo, [key, value]) => {
+								(acc: TransferFiles, [key, value]) => {
 									acc[key] = {
 										...(value as SingleSendingFileType),
 										state: 'DEFAULT',
 										progress: 0,
-										downloadedSize: 7005,
+										downloadedSize: 0,
 									};
 									return acc;
 								},
 								{},
 							);
 
-							$transferInfo.setKey(`${discoveredPeer.id}`, peerTransferInfo);
+							$transferInfo.setKey(`${discoveredPeer.id}`, {
+								senderName: discoveredPeer.name,
+								totalFiles: Object.entries(sendingFileNames)?.length,
+								totalProgress: 0,
+								files: peerTransferInfo,
+							});
 						}
 					}
 					pollingDiscoveredPeers(discoveredPeer, false);

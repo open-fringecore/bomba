@@ -9,18 +9,24 @@ export type TransferStates =
 	| 'ERROR'
 	| 'SUCCESS';
 
-export type SingleTransferInfo = {
+export type SingleFilesInfo = {
 	state: TransferStates;
 	progress: number;
 	fileName: string;
 	fileSize: number;
 	downloadedSize: number;
 };
-export type SinglePeerTransferInfo = {
-	[fileID: string]: SingleTransferInfo;
+export type TransferFiles = {
+	[fileID: string]: SingleFilesInfo;
+};
+export type SingleTransferInfo = {
+	senderName: string;
+	totalFiles: number;
+	totalProgress: number;
+	files: TransferFiles;
 };
 export type TransferInfoType = {
-	[peerID: string]: SinglePeerTransferInfo;
+	[peerID: string]: SingleTransferInfo;
 };
 
 export const $transferInfo = deepMap<TransferInfoType>({});
@@ -28,12 +34,12 @@ export const $transferInfo = deepMap<TransferInfoType>({});
 export const updateTransferProgress = (
 	peerID: string,
 	fileID: string,
-	info: SingleTransferInfo,
+	info: SingleFilesInfo,
 ) => {
 	// const currTransferData = $transferInfo.get();
 	// $transferInfo.set({...currTransferData, [peerID]: newPeer});
 
-	$transferInfo.setKey(`${peerID}.${fileID}`, {
+	$transferInfo.setKey(`${peerID}.files.${fileID}`, {
 		state: info.state,
 		progress: info.progress,
 		fileName: info.fileName,
@@ -47,7 +53,7 @@ export const updateTransferInfoState = (
 	fileID: string,
 	state: TransferStates,
 ) => {
-	$transferInfo.setKey(`${peerID}.${fileID}.state`, state);
+	$transferInfo.setKey(`${peerID}.files.${fileID}.state`, state);
 };
 
 export const removeSingleTransferInfo = (id: string) => {
