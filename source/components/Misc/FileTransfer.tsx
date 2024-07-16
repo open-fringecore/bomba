@@ -42,7 +42,7 @@ const FileTransfer = ({peerID, transferData}: PropType) => {
 					: 'Files'}
 			</Text>
 			<Text dimColor={true}>
-				TC: {totalComplete} - TF: {Object.keys(transferData)?.length}
+				TC: {totalComplete} - TF: {Object.keys(files)?.length}
 			</Text>
 			{Object.keys(files).map(key => (
 				<SingleFileTransfer
