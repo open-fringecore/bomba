@@ -62,7 +62,7 @@ export const initTransferInfo = (
 		senderName: senderName,
 		totalFiles: totalFiles,
 		totalProgress: 0,
-		files: {},
+		files: files,
 	});
 };
 
