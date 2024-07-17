@@ -67,7 +67,7 @@ const Discover = () => {
 		}
 
 		const toalFiles = Object.entries(selectedPeerFiles).length;
-		initTransferInfo(peerID, selectedPeer.name, toalFiles);
+		initTransferInfo(peerID, selectedPeer.name, toalFiles, selectedPeerFiles);
 
 		Object.entries(selectedPeerFiles)?.forEach(async ([key, value]) => {
 			console.log(`Downloading: ${value.fileName}`);

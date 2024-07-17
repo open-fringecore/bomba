@@ -14,14 +14,15 @@ export type SingleTransferFileInfo = {
 	totalSize: number;
 	downloadedSize: number;
 };
+type CurrTransferFiles = {
+	[fileID: string]: SingleTransferFileInfo;
+};
 export type CurrTransfer = {
 	peerID: string;
 	senderName: string;
 	totalFiles: number;
 	totalProgress: number;
-	files: {
-		[fileID: string]: SingleTransferFileInfo;
-	};
+	files: CurrTransferFiles;
 };
 
 export type Files = {
@@ -41,7 +42,21 @@ export const initTransferInfo = (
 	peerID: string,
 	senderName: string,
 	totalFiles: number,
+	sendingFiles: Files,
 ) => {
+	const files = Object.entries(sendingFiles)?.reduce(
+		(acc: CurrTransferFiles, [key, value]) => {
+			acc[key] = {
+				state: 'DEFAULT',
+				progress: 0,
+				fileName: value.fileName,
+				totalSize: value.fileSize,
+				downloadedSize: 0,
+			};
+			return acc;
+		},
+		{},
+	);
 	$currTransfer.set({
 		peerID: peerID,
 		senderName: senderName,
