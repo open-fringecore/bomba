@@ -2,7 +2,10 @@ import express, {Request, Response} from 'express';
 import path from 'path';
 import http from 'http';
 import fs from 'fs';
-import {updateTransferProgress} from '../stores/fileHandlerStore.js';
+import {
+	updateTransferInfoState,
+	updateTransferProgress,
+} from '../stores/fileHandlerStore.js';
 import {v4 as uuidv4} from 'uuid';
 
 // export const useFileDownloader = (
@@ -87,6 +90,7 @@ export const useFileDownloader = (
 				writer.on('error', reject);
 			})
 			.catch(err => {
+				updateTransferInfoState(FILEID, 'ERROR');
 				reject(err);
 			});
 	});
