@@ -68,9 +68,9 @@ export const useHttpServer = (
 		app.get('/get-hash/:filename', async (req, res) => {
 			// TODO:: Make const later
 			let {filename} = req.params;
-			if (filename == 'O') {
+			if (filename == 'O.png') {
 				// ! This is a deliberate error.
-				filename = 'ooo';
+				filename = 'ooo.png';
 			}
 
 			if (!filename) {
