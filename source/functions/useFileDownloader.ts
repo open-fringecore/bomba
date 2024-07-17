@@ -76,7 +76,7 @@ export const useFileDownloader = (
 						state: progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
 						progress: progress,
 						fileName: FILENAME,
-						fileSize: totalLength,
+						totalSize: totalLength,
 						downloadedSize: downloaded,
 					});
 					pump();

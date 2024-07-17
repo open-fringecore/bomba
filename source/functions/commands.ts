@@ -7,7 +7,7 @@ import {
 	$action,
 	$baseInfo,
 	$sendingFiles,
-	SendingFilesType,
+	SendingFiles,
 } from '../stores/baseStore.js';
 import {cleanFileName, getFileSize} from './helper.js';
 import {v4 as uuidv4} from 'uuid';
@@ -52,11 +52,7 @@ export const useCommands = () => {
 
 						// $sendingFiles.set(argv.files?.map(file => cleanFileName(file)));
 						const peerTransferInfo = argv.files?.reduce(
-							(
-								acc: SendingFilesType,
-								uncleanFileName: string,
-								index: number,
-							) => {
+							(acc: SendingFiles, uncleanFileName: string, index: number) => {
 								const fileName = cleanFileName(uncleanFileName);
 								acc[uuidv4()] = {
 									fileName: fileName,

@@ -2,14 +2,14 @@ import express from 'express';
 import {useEffect} from 'react';
 import fs from 'fs';
 import path from 'path';
-import {SendingFilesType} from '../stores/baseStore.js';
+import {SendingFiles} from '../stores/baseStore.js';
 import {hashFile} from './useHashCheck.js';
 
 export const useHttpServer = (
 	MY_IP: string,
 	TCP_PORT: number,
 	isSending: boolean,
-	sendingFileNames: SendingFilesType | null,
+	sendingFileNames: SendingFiles | null,
 ) => {
 	useEffect(() => {
 		const app = express();

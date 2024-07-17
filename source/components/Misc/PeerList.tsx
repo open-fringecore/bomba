@@ -4,7 +4,7 @@ import SelectInput from 'ink-select-input';
 import {ConnectedPeersType} from '../../stores/peersStore.js';
 import {Box} from 'ink';
 import {useStore} from '@nanostores/react';
-import {$transferInfo} from '../../stores/fileHandlerStore.js';
+import {$peersFiles} from '../../stores/fileHandlerStore.js';
 import {useFileDownloader} from '../../functions/useFileDownloader.js';
 import {useHashCheck} from '../../functions/useHashCheck.js';
 
@@ -17,7 +17,7 @@ type PropsType = {
 	peers: ConnectedPeersType;
 };
 const PeerList = ({peers}: PropsType) => {
-	const transferInfo = useStore($transferInfo);
+	const peersFiles = useStore($peersFiles);
 
 	const items: ItemsType = useMemo(
 		() =>
@@ -30,19 +30,18 @@ const PeerList = ({peers}: PropsType) => {
 
 	const handleSelect = (item: ItemType) => {
 		const selectedPeer = peers[item.value];
-		const selectedPeerTransferInfo = transferInfo[item.value];
+		const selectedPeerFiles = peersFiles[item.value];
 
 		if (!selectedPeer) {
 			console.log('Selected Peer not found');
 			return;
 		}
-		if (!selectedPeerTransferInfo) {
+		if (!selectedPeerFiles) {
 			console.log('⭕ No sending files found ⭕');
 			return;
 		}
 
-		const files = selectedPeerTransferInfo.files;
-		Object.entries(files)?.forEach(async ([key, value]) => {
+		Object.entries(selectedPeerFiles)?.forEach(async ([key, value]) => {
 			console.log(`Downloading: ${value.fileName}`);
 			await useFileDownloader(
 				selectedPeer.id,

@@ -1,18 +1,19 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
-import {
-	SingleTransferInfo,
-	TransferFiles,
-} from '../../stores/fileHandlerStore.js';
 import SingleFileTransfer from './SingleFileTransfer.js';
 import {logToFile} from '../../functions/log.js';
+import {$currTransfer} from '../../stores/fileHandlerStore.js';
+import {useStore} from '@nanostores/react';
+import {computed} from 'nanostores';
 
 type PropType = {
 	peerID: string;
-	transferData: SingleTransferInfo;
 };
-const FileTransfer = ({peerID, transferData}: PropType) => {
-	const files = useMemo(() => transferData.files, [transferData]);
+const FileTransfer = ({peerID}: PropType) => {
+	const currTransfer = useStore($currTransfer);
+
+	// const files = computed($currTransfer, (data) => data.files);
+	const files = currTransfer.files;
 
 	const totalDefault = useMemo(
 		() =>

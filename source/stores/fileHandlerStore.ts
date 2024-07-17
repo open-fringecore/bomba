@@ -9,42 +9,47 @@ export type TransferStates =
 	| 'ERROR'
 	| 'SUCCESS';
 
-export type SingleFilesInfo = {
+export type SingleTransferFileInfo = {
 	state: TransferStates;
 	progress: number;
 	fileName: string;
-	fileSize: number;
+	totalSize: number;
 	downloadedSize: number;
 };
-export type TransferFiles = {
-	[fileID: string]: SingleFilesInfo;
-};
-export type SingleTransferInfo = {
+export type CurrTransfer = {
+	peerID: string;
 	senderName: string;
 	totalFiles: number;
 	totalProgress: number;
-	files: TransferFiles;
-};
-export type TransferInfoType = {
-	[peerID: string]: SingleTransferInfo;
+	files: {
+		[fileID: string]: SingleTransferFileInfo;
+	};
 };
 
-export const $transferInfo = deepMap<TransferInfoType>({});
+export type Files = {
+	[fileID: string]: {
+		fileName: string;
+		fileSize: number;
+	};
+};
+export type PeersFiles = {
+	[peerID: string]: Files;
+};
+
+export const $peersFiles = deepMap<PeersFiles>({});
+export const $currTransfer = deepMap<CurrTransfer>();
 
 export const updateTransferProgress = (
 	peerID: string,
 	fileID: string,
-	info: SingleFilesInfo,
+	data: SingleTransferFileInfo,
 ) => {
-	// const currTransferData = $transferInfo.get();
-	// $transferInfo.set({...currTransferData, [peerID]: newPeer});
-
-	$transferInfo.setKey(`${peerID}.files.${fileID}`, {
-		state: info.state,
-		progress: info.progress,
-		fileName: info.fileName,
-		fileSize: info.fileSize,
-		downloadedSize: info.downloadedSize,
+	$currTransfer.setKey(`files.${fileID}`, {
+		state: data.state,
+		progress: data.progress,
+		fileName: data.fileName,
+		totalSize: data.totalSize,
+		downloadedSize: data.downloadedSize,
 	});
 };
 
@@ -53,15 +58,5 @@ export const updateTransferInfoState = (
 	fileID: string,
 	state: TransferStates,
 ) => {
-	$transferInfo.setKey(`${peerID}.files.${fileID}.state`, state);
-};
-
-export const removeSingleTransferInfo = (id: string) => {
-	const currTransferInfo = $transferInfo.get();
-
-	if (currTransferInfo.hasOwnProperty(id)) {
-		const updatedInfo = {...currTransferInfo};
-		delete updatedInfo[id];
-		$transferInfo.set(updatedInfo);
-	}
+	$currTransfer.setKey(`files.${fileID}.state`, state);
 };

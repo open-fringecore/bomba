@@ -8,12 +8,8 @@ import {
 } from '../stores/peersStore.js';
 import {useStore} from '@nanostores/react';
 import {v4 as uuidv4} from 'uuid';
-import {
-	$transferInfo,
-	removeSingleTransferInfo,
-	TransferFiles,
-} from '../stores/fileHandlerStore.js';
-import {SingleSendingFileType} from '../stores/baseStore.js';
+import {$peersFiles, Files} from '../stores/fileHandlerStore.js';
+import {SingleSendingFile} from '../stores/baseStore.js';
 
 export const useActivePeers = () => {
 	const discoveredPeers = useStore($discoveredPeers);
@@ -40,25 +36,17 @@ export const useActivePeers = () => {
 
 						const {sendingFileNames} = data;
 						if (sendingFileNames) {
-							const peerTransferInfo = Object.entries(sendingFileNames)?.reduce(
-								(acc: TransferFiles, [key, value]) => {
+							const peerFiles = Object.entries(sendingFileNames)?.reduce(
+								(acc: Files, [key, value]) => {
 									acc[key] = {
-										...(value as SingleSendingFileType),
-										state: 'DEFAULT',
-										progress: 0,
-										downloadedSize: 0,
+										...(value as SingleSendingFile),
 									};
 									return acc;
 								},
 								{},
 							);
 
-							$transferInfo.setKey(`${discoveredPeer.id}`, {
-								senderName: discoveredPeer.name,
-								totalFiles: Object.entries(sendingFileNames)?.length,
-								totalProgress: 0,
-								files: peerTransferInfo,
-							});
+							$peersFiles.setKey(`${discoveredPeer.id}`, peerFiles);
 						}
 					}
 					pollingDiscoveredPeers(discoveredPeer, false);
@@ -68,7 +56,6 @@ export const useActivePeers = () => {
 					// console.log(error);
 					removeConnectedPeer(discoveredPeer.id);
 					removeDiscoveredPeer(discoveredPeer.id);
-					removeSingleTransferInfo(discoveredPeer.id);
 				});
 		},
 		[discoveredPeers],
