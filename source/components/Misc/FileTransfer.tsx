@@ -65,6 +65,7 @@ const FileTransfer = ({currTransfer}: PropType) => {
 					progress={files[key]?.progress ?? 0}
 					fileName={files[key]?.fileName!}
 					state={files[key]?.state!}
+					error={files[key]?.error}
 					isStartedTransferring={isStartedTransferring}
 					isTransferComplete={isTransferComplete}
 				/>

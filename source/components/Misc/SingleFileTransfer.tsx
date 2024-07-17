@@ -12,6 +12,7 @@ type PropType = {
 	progress: number;
 	fileName: string;
 	state: TransferStates;
+	error?: string;
 	isStartedTransferring: boolean;
 	isTransferComplete: boolean;
 };
@@ -19,6 +20,7 @@ const SingleFileTransfer = ({
 	progress,
 	fileName,
 	state,
+	error,
 	isStartedTransferring,
 	isTransferComplete,
 }: PropType) => {
@@ -40,7 +42,8 @@ const SingleFileTransfer = ({
 				state={taskState[state]}
 				spinner={cliSpinners.dots}
 			/> */}
-			<CustomTask label={fileName ?? ''} state={taskState[state]} />
+			<CustomTask label={`⠀${fileName}` ?? ''} state={taskState[state]} />
+			{error && <Text color={'red'}>⠀{error}</Text>}
 		</Box>
 	);
 };

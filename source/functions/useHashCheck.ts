@@ -1,6 +1,9 @@
 import crypto from 'crypto';
 import fs from 'fs';
-import {updateTransferInfoState} from '../stores/fileHandlerStore.js';
+import {
+	updateTransferFileError,
+	updateTransferFileState,
+} from '../stores/fileHandlerStore.js';
 
 export const hashFile = (filePath: string) => {
 	return new Promise((resolve, reject) => {
@@ -25,7 +28,7 @@ export const useHashCheck = async (
 	PEER_ID: string,
 	PEER_IP: string,
 	PEER_TCP_PORT: number,
-	FILEID: string,
+	FILE_ID: string,
 	FILENAME: string,
 ) => {
 	return new Promise<void>(async (resolve, reject) => {
@@ -45,11 +48,12 @@ export const useHashCheck = async (
 			const receivedFileHash = await hashFile(outputPath);
 
 			if (sendFileHash === receivedFileHash) {
-				console.log('HASH MATCHED');
-				updateTransferInfoState(FILEID, 'SUCCESS');
+				// console.log('HASH MATCHED');
+				updateTransferFileState(FILE_ID, 'SUCCESS');
 			} else {
-				console.log("HASH DIDN'T MATCHED", sendFileHash, receivedFileHash);
-				updateTransferInfoState(FILEID, 'ERROR');
+				// console.log("HASH DIDN'T MATCHED", sendFileHash, receivedFileHash);
+				updateTransferFileState(FILE_ID, 'ERROR');
+				updateTransferFileError(FILE_ID, 'Hash Mismatch.');
 			}
 			resolve();
 		} catch (err) {

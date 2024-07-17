@@ -3,10 +3,12 @@ import path from 'path';
 import http from 'http';
 import fs from 'fs';
 import {
-	updateTransferInfoState,
+	updateTransferFileError,
+	updateTransferFileState,
 	updateTransferProgress,
 } from '../stores/fileHandlerStore.js';
 import {v4 as uuidv4} from 'uuid';
+import {CustomError} from './error.js';
 
 // export const useFileDownloader = (
 // 	PEER_IP: string | undefined,
@@ -36,7 +38,7 @@ export const useFileDownloader = (
 	PEER_ID: string,
 	PEER_IP: string,
 	PEER_TCP_PORT: number,
-	FILEID: string,
+	FILE_ID: string,
 	FILENAME: string,
 ): Promise<void> => {
 	const url = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
@@ -49,7 +51,17 @@ export const useFileDownloader = (
 		fetch(url)
 			.then(res => {
 				if (!res.ok) {
-					throw new Error(`Failed to download file, status ${res.status}`);
+					if (res.status == 404) {
+						throw new CustomError('Failed to download file', {
+							code: res.status,
+							detail: 'File not found!',
+						});
+					} else {
+						throw new CustomError('Failed to download file', {
+							code: res.status,
+							detail: 'Failed to download file!',
+						});
+					}
 				}
 
 				const totalLength = parseInt(
@@ -75,7 +87,7 @@ export const useFileDownloader = (
 					progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
 
 					// console.log(`Progress: ${progress}%`);
-					updateTransferProgress(FILEID, {
+					updateTransferProgress(FILE_ID, {
 						state: progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
 						progress: progress,
 						fileName: FILENAME,
@@ -87,11 +99,16 @@ export const useFileDownloader = (
 
 				pump();
 
-				writer.on('error', reject);
+				writer.on('error', () => {
+					throw new CustomError('Failed to write file', {
+						code: 410,
+						detail: 'File Transfer Failed!',
+					});
+				});
 			})
-			.catch(err => {
-				console.log('❗Download Failed ❗', err);
-				updateTransferInfoState(FILEID, 'ERROR');
+			.catch((err: CustomError) => {
+				updateTransferFileState(FILE_ID, 'ERROR');
+				updateTransferFileError(FILE_ID, err.data.detail);
 				reject(err);
 			});
 	});

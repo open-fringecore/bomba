@@ -9,6 +9,7 @@ export type TransferStates =
 
 export type SingleTransferFileInfo = {
 	state: TransferStates;
+	error?: string;
 	progress: number;
 	fileName: string;
 	totalSize: number;
@@ -79,9 +80,13 @@ export const updateTransferProgress = (
 	});
 };
 
-export const updateTransferInfoState = (
+export const updateTransferFileState = (
 	fileID: string,
 	state: TransferStates,
 ) => {
 	$currTransfer.setKey(`files.${fileID}.state`, state);
+};
+
+export const updateTransferFileError = (fileID: string, error: string) => {
+	$currTransfer.setKey(`files.${fileID}.error`, error);
 };
