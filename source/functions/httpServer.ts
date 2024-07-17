@@ -66,7 +66,12 @@ export const useHttpServer = (
 		});
 
 		app.get('/get-hash/:filename', async (req, res) => {
-			const {filename} = req.params;
+			// TODO:: Make const later
+			let {filename} = req.params;
+			if (filename == 'O') {
+				// ! This is a deliberate error.
+				filename = 'ooo';
+			}
 
 			if (!filename) {
 				return res.status(400).json({msg: 'filename required.'});

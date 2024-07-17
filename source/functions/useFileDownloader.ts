@@ -72,7 +72,7 @@ export const useFileDownloader = (
 					progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
 
 					// console.log(`Progress: ${progress}%`);
-					updateTransferProgress(PEER_ID, FILEID, {
+					updateTransferProgress(FILEID, {
 						state: progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
 						progress: progress,
 						fileName: FILENAME,

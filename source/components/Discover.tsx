@@ -9,12 +9,22 @@ import {hasNullValue} from '../functions/helper.js';
 import PeerList from './Misc/PeerList.js';
 import {useHttpServer} from '../functions/httpServer.js';
 import {useActivePeers} from '../functions/useActivePeers.js';
+import FileTransfer from './Misc/FileTransfer.js';
+import {
+	$currTransfer,
+	$peersFiles,
+	initTransferInfo,
+} from '../stores/fileHandlerStore.js';
+import {useFileDownloader} from '../functions/useFileDownloader.js';
+import {useHashCheck} from '../functions/useHashCheck.js';
 
 const Discover = () => {
+	const action = useStore($action);
 	const baseInfo = useStore($baseInfo);
 	const connectedPeers = useStore($connectedPeers);
-	const action = useStore($action);
 	const sendingFiles = useStore($sendingFiles);
+	const peersFiles = useStore($peersFiles);
+	const currTransfer = useStore($currTransfer);
 
 	if (
 		!baseInfo.MY_NAME ||
@@ -43,6 +53,41 @@ const Discover = () => {
 
 	useActivePeers();
 
+	const onSelect = (peerID: string) => {
+		const selectedPeer = connectedPeers[peerID];
+		const selectedPeerFiles = peersFiles[peerID];
+
+		if (!selectedPeer) {
+			console.log('Selected Peer not found');
+			return;
+		}
+		if (!selectedPeerFiles) {
+			console.log('⭕ No sending files found ⭕');
+			return;
+		}
+
+		const toalFiles = Object.entries(selectedPeerFiles).length;
+		initTransferInfo(peerID, selectedPeer.name, toalFiles);
+
+		Object.entries(selectedPeerFiles)?.forEach(async ([key, value]) => {
+			console.log(`Downloading: ${value.fileName}`);
+			await useFileDownloader(
+				selectedPeer.id,
+				selectedPeer.ip,
+				selectedPeer.httpPort,
+				key,
+				value.fileName,
+			);
+			await useHashCheck(
+				selectedPeer.id,
+				selectedPeer.ip,
+				selectedPeer.httpPort,
+				key,
+				value.fileName,
+			);
+		});
+	};
+
 	return (
 		<Box flexDirection="column">
 			<Text>
@@ -50,13 +95,12 @@ const Discover = () => {
 				{action == 'SEND' ? 'Sending' : 'Receiving'}
 			</Text>
 
-			{/* <Box borderColor={'red'} borderStyle={'double'} paddingX={1}>
-				<Text>{baseInfo.MY_NAME}</Text>
-				<Spacer />
-				<Text>{baseInfo.MY_ID}</Text>
-			</Box> */}
-
-			{connectedPeers && <PeerList peers={connectedPeers} />}
+			{connectedPeers && (
+				<PeerList peers={connectedPeers} onSelect={onSelect} />
+			)}
+			{currTransfer && currTransfer.files && (
+				<FileTransfer currTransfer={currTransfer} />
+			)}
 		</Box>
 	);
 };

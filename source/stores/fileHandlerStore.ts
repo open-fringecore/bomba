@@ -1,6 +1,4 @@
 import {deepMap} from 'nanostores';
-import {v4 as uuidv4} from 'uuid';
-import {getFreePort} from '../functions/freePort.js';
 
 export type TransferStates =
 	| 'DEFAULT'
@@ -39,8 +37,21 @@ export type PeersFiles = {
 export const $peersFiles = deepMap<PeersFiles>({});
 export const $currTransfer = deepMap<CurrTransfer>();
 
-export const updateTransferProgress = (
+export const initTransferInfo = (
 	peerID: string,
+	senderName: string,
+	totalFiles: number,
+) => {
+	$currTransfer.set({
+		peerID: peerID,
+		senderName: senderName,
+		totalFiles: totalFiles,
+		totalProgress: 0,
+		files: {},
+	});
+};
+
+export const updateTransferProgress = (
 	fileID: string,
 	data: SingleTransferFileInfo,
 ) => {
@@ -54,7 +65,6 @@ export const updateTransferProgress = (
 };
 
 export const updateTransferInfoState = (
-	peerID: string,
 	fileID: string,
 	state: TransferStates,
 ) => {

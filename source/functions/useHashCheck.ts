@@ -46,10 +46,10 @@ export const useHashCheck = async (
 
 			if (sendFileHash === receivedFileHash) {
 				console.log('HASH MATCHED');
-				updateTransferInfoState(PEER_ID, FILEID, 'SUCCESS');
+				updateTransferInfoState(FILEID, 'SUCCESS');
 			} else {
 				console.log("HASH DIDN'T MATCHED", sendFileHash, receivedFileHash);
-				updateTransferInfoState(PEER_ID, FILEID, 'ERROR');
+				updateTransferInfoState(FILEID, 'ERROR');
 			}
 			resolve();
 		} catch (err) {
