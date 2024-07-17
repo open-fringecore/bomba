@@ -71,9 +71,9 @@ export default function PeerList({peers}: PropsType) {
 		}
 	});
 
-	// useEffect(() => {
-	// 	logToFile('transferInfo', $baseInfo.get().MY_NAME, transferInfo);
-	// }, [transferInfo]);
+	useEffect(() => {
+		logToFile('transferInfo', $baseInfo.get().MY_NAME, transferInfo);
+	}, [transferInfo]);
 
 	return (
 		<Box flexDirection="column" marginTop={1} marginLeft={1}>

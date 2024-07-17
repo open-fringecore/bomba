@@ -5,6 +5,7 @@ import {
 	TransferFiles,
 } from '../../stores/fileHandlerStore.js';
 import SingleFileTransfer from './SingleFileTransfer.js';
+import {logToFile} from '../../functions/log.js';
 
 type PropType = {
 	peerID: string;
@@ -31,6 +32,10 @@ const FileTransfer = ({peerID, transferData}: PropType) => {
 	);
 	const isStartedTransferring = totalDefault !== Object.keys(files)?.length;
 	const isTransferComplete = totalComplete === Object.keys(files)?.length;
+
+	useEffect(() => {
+		console.log('💯 File Changes Detecting... 💯');
+	}, [files]);
 
 	return (
 		<Box flexDirection="column" marginTop={1}>
