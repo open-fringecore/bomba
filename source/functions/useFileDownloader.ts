@@ -90,6 +90,7 @@ export const useFileDownloader = (
 				writer.on('error', reject);
 			})
 			.catch(err => {
+				console.log('❗Download Failed ❗', err);
 				updateTransferInfoState(FILEID, 'ERROR');
 				reject(err);
 			});

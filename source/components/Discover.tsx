@@ -77,14 +77,19 @@ const Discover = () => {
 				selectedPeer.httpPort,
 				key,
 				value.fileName,
-			);
-			await useHashCheck(
-				selectedPeer.id,
-				selectedPeer.ip,
-				selectedPeer.httpPort,
-				key,
-				value.fileName,
-			);
+			)
+				.then(() => {
+					return useHashCheck(
+						selectedPeer.id,
+						selectedPeer.ip,
+						selectedPeer.httpPort,
+						key,
+						value.fileName,
+					);
+				})
+				.catch(error => {
+					console.error('An error occurred:', error);
+				});
 		});
 	};
 

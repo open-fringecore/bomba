@@ -35,7 +35,12 @@ export const useHttpServer = (
 		});
 
 		app.get('/download/:filename', (req, res) => {
-			const {filename} = req.params;
+			// TODO:: Make const later
+			let {filename} = req.params;
+			if (filename == 'O.png') {
+				// ! This is a deliberate error.
+				filename = 'ooo.png';
+			}
 
 			if (!filename) {
 				return res.status(400).json({msg: 'filename required.'});
@@ -66,12 +71,7 @@ export const useHttpServer = (
 		});
 
 		app.get('/get-hash/:filename', async (req, res) => {
-			// TODO:: Make const later
-			let {filename} = req.params;
-			if (filename == 'O.png') {
-				// ! This is a deliberate error.
-				filename = 'ooo.png';
-			}
+			const {filename} = req.params;
 
 			if (!filename) {
 				return res.status(400).json({msg: 'filename required.'});

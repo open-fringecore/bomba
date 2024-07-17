@@ -29,9 +29,10 @@ const FileTransfer = ({currTransfer}: PropType) => {
 	const isStartedTransferring = totalDefault !== Object.keys(files)?.length;
 	const isTransferComplete = totalComplete === Object.keys(files)?.length;
 
-	// useEffect(() => {
-	// 	console.log('💯 File Changes Detecting... 💯');
-	// }, [files]);
+	useEffect(() => {
+		// console.log('💯 File Changes Detecting... 💯');
+		logToFile('💯 File Changes Detecting... 💯', files);
+	}, [files]);
 
 	return (
 		<Box
