@@ -74,27 +74,37 @@ export const useFileDownloader = (
 				const reader = res.body!.getReader();
 
 				const pump = async () => {
-					const {done, value} = await reader.read();
-					if (done) {
+					try {
+						const {done, value} = await reader.read();
+						if (done) {
+							writer.end();
+							// console.log('File downloaded successfully.');
+							resolve();
+							return;
+						}
+						writer.write(value);
+						downloaded += value.length;
+
+						progress = parseFloat(
+							((downloaded / totalLength) * 100).toFixed(2),
+						);
+
+						// console.log(`Progress: ${progress}%`);
+						updateTransferProgress(FILE_ID, {
+							state: progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
+							progress: progress,
+							fileName: FILENAME,
+							totalSize: totalLength,
+							downloadedSize: downloaded,
+						});
+						pump();
+					} catch (error) {
 						writer.end();
-						// console.log('File downloaded successfully.');
-						resolve();
-						return;
+						throw new CustomError('Failed to read file', {
+							code: 410,
+							detail: 'Failed to read file!',
+						});
 					}
-					writer.write(value);
-					downloaded += value.length;
-
-					progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
-
-					// console.log(`Progress: ${progress}%`);
-					updateTransferProgress(FILE_ID, {
-						state: progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
-						progress: progress,
-						fileName: FILENAME,
-						totalSize: totalLength,
-						downloadedSize: downloaded,
-					});
-					pump();
 				};
 
 				pump();
@@ -102,7 +112,7 @@ export const useFileDownloader = (
 				writer.on('error', () => {
 					throw new CustomError('Failed to write file', {
 						code: 410,
-						detail: 'File Transfer Failed!',
+						detail: 'Failed to write file!',
 					});
 				});
 			})
