@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import fs from 'fs';
 import {
-	updateTransferFileError,
+	updateTransferFileErrorMsg,
 	updateTransferFileState,
 } from '../stores/fileHandlerStore.js';
 
@@ -53,7 +53,7 @@ export const useHashCheck = async (
 			} else {
 				// console.log("HASH DIDN'T MATCHED", sendFileHash, receivedFileHash);
 				updateTransferFileState(FILE_ID, 'ERROR');
-				updateTransferFileError(FILE_ID, 'Hash Mismatch.');
+				updateTransferFileErrorMsg(FILE_ID, 'Hash Mismatch.');
 			}
 			resolve();
 		} catch (err) {
