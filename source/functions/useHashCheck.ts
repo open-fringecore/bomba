@@ -52,12 +52,20 @@ export const useHashCheck = async (
 				updateTransferFileState(FILE_ID, 'SUCCESS');
 			} else {
 				// console.log("HASH DIDN'T MATCHED", sendFileHash, receivedFileHash);
-				updateTransferFileState(FILE_ID, 'ERROR');
-				updateTransferFileErrorMsg(FILE_ID, 'Hash Mismatch.');
+				// updateTransferFileState(FILE_ID, 'ERROR');
+				// updateTransferFileErrorMsg(FILE_ID, 'Hash Mismatch.');
+				throw new Error('Hash Mismatch.');
 			}
 			resolve();
-		} catch (err) {
-			console.error('Error hash check:', err);
+		} catch (error) {
+			let errMsg = 'Error hash check';
+			if (error instanceof Error) {
+				errMsg = error.message;
+			}
+			updateTransferFileState(FILE_ID, 'ERROR');
+			updateTransferFileErrorMsg(FILE_ID, errMsg);
+			reject(error);
+			// console.error('Error hash check:', error);
 		}
 	});
 };
