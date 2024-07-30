@@ -71,40 +71,40 @@ const Discover = () => {
 
 		Object.entries(selectedPeerFiles)?.forEach(async ([key, value]) => {
 			// console.log(`Downloading: ${value.fileName}`);
-			try {
-				await useFileDownloader(
-					selectedPeer.id,
-					selectedPeer.ip,
-					selectedPeer.httpPort,
-					key,
-					value.fileName,
-				)
-					.then(() => {
-						return useHashCheck(
-							selectedPeer.id,
-							selectedPeer.ip,
-							selectedPeer.httpPort,
-							key,
-							value.fileName,
-						);
-					})
-					.catch(error => {
-						console.error('An error occurred:', error);
-					});
-			} catch (error) {
-				console.log('######', error);
-			}
+			await useFileDownloader(
+				selectedPeer.id,
+				selectedPeer.ip,
+				selectedPeer.httpPort,
+				key,
+				value.fileName,
+			)
+				.then(() => {
+					return useHashCheck(
+						selectedPeer.id,
+						selectedPeer.ip,
+						selectedPeer.httpPort,
+						key,
+						value.fileName,
+					);
+				})
+				.catch(error => {
+					console.error('An error occurred:', error);
+				});
 		});
 	};
 
 	return (
 		<Box flexDirection="column">
-			<Text>
-				<Spinner frames={spinners.dotsRound} color="magenta" />{' '}
-				{action == 'SEND' ? 'Sending' : 'Receiving'}
-			</Text>
+			{!currTransfer?.files ? (
+				<Text>
+					<Spinner frames={spinners.dotsRound} color="magenta" />{' '}
+					{action == 'SEND' ? 'Sending' : 'Receiving'}
+				</Text>
+			) : (
+				<></>
+			)}
 
-			{currTransfer && currTransfer.files ? (
+			{currTransfer?.files ? (
 				<FileTransfer currTransfer={currTransfer} />
 			) : connectedPeers ? (
 				<PeerList peers={connectedPeers} onSelect={onSelect} />
