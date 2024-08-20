@@ -41,8 +41,8 @@ export const useHttpServer = (
 				return res.status(400).json({msg: 'filename required.'});
 			}
 
-			// const filePath = `${process.cwd()}/${filename}`;
-			const filePath = `${process.cwd()}/send_files/${filename}`; // TODO:: Fix
+			const filePath = `${process.cwd()}/${filename}`;
+			// const filePath = `${process.cwd()}/send_files/${filename}`; // TODO:: Fix
 
 			if (!fs.existsSync(filePath)) {
 				return res.status(404).json({msg: 'File not found!'});
@@ -72,8 +72,8 @@ export const useHttpServer = (
 				return res.status(400).json({msg: 'filename required.'});
 			}
 
-			// const filePath = `${process.cwd()}/${filename}`;
-			const filePath = `${process.cwd()}/send_files/${filename}`; // TODO:: Fix
+			const filePath = `${process.cwd()}/${filename}`;
+			// const filePath = `${process.cwd()}/send_files/${filename}`; // TODO:: Fix
 
 			if (!fs.existsSync(filePath)) {
 				return res.status(404).json({msg: 'File not found!'});

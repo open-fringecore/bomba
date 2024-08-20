@@ -34,7 +34,8 @@ export const useHashCheck = async (
 	return new Promise<void>(async (resolve, reject) => {
 		try {
 			const url = `http://${PEER_IP}:${PEER_TCP_PORT}/get-hash/${FILENAME}`;
-			const outputPath = `${process.cwd()}/receive_files/${FILENAME}`; // TODO:: Fix
+			const outputPath = `${process.cwd()}/${FILENAME}`;
+			// const outputPath = `${process.cwd()}/receive_files/${FILENAME}`; // TODO:: Fix
 
 			const response = await fetch(url);
 			if (!response.ok) {

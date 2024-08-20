@@ -17,7 +17,8 @@ export const useFileDownloader = (
 	FILENAME: string,
 ): Promise<void> => {
 	const url = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
-	const outputPath = `${process.cwd()}/receive_files/${FILENAME}`; // TODO:: Fix
+	const outputPath = `${process.cwd()}/${FILENAME}`;
+	// const outputPath = `${process.cwd()}/receive_files/${FILENAME}`; // TODO:: Fix
 
 	return new Promise<void>(async (resolve, reject) => {
 		try {
