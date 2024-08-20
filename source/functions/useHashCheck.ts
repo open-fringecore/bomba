@@ -11,7 +11,7 @@ export const hashFile = (filePath: string) => {
 		const stream = fs.createReadStream(filePath);
 
 		stream.on('data', chunk => {
-			hash.update(chunk);
+			hash.update(chunk as any);
 		});
 
 		stream.on('end', () => {
