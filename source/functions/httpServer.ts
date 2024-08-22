@@ -45,6 +45,7 @@ export const useHttpServer = (
 			// const filePath = `${process.cwd()}/send_files/${filename}`; // TODO:: Fix
 
 			if (!fs.existsSync(filePath)) {
+				console.log(filePath);
 				return res.status(404).json({msg: 'File not found!'});
 			}
 
@@ -76,7 +77,7 @@ export const useHttpServer = (
 			// const filePath = `${process.cwd()}/send_files/${filename}`; // TODO:: Fix
 
 			if (!fs.existsSync(filePath)) {
-				return res.status(404).json({msg: 'File not found!'});
+				return res.status(404).json({msg: 'File not found!!'});
 			}
 
 			try {
