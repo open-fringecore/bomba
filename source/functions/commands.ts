@@ -81,7 +81,7 @@ export const useCommands = () => {
 	return {};
 };
 
-// ! bomba
-// ! bomba --version
-// ! bomba --name Mr. Ghost | bomba --name "Mr. Ghost"
-// ! bomba .\Brain.png .\brainfuck_code.png
+// ! khamba
+// ! khamba --version
+// ! khamba --name Mr. Ghost | khamba --name "Mr. Ghost"
+// ! khamba .\Brain.png .\brainfuck_code.png

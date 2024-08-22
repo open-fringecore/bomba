@@ -8,13 +8,13 @@ import tty from 'node:tty';
 const cli = meow(
 	`
 	Usage
-	  $ bomba
+	  $ khamba
 
 	Options
 		--name  Your name
 
 	Examples
-	  $ bomba --name=Jane
+	  $ khamba --name=Jane
 	  Hello, Jane
 `,
 	{

@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"license": "MIT",
 	"bin": {
-		"bomba": "dist/cli.js"
+		"khamba": "dist/cli.js"
 	},
 	"type": "module",
 	"engines": {
