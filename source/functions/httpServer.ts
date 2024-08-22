@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import {SendingFiles} from '../stores/baseStore.js';
 import {hashFile} from './useHashCheck.js';
+import {log} from './log.js';
 
 export const useHttpServer = (
 	MY_IP: string,
@@ -81,7 +82,7 @@ export const useHttpServer = (
 
 			try {
 				const hash = await hashFile(filePath);
-				console.log(`Hash of the file is: ${hash}`);
+				log(`Hash of the file is: ${hash}`);
 				return res.status(200).json({msg: 'Hash Successful!', hash});
 			} catch (err) {
 				console.error('Error hashing file:', err);
@@ -90,12 +91,12 @@ export const useHttpServer = (
 		});
 
 		const server = app.listen(TCP_PORT, MY_IP, () => {
-			console.log(`Server is running on http://${MY_IP}:${TCP_PORT}`);
+			log(`Server is running on http://${MY_IP}:${TCP_PORT}`);
 		});
 
 		return () => {
 			server.close(() => {
-				console.log('Server stopped listening for requests.');
+				log('Server stopped listening for requests.');
 			});
 		};
 	}, []);

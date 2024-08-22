@@ -17,6 +17,7 @@ import {
 } from '../stores/fileHandlerStore.js';
 import {useFileDownloader} from '../functions/useFileDownloader.js';
 import {useHashCheck} from '../functions/useHashCheck.js';
+import {log} from '../functions/log.js';
 
 const Discover = () => {
 	const action = useStore($action);
@@ -58,11 +59,11 @@ const Discover = () => {
 		const selectedPeerFiles = peersFiles[peerID];
 
 		if (!selectedPeer) {
-			console.log('Selected Peer not found');
+			log('Selected Peer not found');
 			return;
 		}
 		if (!selectedPeerFiles) {
-			console.log('⭕ No sending files found ⭕');
+			log('⭕ No sending files found ⭕');
 			return;
 		}
 
@@ -70,7 +71,7 @@ const Discover = () => {
 		initTransferInfo(peerID, selectedPeer.name, toalFiles, selectedPeerFiles);
 
 		Object.entries(selectedPeerFiles)?.forEach(async ([key, value]) => {
-			// console.log(`Downloading: ${value.fileName}`);
+			// log(`Downloading: ${value.fileName}`);
 			await useFileDownloader(
 				selectedPeer.id,
 				selectedPeer.ip,

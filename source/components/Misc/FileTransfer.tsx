@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
 import {CurrTransfer} from '../../stores/fileHandlerStore.js';
-import {logToFile} from '../../functions/log.js';
+import {log, logToFile} from '../../functions/log.js';
 import SingleFileTransfer from './SingleFileTransfer.js';
 
 type PropType = {
@@ -30,7 +30,7 @@ const FileTransfer = ({currTransfer}: PropType) => {
 	const isTransferComplete = totalComplete === Object.keys(files)?.length;
 
 	useEffect(() => {
-		// console.log('💯 File Changes Detecting... 💯');
+		// log('💯 File Changes Detecting... 💯');
 		logToFile('💯 File Changes Detecting... 💯', files);
 	}, [files]);
 

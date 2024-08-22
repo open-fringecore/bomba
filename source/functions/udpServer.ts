@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 import useBroadcast from './broadcast.js';
 import {addDiscoveredPeer} from '../stores/peersStore.js';
 import chalk from 'chalk';
+import {log} from './log.js';
 
 type UdpMsgType = {
 	method: string;
@@ -48,7 +49,7 @@ export const useUdpServer = (
 
 		server.on('listening', function () {
 			const address = server.address();
-			// console.log(`Listening on ${address.address}:${address.port}`);
+			// log(`Listening on ${address.address}:${address.port}`);
 			server.setBroadcast(true);
 
 			initialBroadcast();
@@ -61,16 +62,16 @@ export const useUdpServer = (
 				return;
 			}
 
-			// console.log('DATA:', data);
+			// log('DATA:', data);
 			// ! DEBUGGING...
 			if (data?.isBroadcast) {
-				console.log(
+				log(
 					`${chalk.bgYellow('<-- Broadcasted From:')} ${chalk.underline(
 						data.name,
 					)}: ${data.id?.slice(-5)}`,
 				);
 			} else {
-				console.log(
+				log(
 					`${chalk.bgRed('<-- Received From:')} ${chalk.underline(
 						data.name,
 					)}: ${data.id?.slice(-5)}`,

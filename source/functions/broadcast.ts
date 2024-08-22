@@ -1,4 +1,5 @@
 import {Socket} from 'dgram'; // Ensure dgram is available in your environment
+import {log} from './log.js';
 
 const useBroadcast = () => {
 	const broadcast = (
@@ -17,7 +18,7 @@ const useBroadcast = () => {
 			ADDRESS,
 			(err: Error | null): void => {
 				if (err) throw err;
-				// console.log(`Broadcast sent to ${ADDRESS}:${PORT}`);
+				// log(`Broadcast sent to ${ADDRESS}:${PORT}`);
 				// server.close();
 			},
 		);

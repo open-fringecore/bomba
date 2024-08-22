@@ -48,19 +48,6 @@ export const useCommands = () => {
 					});
 				},
 				(argv: DefaultArgvType) => {
-					// if (argv.version) {
-					// 	const packageManifest = JSON.parse(
-					// 		fs.readFileSync(
-					// 			path.join(process.cwd(), 'package.json'),
-					// 			'utf-8',
-					// 		),
-					// 	);
-
-					// 	const version = packageManifest.version;
-					// 	console.log(`version: ${version}`);
-					// 	return;
-					// }
-
 					if (argv.dev_mode) {
 						$isDev.set(true);
 					}

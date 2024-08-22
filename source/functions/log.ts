@@ -2,6 +2,10 @@ import * as fs from 'fs';
 import {fileURLToPath} from 'url';
 import {dirname, join} from 'path';
 
+export const log = (...args: any) => {
+	console.log(...args);
+};
+
 export const logToFile = (...data: any[]): void => {
 	const filePath = `${process.cwd()}/log.txt`;
 

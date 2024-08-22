@@ -23,7 +23,7 @@ export const useActivePeers = () => {
 			)
 				.then(response => response.json())
 				.then(data => {
-					// console.log('🟢 Peer Active 🟢');
+					// log('🟢 Peer Active 🟢');
 
 					if (is_first_call) {
 						addConnectedPeer({
@@ -52,8 +52,8 @@ export const useActivePeers = () => {
 					pollingDiscoveredPeers(discoveredPeer, false);
 				})
 				.catch(error => {
-					// console.log('⭕ Peer Gone ⭕');
-					// console.log(error);
+					// log('⭕ Peer Gone ⭕');
+					// log(error);
 					removeConnectedPeer(discoveredPeer.id);
 					removeDiscoveredPeer(discoveredPeer.id);
 				});

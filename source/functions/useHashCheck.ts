@@ -49,10 +49,10 @@ export const useHashCheck = async (
 			const receivedFileHash = await hashFile(outputPath);
 
 			if (sendFileHash === receivedFileHash) {
-				// console.log('HASH MATCHED');
+				// log('HASH MATCHED');
 				updateTransferFileState(FILE_ID, 'SUCCESS');
 			} else {
-				// console.log("HASH DIDN'T MATCHED", sendFileHash, receivedFileHash);
+				// log("HASH DIDN'T MATCHED", sendFileHash, receivedFileHash);
 				// updateTransferFileState(FILE_ID, 'ERROR');
 				// updateTransferFileErrorMsg(FILE_ID, 'Hash Mismatch.');
 				throw new Error('Hash Mismatch.');
