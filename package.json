@@ -1,6 +1,6 @@
 {
 	"name": "khamba",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"license": "MIT",
 	"bin": {
 		"khamba": "dist/cli.js"
