@@ -3,7 +3,7 @@ import fs from 'fs';
 import {
 	updateTransferFileErrorMsg,
 	updateTransferFileState,
-} from '../stores/fileHandlerStore.js';
+} from '@/stores/fileHandlerStore.js';
 
 export const hashFile = (filePath: string) => {
 	return new Promise((resolve, reject) => {

@@ -1,8 +1,8 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
-import ProgressBar from './ProgressBar.js';
-import CustomTask from './CustomTask.js';
-import {TransferStates} from '../../stores/fileHandlerStore.js';
+import ProgressBar from '@/components/misc/ProgressBar.js';
+import CustomTask from '@/components/misc/CustomTask.js';
+import {TransferStates} from '@/stores/fileHandlerStore.js';
 
 export type TaskStates = {
 	[key: string]: 'pending' | 'success' | 'error' | 'success' | 'loading';
@@ -42,7 +42,7 @@ const SingleFileTransfer = ({
 				state={taskState[state]}
 				spinner={cliSpinners.dots}
 			/> */}
-			<CustomTask label={`⠀${fileName}` ?? ''} state={taskState[state]} />
+			<CustomTask label={`⠀${fileName}`} state={taskState[state]} />
 			{error && <Text color={'red'}>⠀{error}</Text>}
 		</Box>
 	);

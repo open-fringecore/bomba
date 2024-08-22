@@ -5,11 +5,11 @@ import {
 	DiscoveredPeerType,
 	removeConnectedPeer,
 	removeDiscoveredPeer,
-} from '../stores/peersStore.js';
+} from '@/stores/peersStore.js';
 import {useStore} from '@nanostores/react';
 import {v4 as uuidv4} from 'uuid';
-import {$peersFiles, Files} from '../stores/fileHandlerStore.js';
-import {SingleSendingFile} from '../stores/baseStore.js';
+import {$peersFiles, Files} from '@/stores/fileHandlerStore.js';
+import {SingleSendingFile} from '@/stores/baseStore.js';
 
 export const useActivePeers = () => {
 	const discoveredPeers = useStore($discoveredPeers);

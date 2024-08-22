@@ -11,8 +11,8 @@ import {
 	$isDev,
 	$sendingFiles,
 	SendingFiles,
-} from '../stores/baseStore.js';
-import {cleanFileName, getFileSize} from './helper.js';
+} from '@/stores/baseStore.js';
+import {cleanFileName, getFileSize} from '@/functions/helper.js';
 import {v4 as uuidv4} from 'uuid';
 
 type DefaultArgvType = {

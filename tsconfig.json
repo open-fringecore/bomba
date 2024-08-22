@@ -4,7 +4,12 @@
 		"outDir": "dist",
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
-		"noImplicitReturns": false
+		"noImplicitReturns": false,
+
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["source/*"]
+		}
 	},
 	"include": ["source"]
 }

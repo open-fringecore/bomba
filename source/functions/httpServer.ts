@@ -2,9 +2,9 @@ import express from 'express';
 import {useEffect} from 'react';
 import fs from 'fs';
 import path from 'path';
-import {SendingFiles} from '../stores/baseStore.js';
-import {hashFile} from './useHashCheck.js';
-import {log} from './log.js';
+import {SendingFiles} from '@/stores/baseStore.js';
+import {hashFile} from '@/functions/useHashCheck.js';
+import {log} from '@/functions/log.js';
 
 export const useHttpServer = (
 	MY_IP: string,

@@ -1,9 +1,9 @@
 import dgram from 'dgram';
 import {useEffect} from 'react';
-import useBroadcast from './broadcast.js';
-import {addDiscoveredPeer} from '../stores/peersStore.js';
+import useBroadcast from '@/functions/broadcast.js';
+import {addDiscoveredPeer} from '@/stores/peersStore.js';
 import chalk from 'chalk';
-import {log} from './log.js';
+import {log} from '@/functions/log.js';
 
 type UdpMsgType = {
 	method: string;
