@@ -1,4 +1,6 @@
 // import {Command} from 'commander';
+import fs from 'fs';
+import path from 'path';
 import yargs, {Arguments, Argv} from 'yargs';
 import {hideBin} from 'yargs/helpers';
 import express from 'express';
@@ -6,6 +8,7 @@ import {useEffect, useMemo} from 'react';
 import {
 	$action,
 	$baseInfo,
+	$isDev,
 	$sendingFiles,
 	SendingFiles,
 } from '../stores/baseStore.js';
@@ -14,6 +17,8 @@ import {v4 as uuidv4} from 'uuid';
 
 type DefaultArgvType = {
 	files?: string[];
+	version?: boolean;
+	dev_mode?: boolean;
 	name?: string;
 	[x: string]: any;
 };
@@ -43,6 +48,22 @@ export const useCommands = () => {
 					});
 				},
 				(argv: DefaultArgvType) => {
+					// if (argv.version) {
+					// 	const packageManifest = JSON.parse(
+					// 		fs.readFileSync(
+					// 			path.join(process.cwd(), 'package.json'),
+					// 			'utf-8',
+					// 		),
+					// 	);
+
+					// 	const version = packageManifest.version;
+					// 	console.log(`version: ${version}`);
+					// 	return;
+					// }
+
+					if (argv.dev_mode) {
+						$isDev.set(true);
+					}
 					if (argv.name && argv.name != '') {
 						$baseInfo.setKey('MY_NAME', argv.name);
 					}
@@ -68,6 +89,16 @@ export const useCommands = () => {
 					}
 				},
 			)
+			.option('version', {
+				alias: 'v',
+				type: 'boolean',
+				description: 'Get the current installed version.',
+			})
+			.option('dev_mode', {
+				alias: 'dev',
+				type: 'boolean',
+				description: 'Start with debug mode.',
+			})
 			.option('name', {
 				alias: 'n',
 				type: 'string',

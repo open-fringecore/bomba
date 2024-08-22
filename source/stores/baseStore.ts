@@ -21,6 +21,7 @@ export const $baseInfo = map<InfoType>({
 });
 
 export const $action = atom<'SEND' | 'RECEIVE' | 'NOTHING'>('NOTHING');
+export const $isDev = atom<boolean>(false);
 
 export type SingleSendingFile = {
 	fileName: string;
