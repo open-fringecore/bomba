@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function App({name = 'Stranger'}: Props) {
-	console.clear();
+	// console.clear();
 
 	useCommands();
 	useLocalIP();

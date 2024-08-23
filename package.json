@@ -24,6 +24,7 @@
 	],
 	"dependencies": {
 		"@nanostores/react": "^0.7.2",
+		"@types/readline-sync": "^1.4.8",
 		"@types/uuid": "^9.0.8",
 		"@types/yargs": "^17.0.32",
 		"cli-spinners": "^3.1.0",
@@ -36,6 +37,7 @@
 		"meow": "^11.0.0",
 		"nanostores": "^0.10.3",
 		"react": "^18.2.0",
+		"readline-sync": "^1.4.10",
 		"tsc-alias": "^1.8.10",
 		"uuid": "^9.0.1",
 		"yargs": "^17.7.2"

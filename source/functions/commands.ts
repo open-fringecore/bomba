@@ -76,11 +76,11 @@ export const useCommands = () => {
 					}
 				},
 			)
-			.option('version', {
-				alias: 'v',
-				type: 'boolean',
-				description: 'Get the current installed version.',
-			})
+			// .option('version', {
+			// 	alias: 'v',
+			// 	type: 'boolean',
+			// 	description: 'Get the current installed version.',
+			// })
 			.option('dev_mode', {
 				alias: 'dev',
 				type: 'boolean',
