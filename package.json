@@ -11,8 +11,9 @@
 	},
 	"scripts": {
 		"node-version": "node -v",
-		"build": "tsc",
-		"watch": "tsc --watch",
+		"build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+		"watch": "tsc && (concurrently \"tsc -w\" \"tsc-alias -w\")",
+		"old-watch": "tsc --watch",
 		"start": "node ./dist/cli.js",
 		"send": "node ./dist/cli.js SEND",
 		"receive": "node ./dist/cli.js RECEIVE",
@@ -26,6 +27,7 @@
 		"@types/uuid": "^9.0.8",
 		"@types/yargs": "^17.0.32",
 		"cli-spinners": "^3.1.0",
+		"concurrently": "^8.2.2",
 		"express": "^4.18.2",
 		"ink": "^4.1.0",
 		"ink-color-pipe": "^3.0.0",
@@ -34,6 +36,7 @@
 		"meow": "^11.0.0",
 		"nanostores": "^0.10.3",
 		"react": "^18.2.0",
+		"tsc-alias": "^1.8.10",
 		"uuid": "^9.0.1",
 		"yargs": "^17.7.2"
 	},
