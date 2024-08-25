@@ -2,8 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {Box, Spacer, Text} from 'ink';
 import {Spinner, spinners} from '@/components/Misc/Spinner.js';
 import {useStore} from '@nanostores/react';
-import {$action, $baseInfo, $sendingFiles} from '@/stores/baseStore.js';
-import {$connectedPeers} from '@/stores/peersStore.js';
+import {
+	$action,
+	$baseInfo,
+	$sendingFiles,
+	SingleSendingFile,
+} from '@/stores/baseStore.js';
+import {$connectedPeers, ConnectedPeerType} from '@/stores/peersStore.js';
 import {useUdpServer} from '@/functions/udpServer.js';
 import {hasNullValue} from '@/functions/helper.js';
 import PeerList from '@/components/Misc/PeerList.js';
@@ -14,6 +19,7 @@ import {
 	$currTransfer,
 	$peersFiles,
 	initTransferInfo,
+	SingleTransferFileInfo,
 } from '@/stores/fileHandlerStore.js';
 import {useFileDownloader} from '@/functions/useFileDownloader.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
@@ -54,7 +60,28 @@ const Discover = () => {
 
 	useActivePeers();
 
-	const onSelect = (peerID: string) => {
+	const downloadSingleFile = async (
+		key: string,
+		value: SingleSendingFile,
+		selectedPeer: ConnectedPeerType,
+	) => {
+		await useFileDownloader(
+			selectedPeer.id,
+			selectedPeer.ip,
+			selectedPeer.httpPort,
+			key,
+			value.fileName,
+		);
+		await useHashCheck(
+			selectedPeer.id,
+			selectedPeer.ip,
+			selectedPeer.httpPort,
+			key,
+			value.fileName,
+		);
+	};
+
+	const onSelect = async (peerID: string) => {
 		const selectedPeer = connectedPeers[peerID];
 		const selectedPeerFiles = peersFiles[peerID];
 
@@ -70,28 +97,15 @@ const Discover = () => {
 		const totalFiles = Object.entries(selectedPeerFiles).length;
 		initTransferInfo(peerID, selectedPeer.name, totalFiles, selectedPeerFiles);
 
-		Object.entries(selectedPeerFiles)?.forEach(async ([key, value]) => {
+		for (const [key, value] of Object.entries(selectedPeerFiles)) {
 			log(`Downloading: ${value.fileName}`);
 
 			try {
-				await useFileDownloader(
-					selectedPeer.id,
-					selectedPeer.ip,
-					selectedPeer.httpPort,
-					key,
-					value.fileName,
-				);
-				await useHashCheck(
-					selectedPeer.id,
-					selectedPeer.ip,
-					selectedPeer.httpPort,
-					key,
-					value.fileName,
-				);
+				await downloadSingleFile(key, value, selectedPeer);
 			} catch (error) {
 				console.error('An error occurred:', error);
 			}
-		});
+		}
 	};
 
 	return (
