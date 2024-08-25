@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Box, Text} from 'ink';
 import AsciiIntro from '@/components/AsciiArt/AsciiIntro.js';
 import Discover from '@/components/Discover.js';
@@ -8,6 +8,8 @@ import {useStore} from '@nanostores/react';
 import {$action, $baseInfo} from '@/stores/baseStore.js';
 import {hasNullValue} from '@/functions/helper.js';
 import {useCommands} from '@/functions/commands.js';
+import diskusage from 'diskusage';
+import path from 'path';
 
 type Props = {
 	name: string | undefined;
@@ -22,6 +24,21 @@ export default function App({name = 'Stranger'}: Props) {
 
 	const baseInfo = useStore($baseInfo);
 	const action = useStore($action);
+
+	useEffect(() => {
+		const drive = path.parse(process.cwd()).root;
+
+		diskusage.check(drive, (err, info) => {
+			if (err) {
+				console.error(err);
+				return;
+			}
+
+			console.log(`Total space: ${info?.total}`);
+			console.log(`Available space: ${info?.available}`);
+			console.log(`Free space: ${info?.free}`);
+		});
+	}, []);
 
 	return (
 		<Box flexDirection="column">
