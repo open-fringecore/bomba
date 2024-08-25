@@ -101,8 +101,7 @@ const Discover = () => {
 			log(`Downloading: ${value.fileName}`);
 
 			try {
-				// await downloadSingleFile(key, value, selectedPeer);
-				downloadSingleFile(key, value, selectedPeer);
+				await downloadSingleFile(key, value, selectedPeer);
 			} catch (error) {
 				console.error('An error occurred:', error);
 			}
