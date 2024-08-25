@@ -5,6 +5,7 @@ import {
 	updateTransferFileState,
 } from '@/stores/fileHandlerStore.js';
 import {RECEIVE_PATH} from '@/functions/variables.js';
+import {log} from '@/functions/log.js';
 
 export const hashFile = (filePath: string) => {
 	return new Promise((resolve, reject) => {
@@ -32,6 +33,7 @@ export const useHashCheck = async (
 	FILENAME: string,
 ) => {
 	return new Promise<void>(async (resolve, reject) => {
+		log('Hash checking: ', FILENAME);
 		try {
 			const url = `http://${PEER_IP}:${PEER_TCP_PORT}/get-hash/${FILENAME}`;
 			const outputPath = `${RECEIVE_PATH}/${FILENAME}`;
@@ -48,10 +50,10 @@ export const useHashCheck = async (
 			const receivedFileHash = await hashFile(outputPath);
 
 			if (sendFileHash === receivedFileHash) {
-				// log('HASH MATCHED');
+				log('HASH MATCHED');
 				updateTransferFileState(FILE_ID, 'SUCCESS');
 			} else {
-				// log("HASH DIDN'T MATCHED", sendFileHash, receivedFileHash);
+				log("HASH DIDN'T MATCHED", sendFileHash, receivedFileHash);
 				// updateTransferFileState(FILE_ID, 'ERROR');
 				// updateTransferFileErrorMsg(FILE_ID, 'Hash Mismatch.');
 				throw new Error('Hash Mismatch.');

@@ -87,7 +87,7 @@ const Discover = () => {
 			log(`📥 Downloading: ${value.fileName}`);
 
 			try {
-				await performSingleDownloadSteps(key, value.fileName, {
+				await performSingleDownloadSteps(key, value.fileName, value.fileSize, {
 					peerIP: selectedPeer.ip,
 					peerID: selectedPeer.id,
 					peerHttpPort: selectedPeer.httpPort,

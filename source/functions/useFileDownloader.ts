@@ -7,14 +7,47 @@ import {
 } from '@/stores/fileHandlerStore.js';
 import {RECEIVE_PATH} from '@/functions/variables.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
+import readlineSync from 'readline-sync';
+import {log} from '@/functions/log.js';
+import {fileExists} from '@/functions/helper.js';
 
-export const checkBeforeDownload = (): Promise<void> => {
-	return new Promise<void>(async (resolve, reject) => {
+export const checkDuplication = (
+	FILE_ID: string,
+	fileName: string,
+): Promise<boolean> => {
+	return new Promise<boolean>(async (resolve, reject) => {
 		try {
-			setTimeout(() => {
-				console.log('Check Complete');
-				resolve();
-			}, 2000);
+			const isDuplicate = fileExists(`${RECEIVE_PATH}/${fileName}`);
+			if (isDuplicate) {
+				if (readlineSync.keyInYN('Do you want this module?')) {
+					resolve(true);
+				} else {
+					updateTransferFileState(FILE_ID, 'ERROR');
+					updateTransferFileErrorMsg(FILE_ID, 'File already exist!');
+					resolve(false);
+				}
+			} else {
+				resolve(true);
+			}
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+export const checkEnoughSpace = (
+	FILE_ID: string,
+	fileSize: number,
+): Promise<boolean> => {
+	return new Promise<boolean>(async (resolve, reject) => {
+		try {
+			const isNotEnoughSpace = fileSize > 999999;
+			if (isNotEnoughSpace) {
+				updateTransferFileState(FILE_ID, 'ERROR');
+				updateTransferFileErrorMsg(FILE_ID, 'Not enough space!');
+				resolve(false);
+			} else {
+				resolve(true);
+			}
 		} catch (error) {
 			reject(error);
 		}
@@ -24,11 +57,15 @@ export const checkBeforeDownload = (): Promise<void> => {
 export const performSingleDownloadSteps = async (
 	fileID: string,
 	fileName: string,
+	fileSize: number,
 	peer: CurrTransferPeerInfo,
 ) => {
-	await checkBeforeDownload();
-	await useFileDownloader(peer.peerIP, peer.peerHttpPort, fileID, fileName);
-	await useHashCheck(peer.peerIP, peer.peerHttpPort, fileID, fileName);
+	const isNoDuplicationIssue = await checkDuplication(fileID, fileName);
+	const isNoSpaceIssue = await checkEnoughSpace(fileID, fileSize);
+	if (isNoDuplicationIssue && isNoSpaceIssue) {
+		await useFileDownloader(peer.peerIP, peer.peerHttpPort, fileID, fileName);
+		await useHashCheck(peer.peerIP, peer.peerHttpPort, fileID, fileName);
+	}
 };
 
 // TODO:: Use Pipe Later

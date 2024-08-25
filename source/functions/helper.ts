@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 export function getRandomBanglaName() {
 	const names = [
 		'অনিক',
@@ -28,4 +30,13 @@ export const cleanFileName = (name: string) => {
 // TODO:: Fix
 export const getFileSize = (fileName: string) => {
 	return 99999;
+};
+
+export const fileExists = (filePath: string) => {
+	try {
+		return fs.existsSync(filePath);
+	} catch (err) {
+		console.error('Error checking file existence:', err);
+		return false;
+	}
 };
