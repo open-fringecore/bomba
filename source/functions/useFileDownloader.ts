@@ -11,7 +11,6 @@ import {v4 as uuidv4} from 'uuid';
 import {RECEIVE_PATH} from '@/functions/variables.js';
 
 export const useFileDownloader = (
-	PEER_ID: string,
 	PEER_IP: string,
 	PEER_TCP_PORT: number,
 	FILE_ID: string,

@@ -60,26 +60,24 @@ const Discover = () => {
 
 	useActivePeers();
 
-	const downloadSingleFile = async (
-		key: string,
-		value: SingleSendingFile,
-		selectedPeer: ConnectedPeerType,
-	) => {
-		await useFileDownloader(
-			selectedPeer.id,
-			selectedPeer.ip,
-			selectedPeer.httpPort,
-			key,
-			value.fileName,
-		);
-		await useHashCheck(
-			selectedPeer.id,
-			selectedPeer.ip,
-			selectedPeer.httpPort,
-			key,
-			value.fileName,
-		);
-	};
+	// const downloadSingleFile = async (
+	// 	key: string,
+	// 	value: SingleSendingFile,
+	// 	selectedPeer: ConnectedPeerType,
+	// ) => {
+	// 	await useFileDownloader(
+	// 		selectedPeer.ip,
+	// 		selectedPeer.httpPort,
+	// 		key,
+	// 		value.fileName,
+	// 	);
+	// 	await useHashCheck(
+	// 		selectedPeer.ip,
+	// 		selectedPeer.httpPort,
+	// 		key,
+	// 		value.fileName,
+	// 	);
+	// };
 
 	const onSelect = async (peerID: string) => {
 		const selectedPeer = connectedPeers[peerID];
@@ -95,17 +93,26 @@ const Discover = () => {
 		}
 
 		const totalFiles = Object.entries(selectedPeerFiles).length;
-		initTransferInfo(peerID, selectedPeer.name, totalFiles, selectedPeerFiles);
+		initTransferInfo(
+			{
+				peerID: peerID,
+				peerIP: selectedPeer.id,
+				peerHttpPort: selectedPeer.httpPort,
+				senderName: selectedPeer.name,
+			},
+			totalFiles,
+			selectedPeerFiles,
+		);
 
-		for (const [key, value] of Object.entries(selectedPeerFiles)) {
-			log(`Downloading: ${value.fileName}`);
+		// for (const [key, value] of Object.entries(selectedPeerFiles)) {
+		// 	log(`Downloading: ${value.fileName}`);
 
-			try {
-				await downloadSingleFile(key, value, selectedPeer);
-			} catch (error) {
-				console.error('An error occurred:', error);
-			}
-		}
+		// 	try {
+		// 		await downloadSingleFile(key, value, selectedPeer);
+		// 	} catch (error) {
+		// 		console.error('An error occurred:', error);
+		// 	}
+		// }
 	};
 
 	return (

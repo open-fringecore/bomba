@@ -45,7 +45,7 @@ const FileTransfer = ({currTransfer}: PropType) => {
 			<Box flexDirection="column">
 				<Text backgroundColor="green" color="white" bold>
 					{' '}
-					{currTransfer.senderName}{' '}
+					{currTransfer.peerInfo.senderName}{' '}
 				</Text>
 			</Box>
 
@@ -63,11 +63,13 @@ const FileTransfer = ({currTransfer}: PropType) => {
 				<SingleFileTransfer
 					key={key}
 					progress={files[key]?.progress ?? 0}
+					fileID={key}
 					fileName={files[key]?.fileName!}
 					state={files[key]?.state!}
 					error={files[key]?.errorMsg}
 					isStartedTransferring={isStartedTransferring}
 					isTransferComplete={isTransferComplete}
+					peerInfo={currTransfer.peerInfo}
 				/>
 			))}
 		</Box>

@@ -18,9 +18,14 @@ export type SingleTransferFileInfo = {
 type CurrTransferFiles = {
 	[fileID: string]: SingleTransferFileInfo;
 };
-export type CurrTransfer = {
+export type CurrTransferPeerInfo = {
 	peerID: string;
+	peerIP: string;
+	peerHttpPort: number;
 	senderName: string;
+};
+export type CurrTransfer = {
+	peerInfo: CurrTransferPeerInfo;
 	totalFiles: number;
 	totalProgress: number;
 	files: CurrTransferFiles;
@@ -40,8 +45,7 @@ export const $peersFiles = deepMap<PeersFiles>({});
 export const $currTransfer = deepMap<CurrTransfer>();
 
 export const initTransferInfo = (
-	peerID: string,
-	senderName: string,
+	peerInfo: CurrTransferPeerInfo,
 	totalFiles: number,
 	sendingFiles: Files,
 ) => {
@@ -59,8 +63,7 @@ export const initTransferInfo = (
 		{},
 	);
 	$currTransfer.set({
-		peerID: peerID,
-		senderName: senderName,
+		peerInfo: peerInfo,
 		totalFiles: totalFiles,
 		totalProgress: 0,
 		files: files,

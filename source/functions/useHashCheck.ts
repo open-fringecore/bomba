@@ -26,7 +26,6 @@ export const hashFile = (filePath: string) => {
 };
 
 export const useHashCheck = async (
-	PEER_ID: string,
 	PEER_IP: string,
 	PEER_TCP_PORT: number,
 	FILE_ID: string,
