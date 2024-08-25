@@ -8,7 +8,6 @@ import {useStore} from '@nanostores/react';
 import {$action, $baseInfo} from '@/stores/baseStore.js';
 import {hasNullValue} from '@/functions/helper.js';
 import {useCommands} from '@/functions/commands.js';
-import diskusage from 'diskusage';
 import path from 'path';
 
 type Props = {
@@ -27,17 +26,7 @@ export default function App({name = 'Stranger'}: Props) {
 
 	useEffect(() => {
 		const drive = path.parse(process.cwd()).root;
-
-		diskusage.check(drive, (err, info) => {
-			if (err) {
-				console.error(err);
-				return;
-			}
-
-			console.log(`Total space: ${info?.total}`);
-			console.log(`Available space: ${info?.available}`);
-			console.log(`Free space: ${info?.free}`);
-		});
+		console.log('<><><>', drive);
 	}, []);
 
 	return (
