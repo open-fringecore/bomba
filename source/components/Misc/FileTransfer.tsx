@@ -1,8 +1,8 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
-import {CurrTransfer} from '@/stores/fileHandlerStore.js';
-import {log, logToFile} from '@/functions/log.js';
-import SingleFileTransfer from '@/components/misc/SingleFileTransfer.js';
+import {CurrTransfer} from '@/stores/fileHandlerStore';
+import {log, logToFile} from '@/functions/log';
+import SingleFileTransfer from '@/components/Misc/SingleFileTransfer';
 
 type PropType = {
 	currTransfer: CurrTransfer;

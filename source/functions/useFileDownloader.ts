@@ -6,9 +6,9 @@ import {
 	updateTransferFileErrorMsg,
 	updateTransferFileState,
 	updateTransferProgress,
-} from '@/stores/fileHandlerStore.js';
+} from '@/stores/fileHandlerStore';
 import {v4 as uuidv4} from 'uuid';
-import {RECEIVE_PATH} from '@/functions/variables.js';
+import {RECEIVE_PATH} from '@/functions/variables';
 
 export const useFileDownloader = (
 	PEER_ID: string,

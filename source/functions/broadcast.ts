@@ -1,5 +1,5 @@
 import {Socket} from 'dgram'; // Ensure dgram is available in your environment
-import {log} from '@/functions/log.js';
+import {log} from '@/functions/log';
 
 const useBroadcast = () => {
 	const broadcast = (

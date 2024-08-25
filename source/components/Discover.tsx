@@ -1,23 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Spacer, Text} from 'ink';
-import {Spinner, spinners} from '@/components/misc/Spinner.js';
+import {Spinner, spinners} from '@/components/Misc/Spinner';
 import {useStore} from '@nanostores/react';
-import {$action, $baseInfo, $sendingFiles} from '@/stores/baseStore.js';
-import {$connectedPeers} from '@/stores/peersStore.js';
-import {useUdpServer} from '@/functions/udpServer.js';
-import {hasNullValue} from '@/functions/helper.js';
-import PeerList from '@/components/misc/PeerList.js';
-import {useHttpServer} from '@/functions/httpServer.js';
-import {useActivePeers} from '@/functions/useActivePeers.js';
-import FileTransfer from '@/components/misc/FileTransfer.js';
+import {$action, $baseInfo, $sendingFiles} from '@/stores/baseStore';
+import {$connectedPeers} from '@/stores/peersStore';
+import {useUdpServer} from '@/functions/udpServer';
+import {hasNullValue} from '@/functions/helper';
+import PeerList from '@/components/Misc/PeerList';
+import {useHttpServer} from '@/functions/httpServer';
+import {useActivePeers} from '@/functions/useActivePeers';
+import FileTransfer from '@/components/Misc/FileTransfer';
 import {
 	$currTransfer,
 	$peersFiles,
 	initTransferInfo,
-} from '@/stores/fileHandlerStore.js';
-import {useFileDownloader} from '@/functions/useFileDownloader.js';
-import {useHashCheck} from '@/functions/useHashCheck.js';
-import {log} from '@/functions/log.js';
+} from '@/stores/fileHandlerStore';
+import {useFileDownloader} from '@/functions/useFileDownloader';
+import {useHashCheck} from '@/functions/useHashCheck';
+import {log} from '@/functions/log';
 
 const Discover = () => {
 	const action = useStore($action);

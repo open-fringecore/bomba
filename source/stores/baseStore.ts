@@ -1,6 +1,6 @@
 import {atom, map} from 'nanostores';
 import {v4 as uuidv4} from 'uuid';
-import {getFreePort} from '@/functions/freePort.js';
+import {getFreePort} from '@/functions/freePort';
 
 type InfoType = {
 	MY_ID: string;

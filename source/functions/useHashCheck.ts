@@ -3,8 +3,8 @@ import fs from 'fs';
 import {
 	updateTransferFileErrorMsg,
 	updateTransferFileState,
-} from '@/stores/fileHandlerStore.js';
-import {RECEIVE_PATH} from '@/functions/variables.js';
+} from '@/stores/fileHandlerStore';
+import {RECEIVE_PATH} from '@/functions/variables';
 
 export const hashFile = (filePath: string) => {
 	return new Promise((resolve, reject) => {

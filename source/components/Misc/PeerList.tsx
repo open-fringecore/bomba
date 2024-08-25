@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 // import {render} from 'ink';
 import SelectInput from 'ink-select-input';
-import {ConnectedPeersType} from '@/stores/peersStore.js';
+import {ConnectedPeersType} from '@/stores/peersStore';
 import {Box} from 'ink';
 
 type ItemType = {
