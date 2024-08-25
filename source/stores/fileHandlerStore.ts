@@ -1,4 +1,4 @@
-import {deepMap} from 'nanostores';
+import {atom, deepMap, map} from 'nanostores';
 
 export type TransferStates =
 	| 'DEFAULT'
@@ -41,8 +41,14 @@ export type PeersFiles = {
 	[peerID: string]: Files;
 };
 
+export type CurrTransferWarningType = {
+	fileID: string;
+	msg: string;
+};
+
 export const $peersFiles = deepMap<PeersFiles>({});
 export const $currTransfer = deepMap<CurrTransfer>();
+export const $currTransferWarning = map<CurrTransferWarningType>();
 
 export const initTransferInfo = (
 	peerInfo: CurrTransferPeerInfo,

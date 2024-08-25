@@ -1,15 +1,37 @@
-import express, {Request, Response} from 'express';
-import path from 'path';
-import http from 'http';
 import fs from 'fs';
 import {
+	CurrTransferPeerInfo,
 	updateTransferFileErrorMsg,
 	updateTransferFileState,
 	updateTransferProgress,
 } from '@/stores/fileHandlerStore.js';
-import {v4 as uuidv4} from 'uuid';
 import {RECEIVE_PATH} from '@/functions/variables.js';
+import {useHashCheck} from '@/functions/useHashCheck.js';
 
+export const checkBeforeDownload = (): Promise<void> => {
+	return new Promise<void>(async (resolve, reject) => {
+		try {
+			setTimeout(() => {
+				console.log('Check Complete');
+				resolve();
+			}, 2000);
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+
+export const performSingleDownloadSteps = async (
+	fileID: string,
+	fileName: string,
+	peer: CurrTransferPeerInfo,
+) => {
+	await checkBeforeDownload();
+	await useFileDownloader(peer.peerIP, peer.peerHttpPort, fileID, fileName);
+	await useHashCheck(peer.peerIP, peer.peerHttpPort, fileID, fileName);
+};
+
+// TODO:: Use Pipe Later
 export const useFileDownloader = (
 	PEER_IP: string,
 	PEER_TCP_PORT: number,
