@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Box, Text} from 'ink';
 import AsciiIntro from '@/components/AsciiArt/AsciiIntro.js';
 import Discover from '@/components/Discover.js';

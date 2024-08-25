@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React from 'react';
 import {Box, Text} from 'ink';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 import CustomTask from '@/components/Misc/CustomTask.js';

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Box, Spacer, Text} from 'ink';
 import {Spinner, spinners} from '@/components/Misc/Spinner.js';
 import {useStore} from '@nanostores/react';
@@ -101,7 +101,8 @@ const Discover = () => {
 			log(`Downloading: ${value.fileName}`);
 
 			try {
-				await downloadSingleFile(key, value, selectedPeer);
+				// await downloadSingleFile(key, value, selectedPeer);
+				downloadSingleFile(key, value, selectedPeer);
 			} catch (error) {
 				console.error('An error occurred:', error);
 			}
