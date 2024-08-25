@@ -4,6 +4,7 @@ import {
 	updateTransferFileErrorMsg,
 	updateTransferFileState,
 } from '@/stores/fileHandlerStore.js';
+import {RECEIVE_PATH} from '@/functions/variables.js';
 
 export const hashFile = (filePath: string) => {
 	return new Promise((resolve, reject) => {
@@ -34,8 +35,7 @@ export const useHashCheck = async (
 	return new Promise<void>(async (resolve, reject) => {
 		try {
 			const url = `http://${PEER_IP}:${PEER_TCP_PORT}/get-hash/${FILENAME}`;
-			const outputPath = `${process.cwd()}/${FILENAME}`;
-			// const outputPath = `${process.cwd()}/receive_files/${FILENAME}`; // TODO:: Fix
+			const outputPath = `${RECEIVE_PATH}/${FILENAME}`;
 
 			const response = await fetch(url);
 			if (!response.ok) {

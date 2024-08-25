@@ -8,6 +8,7 @@ import {
 	updateTransferProgress,
 } from '@/stores/fileHandlerStore.js';
 import {v4 as uuidv4} from 'uuid';
+import {RECEIVE_PATH} from '@/functions/variables.js';
 
 export const useFileDownloader = (
 	PEER_ID: string,
@@ -17,8 +18,7 @@ export const useFileDownloader = (
 	FILENAME: string,
 ): Promise<void> => {
 	const url = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
-	const outputPath = `${process.cwd()}/${FILENAME}`;
-	// const outputPath = `${process.cwd()}/receive_files/${FILENAME}`; // TODO:: Fix
+	const outputPath = `${RECEIVE_PATH}/${FILENAME}`;
 
 	return new Promise<void>(async (resolve, reject) => {
 		try {

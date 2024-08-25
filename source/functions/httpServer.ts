@@ -5,6 +5,7 @@ import path from 'path';
 import {SendingFiles} from '@/stores/baseStore.js';
 import {hashFile} from '@/functions/useHashCheck.js';
 import {log} from '@/functions/log.js';
+import {SEND_PATH} from '@/functions/variables.js';
 
 export const useHttpServer = (
 	MY_IP: string,
@@ -42,8 +43,7 @@ export const useHttpServer = (
 				return res.status(400).json({msg: 'filename required.'});
 			}
 
-			const filePath = `${process.cwd()}/${filename}`;
-			// const filePath = `${process.cwd()}/send_files/${filename}`; // TODO:: Fix
+			const filePath = `${SEND_PATH}/${filename}`;
 
 			if (!fs.existsSync(filePath)) {
 				return res.status(404).json({msg: 'File not found!', filePath});
@@ -73,8 +73,7 @@ export const useHttpServer = (
 				return res.status(400).json({msg: 'filename required.'});
 			}
 
-			const filePath = `${process.cwd()}/${filename}`;
-			// const filePath = `${process.cwd()}/send_files/${filename}`; // TODO:: Fix
+			const filePath = `${SEND_PATH}/${filename}`;
 
 			if (!fs.existsSync(filePath)) {
 				return res.status(404).json({msg: 'File not found!!'});
