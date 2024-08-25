@@ -9,7 +9,7 @@ import {RECEIVE_PATH} from '@/functions/variables.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
 import readlineSync from 'readline-sync';
 import {log} from '@/functions/log.js';
-import {fileExists} from '@/functions/helper.js';
+import {fileExists, getDiskSpace} from '@/functions/helper.js';
 
 export const checkDuplication = (
 	FILE_ID: string,
@@ -40,7 +40,8 @@ export const checkEnoughSpace = (
 ): Promise<boolean> => {
 	return new Promise<boolean>(async (resolve, reject) => {
 		try {
-			const isNotEnoughSpace = fileSize > 999999;
+			const availableSpace = await getDiskSpace();
+			const isNotEnoughSpace = fileSize > availableSpace;
 			if (isNotEnoughSpace) {
 				updateTransferFileState(FILE_ID, 'ERROR');
 				updateTransferFileErrorMsg(FILE_ID, 'Not enough space!');

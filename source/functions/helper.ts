@@ -1,4 +1,5 @@
-import fs from 'fs';
+import fs, {statfs} from 'fs';
+import path from 'path';
 
 export function getRandomBanglaName() {
 	const names = [
@@ -39,4 +40,20 @@ export const fileExists = (filePath: string) => {
 		console.error('Error checking file existence:', err);
 		return false;
 	}
+};
+
+export const getDiskSpace = async (): Promise<number> => {
+	const drive = path.parse(process.cwd()).root;
+
+	return new Promise((resolve, reject) => {
+		statfs(drive, (err, stats) => {
+			// console.log('Total free space', stats.bsize * stats.bfree);
+			// console.log('Available for user', stats.bsize * stats.bavail);
+			if (err) {
+				reject(err);
+			} else {
+				resolve(stats.bsize * stats.bavail);
+			}
+		});
+	});
 };
