@@ -67,30 +67,30 @@ const Discover = () => {
 			return;
 		}
 
-		const toalFiles = Object.entries(selectedPeerFiles).length;
-		initTransferInfo(peerID, selectedPeer.name, toalFiles, selectedPeerFiles);
+		const totalFiles = Object.entries(selectedPeerFiles).length;
+		initTransferInfo(peerID, selectedPeer.name, totalFiles, selectedPeerFiles);
 
 		Object.entries(selectedPeerFiles)?.forEach(async ([key, value]) => {
-			// log(`Downloading: ${value.fileName}`);
-			await useFileDownloader(
-				selectedPeer.id,
-				selectedPeer.ip,
-				selectedPeer.httpPort,
-				key,
-				value.fileName,
-			)
-				.then(() => {
-					return useHashCheck(
-						selectedPeer.id,
-						selectedPeer.ip,
-						selectedPeer.httpPort,
-						key,
-						value.fileName,
-					);
-				})
-				.catch(error => {
-					console.error('An error occurred:', error);
-				});
+			log(`Downloading: ${value.fileName}`);
+
+			try {
+				await useFileDownloader(
+					selectedPeer.id,
+					selectedPeer.ip,
+					selectedPeer.httpPort,
+					key,
+					value.fileName,
+				);
+				await useHashCheck(
+					selectedPeer.id,
+					selectedPeer.ip,
+					selectedPeer.httpPort,
+					key,
+					value.fileName,
+				);
+			} catch (error) {
+				console.error('An error occurred:', error);
+			}
 		});
 	};
 
