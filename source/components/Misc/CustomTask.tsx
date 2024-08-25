@@ -1,6 +1,6 @@
 import React, {ReactNode, useEffect, useMemo, useState} from 'react';
 import {Text} from 'ink';
-import {Spinner, spinners} from '@/components/Misc/Spinner';
+import {Spinner, spinners} from '@/components/Misc/Spinner.js';
 
 export const icon = {
 	pending: <Text color={'gray'}>◼</Text>,

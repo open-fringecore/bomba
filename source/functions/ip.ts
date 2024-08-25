@@ -1,7 +1,7 @@
 import {useStore} from '@nanostores/react';
 import * as os from 'os';
 import {useEffect, useState} from 'react';
-import {$baseInfo} from '@/stores/baseStore';
+import {$baseInfo} from '@/stores/baseStore.js';
 
 const isPrivateIP = (ip: string): boolean => {
 	return ip.startsWith('192.168');

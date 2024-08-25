@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Text} from 'ink';
-import AsciiIntro from '@/components/AsciiArt/AsciiIntro';
-import Discover from '@/components/Discover';
-import useLocalIP from '@/functions/ip';
-import useComputerName from '@/functions/name';
+import AsciiIntro from '@/components/AsciiArt/AsciiIntro.js';
+import Discover from '@/components/Discover.js';
+import useLocalIP from '@/functions/ip.js';
+import useComputerName from '@/functions/name.js';
 import {useStore} from '@nanostores/react';
-import {$action, $baseInfo} from '@/stores/baseStore';
-import {hasNullValue} from '@/functions/helper';
-import {useCommands} from '@/functions/commands';
+import {$action, $baseInfo} from '@/stores/baseStore.js';
+import {hasNullValue} from '@/functions/helper.js';
+import {useCommands} from '@/functions/commands.js';
 
 type Props = {
 	name: string | undefined;

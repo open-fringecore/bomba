@@ -1,8 +1,8 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
-import ProgressBar from '@/components/Misc/ProgressBar';
-import CustomTask from '@/components/Misc/CustomTask';
-import {TransferStates} from '@/stores/fileHandlerStore';
+import ProgressBar from '@/components/Misc/ProgressBar.js';
+import CustomTask from '@/components/Misc/CustomTask.js';
+import {TransferStates} from '@/stores/fileHandlerStore.js';
 
 export type TaskStates = {
 	[key: string]: 'pending' | 'success' | 'error' | 'success' | 'loading';
