@@ -19,7 +19,7 @@ const PeerList = ({peers, onSelect}: PropsType) => {
 	const peersFiles = useStore($peersFiles);
 
 	const onlySenders = useMemo(
-		() => Object.entries(peers)?.filter(([key, value]) => value.isSending),
+		() => Object.entries(peers)?.filter(([key, value]) => true),
 		[peers],
 	);
 	const items: ItemsType = useMemo(

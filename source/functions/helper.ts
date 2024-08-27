@@ -96,3 +96,20 @@ export const formatBytes = (bytes: number) => {
 	const i = Math.floor(Math.log(bytes) / Math.log(k));
 	return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 };
+
+export const findLongestString = (strings: string[]): string | null => {
+	return strings.reduce(
+		(longest, current) => (current.length > longest.length ? current : longest),
+		'',
+	);
+};
+
+export const adjustStringLength = (str: string, length: number): string => {
+	if (str.length < length) {
+		return str.padEnd(length, ' ');
+	} else if (str.length > length) {
+		return str.slice(-length);
+	} else {
+		return str;
+	}
+};

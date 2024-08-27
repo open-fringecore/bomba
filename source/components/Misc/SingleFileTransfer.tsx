@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {Box, Text} from 'ink';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 import CustomTask from '@/components/Misc/CustomTask.js';
@@ -15,7 +15,7 @@ import {
 	useFileDownloader,
 } from '@/functions/useFileDownloader.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
-import {formatBytes} from '@/functions/helper.js';
+import {adjustStringLength, formatBytes} from '@/functions/helper.js';
 
 export type TaskStates = {
 	[key: string]: 'pending' | 'success' | 'error' | 'success' | 'loading';
@@ -33,6 +33,7 @@ type PropType = {
 	setIsStartedTransferring: (x: boolean) => void;
 	isTransferComplete: boolean;
 	onSingleDownloadComplete: () => void;
+	longestNameLength: number;
 };
 const SingleFileTransfer = ({
 	index,
@@ -46,6 +47,7 @@ const SingleFileTransfer = ({
 	setIsStartedTransferring,
 	isTransferComplete,
 	onSingleDownloadComplete,
+	longestNameLength,
 }: PropType) => {
 	const taskState: TaskStates = {
 		DEFAULT: 'pending',
@@ -83,6 +85,12 @@ const SingleFileTransfer = ({
 		}
 	}, [downloadIndex]);
 
+	const label = useMemo(() => {
+		const fileName = adjustStringLength(fileInfo.fileName, longestNameLength);
+		const formattedSize = formatBytes(fileInfo.fileSize);
+		return `⠀${fileName} - ${formattedSize}`;
+	}, [fileInfo]);
+
 	return (
 		<Box>
 			{isStartedTransferring && !isTransferComplete && (
@@ -93,10 +101,7 @@ const SingleFileTransfer = ({
 				state={taskState[state]}
 				spinner={cliSpinners.dots}
 			/> */}
-			<CustomTask
-				label={`⠀${fileInfo.fileName} - ${formatBytes(fileInfo.fileSize)}`}
-				state={taskState[state]}
-			/>
+			<CustomTask label={label} state={taskState[state]} />
 			{error && <Text color={'red'}>⠀{error}</Text>}
 		</Box>
 	);

@@ -3,6 +3,7 @@ import {Box, Text} from 'ink';
 import {CurrTransfer} from '@/stores/fileHandlerStore.js';
 import {log, logToFile} from '@/functions/log.js';
 import SingleFileTransfer from '@/components/Misc/SingleFileTransfer.js';
+import {findLongestString} from '@/functions/helper.js';
 
 type PropType = {
 	currTransfer: CurrTransfer;
@@ -42,6 +43,13 @@ const FileTransfer = ({currTransfer}: PropType) => {
 			setDownloadIndex(prevIndex => prevIndex + 1);
 		}
 	};
+
+	const longestNameLength = useMemo(() => {
+		const longestLength =
+			findLongestString(Object.values(files).map(file => file.fileName))
+				?.length ?? Infinity;
+		return Math.min(longestLength, 30);
+	}, [files]);
 
 	return (
 		<Box
@@ -83,6 +91,7 @@ const FileTransfer = ({currTransfer}: PropType) => {
 					setIsStartedTransferring={setIsStartedTransferring}
 					isTransferComplete={isTransferComplete}
 					onSingleDownloadComplete={onSingleDownloadComplete}
+					longestNameLength={longestNameLength}
 				/>
 			))}
 		</Box>
