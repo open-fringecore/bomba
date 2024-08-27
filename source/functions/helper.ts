@@ -26,7 +26,8 @@ export const hasNullValue = (obj: {[key: string]: any}): boolean => {
 };
 
 export const cleanFileName = (name: string) => {
-	return name.replace(/[\\/]/g, '').replace(/^\./, '');
+	return name;
+	// return name.replace(/[\\/]/g, '').replace(/^\./, '');
 };
 
 // TODO:: Fix
