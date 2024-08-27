@@ -19,7 +19,11 @@ export const checkDuplication = (
 		try {
 			const isDuplicate = fileExists(`${RECEIVE_PATH}/${fileName}`);
 			if (isDuplicate) {
-				if (readlineSync.keyInYN('Do you want this module?')) {
+				if (
+					readlineSync.keyInYN(
+						'File already exists. Do you want to replace it?',
+					)
+				) {
 					resolve(true);
 				} else {
 					updateTransferFileState(FILE_ID, 'ERROR');
