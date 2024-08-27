@@ -1,4 +1,4 @@
-import {logError} from '@/functions/log.js';
+import {logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import fs, {statfs} from 'fs';
 import path from 'path';
@@ -47,7 +47,9 @@ export const getAllFiles = (
 		if (fs.statSync(fullPath).isDirectory()) {
 			arrayOfFiles = getAllFiles(fullPath, arrayOfFiles);
 		} else {
-			arrayOfFiles.push(fullPath);
+			const cwd = path.resolve(SEND_PATH);
+			const relativePath = path.relative(cwd, fullPath);
+			arrayOfFiles.push(relativePath);
 		}
 	});
 

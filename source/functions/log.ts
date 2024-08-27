@@ -15,15 +15,15 @@ export const log = (...args: any) => {
 export const logToFile = (...data: any[]): void => {
 	const filePath = `${process.cwd()}/log.txt`;
 
-	fs.appendFile(
-		filePath,
-		'〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄\n',
-		err => {
-			if (err) {
-				logError('Failed to write to file:', err);
-			}
-		},
-	);
+	// fs.appendFile(
+	// 	filePath,
+	// 	'〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄\n',
+	// 	err => {
+	// 		if (err) {
+	// 			logError('Failed to write to file:', err);
+	// 		}
+	// 	},
+	// );
 
 	const output = data
 		.map(item =>
