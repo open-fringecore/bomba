@@ -39,6 +39,7 @@ export const useActivePeers = () => {
 							const peerFiles = Object.entries(sendingFileNames)?.reduce(
 								(acc: Files, [key, value]) => {
 									acc[key] = {
+										fileId: key,
 										...(value as SingleSendingFile),
 									};
 									return acc;

@@ -31,24 +31,27 @@ export type CurrTransfer = {
 	files: CurrTransferFiles;
 };
 
+export type SingleFile = {
+	fileId: string;
+	fileName: string;
+	fileSize: number;
+};
+
 export type Files = {
-	[fileID: string]: {
-		fileName: string;
-		fileSize: number;
-	};
+	[fileID: string]: SingleFile;
 };
 export type PeersFiles = {
 	[peerID: string]: Files;
 };
 
-export type CurrTransferWarningType = {
-	fileID: string;
-	msg: string;
-};
+// export type CurrTransferWarningType = {
+// 	fileID: string;
+// 	msg: string;
+// };
 
 export const $peersFiles = deepMap<PeersFiles>({});
 export const $currTransfer = deepMap<CurrTransfer>();
-export const $currTransferWarning = map<CurrTransferWarningType>();
+// export const $currTransferWarning = map<CurrTransferWarningType>();
 
 export const initTransferInfo = (
 	peerInfo: CurrTransferPeerInfo,

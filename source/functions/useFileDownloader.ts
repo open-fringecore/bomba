@@ -8,7 +8,7 @@ import {
 import {RECEIVE_PATH} from '@/functions/variables.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
 import readlineSync from 'readline-sync';
-import {log} from '@/functions/log.js';
+import {log, logError} from '@/functions/log.js';
 import {fileExists, getDiskSpace} from '@/functions/helper.js';
 
 export const checkDuplication = (
@@ -65,8 +65,8 @@ export const performSingleDownloadSteps = async (
 	fileSize: number,
 	peer: CurrTransferPeerInfo,
 ) => {
-	const isNoDuplicationIssue = await checkDuplication(fileID, fileName);
-	if (!isNoDuplicationIssue) return;
+	// const isNoDuplicationIssue = await checkDuplication(fileID, fileName);
+	// if (!isNoDuplicationIssue) return;
 
 	const isNoSpaceIssue = await checkEnoughSpace(fileID, fileSize);
 	if (!isNoSpaceIssue) return;
@@ -139,6 +139,7 @@ export const useFileDownloader = (
 
 			await pump();
 		} catch (error) {
+			logError('CATCH: ', error);
 			let errMsg = '';
 			if (error instanceof Error) {
 				errMsg = error.message;

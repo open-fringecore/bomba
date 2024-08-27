@@ -75,7 +75,7 @@ const Discover = () => {
 		initTransferInfo(
 			{
 				peerID: peerID,
-				peerIP: selectedPeer.id,
+				peerIP: selectedPeer.ip,
 				peerHttpPort: selectedPeer.httpPort,
 				senderName: selectedPeer.name,
 			},
@@ -83,20 +83,20 @@ const Discover = () => {
 			selectedPeerFiles,
 		);
 
-		for (const [key, value] of Object.entries(selectedPeerFiles)) {
-			log(`📥 Downloading: ${value.fileName}`);
+		// for (const [key, value] of Object.entries(selectedPeerFiles)) {
+		// 	log(`📥 Downloading: ${value.fileName}`);
 
-			try {
-				await performSingleDownloadSteps(key, value.fileName, value.fileSize, {
-					peerIP: selectedPeer.ip,
-					peerID: selectedPeer.id,
-					peerHttpPort: selectedPeer.httpPort,
-					senderName: selectedPeer.name,
-				});
-			} catch (error) {
-				console.error('An error occurred:', error);
-			}
-		}
+		// 	try {
+		// 		await performSingleDownloadSteps(key, value.fileName, value.fileSize, {
+		// 			peerIP: selectedPeer.ip,
+		// 			peerID: selectedPeer.id,
+		// 			peerHttpPort: selectedPeer.httpPort,
+		// 			senderName: selectedPeer.name,
+		// 		});
+		// 	} catch (error) {
+		// 		console.error('An error occurred:', error);
+		// 	}
+		// }
 	};
 
 	return (

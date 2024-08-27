@@ -2,6 +2,10 @@ import * as fs from 'fs';
 import {fileURLToPath} from 'url';
 import {dirname, join} from 'path';
 
+export const logError = (...args: any) => {
+	console.error(...args);
+};
+
 export const log = (...args: any) => {
 	console.log(...args);
 };
