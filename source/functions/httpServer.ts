@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import {SendingFiles} from '@/stores/baseStore.js';
 import {hashFile} from '@/functions/useHashCheck.js';
-import {log} from '@/functions/log.js';
+import {log, logError} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 
 export const useHttpServer = (
@@ -60,7 +60,7 @@ export const useHttpServer = (
 
 			// res.download(filePath, path.basename(filePath), err => {
 			// 	if (err) {
-			// 		console.error('Error downloading file:', err);
+			// 		logError('Error downloading file:', err);
 			// 		res.status(500).send('Error downloading file');
 			// 	}
 			// });
@@ -84,7 +84,7 @@ export const useHttpServer = (
 				log(`Hash of the file is: ${hash}`);
 				return res.status(200).json({msg: 'Hash Successful!', hash});
 			} catch (err) {
-				console.error('Error hashing file:', err);
+				logError('Error hashing file:', err);
 				return res.status(400).json({msg: 'Hash Failed!'});
 			}
 		});

@@ -1,8 +1,10 @@
 import * as fs from 'fs';
 import {fileURLToPath} from 'url';
 import {dirname, join} from 'path';
+import chalk from 'chalk';
 
 export const logError = (...args: any) => {
+	console.log(chalk.bgRed('ERROR:'));
 	console.error(...args);
 };
 
@@ -18,7 +20,7 @@ export const logToFile = (...data: any[]): void => {
 		'〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄〄\n',
 		err => {
 			if (err) {
-				console.error('Failed to write to file:', err);
+				logError('Failed to write to file:', err);
 			}
 		},
 	);
@@ -33,7 +35,7 @@ export const logToFile = (...data: any[]): void => {
 
 	fs.appendFile(filePath, logEntry, err => {
 		if (err) {
-			// console.error('Failed to write to file:', err);
+			// logError('Failed to write to file:', err);
 		}
 	});
 };

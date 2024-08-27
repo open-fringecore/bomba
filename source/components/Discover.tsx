@@ -21,7 +21,7 @@ import {
 	initTransferInfo,
 } from '@/stores/fileHandlerStore.js';
 import {performSingleDownloadSteps} from '@/functions/useFileDownloader.js';
-import {log} from '@/functions/log.js';
+import {log, logError} from '@/functions/log.js';
 
 const Discover = () => {
 	const action = useStore($action);
@@ -94,7 +94,7 @@ const Discover = () => {
 		// 			senderName: selectedPeer.name,
 		// 		});
 		// 	} catch (error) {
-		// 		console.error('An error occurred:', error);
+		// logError('An error occurred:', error);
 		// 	}
 		// }
 	};

@@ -5,7 +5,7 @@ import {
 	updateTransferFileState,
 } from '@/stores/fileHandlerStore.js';
 import {RECEIVE_PATH} from '@/functions/variables.js';
-import {log} from '@/functions/log.js';
+import {log, logError} from '@/functions/log.js';
 
 export const hashFile = (filePath: string) => {
 	return new Promise((resolve, reject) => {
@@ -41,7 +41,7 @@ export const useHashCheck = async (
 			const response = await fetch(url);
 			if (!response.ok) {
 				const errorData = await response.json();
-				console.error(`Error: ${response.status} - ${errorData.msg}`);
+				logError(`Error: ${response.status} - ${errorData.msg}`);
 				return;
 			}
 			const data = await response.json();
@@ -67,7 +67,7 @@ export const useHashCheck = async (
 			updateTransferFileState(FILE_ID, 'ERROR');
 			updateTransferFileErrorMsg(FILE_ID, errMsg);
 			reject(error);
-			// console.error('Error hash check:', error);
+			// logError('Error hash check:', error);
 		}
 	});
 };

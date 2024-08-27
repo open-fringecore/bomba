@@ -1,3 +1,4 @@
+import {logError} from '@/functions/log.js';
 import fs, {statfs} from 'fs';
 import path from 'path';
 
@@ -37,7 +38,7 @@ export const fileExists = (filePath: string) => {
 	try {
 		return fs.existsSync(filePath);
 	} catch (err) {
-		console.error('Error checking file existence:', err);
+		logError('Error checking file existence:', err);
 		return false;
 	}
 };

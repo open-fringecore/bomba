@@ -3,7 +3,7 @@ import {useEffect} from 'react';
 import useBroadcast from '@/functions/broadcast.js';
 import {addDiscoveredPeer} from '@/stores/peersStore.js';
 import chalk from 'chalk';
-import {log} from '@/functions/log.js';
+import {log, logError} from '@/functions/log.js';
 
 type UdpMsgType = {
 	method: string;
@@ -72,7 +72,7 @@ export const useUdpServer = (
 				);
 			} else {
 				log(
-					`${chalk.bgRed('<-- Received From:')} ${chalk.underline(
+					`${chalk.bgCyan('<-- Received From:')} ${chalk.underline(
 						data.name,
 					)}: ${data.id?.slice(-5)}`,
 				);
@@ -98,7 +98,7 @@ export const useUdpServer = (
 		});
 
 		server.on('error', err => {
-			console.error(`server error:\n${err.stack}`);
+			logError(`server error:\n${err.stack}`);
 			server.close();
 		});
 
