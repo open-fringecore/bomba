@@ -66,11 +66,13 @@ export const performSingleDownloadSteps = async (
 	peer: CurrTransferPeerInfo,
 ) => {
 	const isNoDuplicationIssue = await checkDuplication(fileID, fileName);
+	if (!isNoDuplicationIssue) return;
+
 	const isNoSpaceIssue = await checkEnoughSpace(fileID, fileSize);
-	if (isNoDuplicationIssue && isNoSpaceIssue) {
-		await useFileDownloader(peer.peerIP, peer.peerHttpPort, fileID, fileName);
-		await useHashCheck(peer.peerIP, peer.peerHttpPort, fileID, fileName);
-	}
+	if (!isNoSpaceIssue) return;
+
+	await useFileDownloader(peer.peerIP, peer.peerHttpPort, fileID, fileName);
+	await useHashCheck(peer.peerIP, peer.peerHttpPort, fileID, fileName);
 };
 
 // TODO:: Use Pipe Later

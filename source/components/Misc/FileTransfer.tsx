@@ -31,7 +31,7 @@ const FileTransfer = ({currTransfer}: PropType) => {
 
 	useEffect(() => {
 		// log('💯 File Changes Detecting... 💯');
-		logToFile('💯 File Changes Detecting... 💯', files);
+		// logToFile('💯 File Changes Detecting... 💯', files);
 	}, [files]);
 
 	return (

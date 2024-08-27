@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Box, Text} from 'ink';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 import CustomTask from '@/components/Misc/CustomTask.js';
@@ -6,6 +6,7 @@ import {
 	CurrTransferPeerInfo,
 	TransferStates,
 } from '@/stores/fileHandlerStore.js';
+import {logToFile} from '@/functions/log.js';
 
 export type TaskStates = {
 	[key: string]: 'pending' | 'success' | 'error' | 'success' | 'loading';
@@ -38,6 +39,10 @@ const SingleFileTransfer = ({
 		ERROR: 'error',
 		SUCCESS: 'success',
 	};
+
+	useEffect(() => {
+		logToFile('Render: ' + fileName);
+	}, []);
 
 	return (
 		<Box>
