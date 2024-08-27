@@ -9,7 +9,7 @@ export const logError = (...args: any) => {
 };
 
 export const log = (...args: any) => {
-	// console.log(...args);
+	console.log(...args);
 };
 
 export const logToFile = (...data: any[]): void => {
