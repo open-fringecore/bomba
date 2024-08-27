@@ -65,8 +65,8 @@ export const performSingleDownloadSteps = async (
 	fileSize: number,
 	peer: CurrTransferPeerInfo,
 ) => {
-	// const isNoDuplicationIssue = await checkDuplication(fileID, fileName);
-	// if (!isNoDuplicationIssue) return;
+	const isNoDuplicationIssue = await checkDuplication(fileID, fileName);
+	if (!isNoDuplicationIssue) return;
 
 	const isNoSpaceIssue = await checkEnoughSpace(fileID, fileSize);
 	if (!isNoSpaceIssue) return;

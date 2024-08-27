@@ -9,6 +9,9 @@ type PropType = {
 };
 const FileTransfer = ({currTransfer}: PropType) => {
 	const files = currTransfer.files;
+	const totalFiles = Object.keys(files)?.length;
+
+	const [downloadIndex, setDownloadIndex] = useState(0);
 
 	const totalDefault = useMemo(
 		() =>
@@ -26,8 +29,16 @@ const FileTransfer = ({currTransfer}: PropType) => {
 			}, 0),
 		[files],
 	);
-	const isStartedTransferring = totalDefault !== Object.keys(files)?.length;
-	const isTransferComplete = totalComplete === Object.keys(files)?.length;
+	const isStartedTransferring = totalDefault !== totalFiles;
+	const isTransferComplete = totalComplete === totalFiles;
+
+	const onSingleDownloadComplete = () => {
+		if (downloadIndex >= totalFiles - 1) {
+			logToFile('💯 Dowload Complete 💯');
+		} else {
+			setDownloadIndex(prevIndex => prevIndex + 1);
+		}
+	};
 
 	useEffect(() => {
 		// log('💯 File Changes Detecting... 💯');
@@ -59,9 +70,11 @@ const FileTransfer = ({currTransfer}: PropType) => {
 			<Text dimColor={true}>
 				TC: {totalComplete} - TF: {Object.keys(files)?.length}
 			</Text>
-			{Object.keys(files).map(key => (
+			{Object.keys(files).map((key, index) => (
 				<SingleFileTransfer
 					key={key}
+					index={index}
+					downloadIndex={downloadIndex}
 					progress={files[key]?.progress ?? 0}
 					state={files[key]?.state!}
 					error={files[key]?.errorMsg}
@@ -73,6 +86,7 @@ const FileTransfer = ({currTransfer}: PropType) => {
 					peerInfo={currTransfer.peerInfo}
 					isStartedTransferring={isStartedTransferring}
 					isTransferComplete={isTransferComplete}
+					onSingleDownloadComplete={onSingleDownloadComplete}
 				/>
 			))}
 		</Box>
