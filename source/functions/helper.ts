@@ -33,7 +33,8 @@ export const cleanFileName = (name: string) => {
 
 export const isDirectory = (_path: string) => {
 	const fullPath = `${SEND_PATH}/${_path}`;
-	return fs.statSync(fullPath).isDirectory();
+	if (!fs.existsSync(fullPath)) return false;
+	return fs.statSync(fullPath)?.isDirectory();
 };
 
 export const getAllFiles = (
