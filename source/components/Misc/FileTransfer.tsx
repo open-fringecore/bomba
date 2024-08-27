@@ -34,7 +34,7 @@ const FileTransfer = ({currTransfer}: PropType) => {
 
 	const onSingleDownloadComplete = () => {
 		if (downloadIndex >= totalFiles - 1) {
-			logToFile('💯 Dowload Complete 💯');
+			log('💯 Dowload Complete 💯');
 		} else {
 			setDownloadIndex(prevIndex => prevIndex + 1);
 		}

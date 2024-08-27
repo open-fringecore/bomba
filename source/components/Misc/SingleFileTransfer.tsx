@@ -70,7 +70,6 @@ const SingleFileTransfer = ({
 
 	useEffect(() => {
 		if (downloadIndex == index) {
-			logToFile('Render: ' + fileInfo.fileName);
 			startDownload();
 		}
 	}, [downloadIndex]);
