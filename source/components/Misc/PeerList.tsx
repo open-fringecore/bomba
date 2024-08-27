@@ -14,13 +14,17 @@ type PropsType = {
 	onSelect: (peerID: string) => void;
 };
 const PeerList = ({peers, onSelect}: PropsType) => {
+	const onlySenders = useMemo(
+		() => Object.entries(peers)?.filter(([key, value]) => value.isSending),
+		[peers],
+	);
 	const items: ItemsType = useMemo(
 		() =>
-			Object.entries(peers)?.map(([key, value]) => ({
+			onlySenders?.map(([key, value]) => ({
 				label: value.name,
 				value: key,
 			})),
-		[peers],
+		[onlySenders],
 	);
 
 	const handleSelect = (item: ItemType) => {
