@@ -1,4 +1,5 @@
 import {logError} from '@/functions/log.js';
+import {SEND_PATH} from '@/functions/variables.js';
 import fs, {statfs} from 'fs';
 import path from 'path';
 
@@ -28,6 +29,11 @@ export const hasNullValue = (obj: {[key: string]: any}): boolean => {
 export const cleanFileName = (name: string) => {
 	return name;
 	// return name.replace(/[\\/]/g, '').replace(/^\./, '');
+};
+
+export const isDirectory = (_path: string) => {
+	const fullPath = `${SEND_PATH}/${_path}`;
+	return fs.statSync(fullPath).isDirectory();
 };
 
 export const getAllFiles = (

@@ -12,8 +12,15 @@ import {
 	$sendingFiles,
 	SendingFiles,
 } from '@/stores/baseStore.js';
-import {cleanFileName, getFileSize} from '@/functions/helper.js';
+import {
+	cleanFileName,
+	getAllFiles,
+	getFileSize,
+	isDirectory,
+} from '@/functions/helper.js';
 import {v4 as uuidv4} from 'uuid';
+import {logToFile} from '@/functions/log.js';
+import {SEND_PATH} from '@/functions/variables.js';
 
 type DefaultArgvType = {
 	files?: string[];
@@ -58,8 +65,19 @@ export const useCommands = () => {
 					if (argv.files && argv.files?.length > 0) {
 						$action.set('SEND');
 
+						const files: any = argv.files?.flatMap(item => {
+							// console.log(fs.statSync(item).isDirectory());
+							if (isDirectory(item)) {
+								return getAllFiles(`${SEND_PATH}/${item}`);
+							} else {
+								return [item];
+							}
+						});
+
+						logToFile(files);
+
 						// $sendingFiles.set(argv.files?.map(file => cleanFileName(file)));
-						const peerTransferInfo = argv.files?.reduce(
+						const peerTransferInfo = files?.reduce(
 							(acc: SendingFiles, uncleanFileName: string, index: number) => {
 								const fileName = cleanFileName(uncleanFileName);
 								acc[uuidv4()] = {
