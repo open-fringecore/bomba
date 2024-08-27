@@ -85,6 +85,7 @@ export const useCommands = () => {
 								},
 								{},
 							);
+
 							$sendingFiles.set(peerTransferInfo);
 						} catch (error) {
 							logError(error);

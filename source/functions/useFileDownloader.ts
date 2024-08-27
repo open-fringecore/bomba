@@ -91,7 +91,9 @@ export const useFileDownloader = (
 			const res = await fetch(url);
 			if (!res.ok) {
 				throw new Error(
-					res.status == 404 ? 'File not found!!!' : 'Failed to download file!',
+					res.status == 404
+						? `File not found: ${FILENAME}`
+						: 'Failed to download file!',
 				);
 			}
 

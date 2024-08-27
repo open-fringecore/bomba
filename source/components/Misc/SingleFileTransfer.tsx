@@ -7,7 +7,7 @@ import {
 	SingleFile,
 	TransferStates,
 } from '@/stores/fileHandlerStore.js';
-import {logToFile} from '@/functions/log.js';
+import {logError, logToFile} from '@/functions/log.js';
 import {
 	checkDuplication,
 	checkEnoughSpace,
@@ -29,6 +29,7 @@ type PropType = {
 	fileInfo: SingleFile;
 	peerInfo: CurrTransferPeerInfo;
 	isStartedTransferring: boolean;
+	setIsStartedTransferring: (x: boolean) => void;
 	isTransferComplete: boolean;
 	onSingleDownloadComplete: () => void;
 };
@@ -41,6 +42,7 @@ const SingleFileTransfer = ({
 	fileInfo,
 	peerInfo,
 	isStartedTransferring,
+	setIsStartedTransferring,
 	isTransferComplete,
 	onSingleDownloadComplete,
 }: PropType) => {
@@ -53,19 +55,25 @@ const SingleFileTransfer = ({
 	};
 
 	const startDownload = async () => {
-		const {fileId, fileName, fileSize} = fileInfo;
-		const {peerIP, peerID, peerHttpPort, senderName} = peerInfo;
+		try {
+			const {fileId, fileName, fileSize} = fileInfo;
+			const {peerIP, peerID, peerHttpPort, senderName} = peerInfo;
 
-		// const isNoDuplicationIssue = await checkDuplication(fileId, fileName);
-		// if (!isNoDuplicationIssue) return;
+			if (!isStartedTransferring) setIsStartedTransferring(true);
 
-		const isNoSpaceIssue = await checkEnoughSpace(fileId, fileSize);
-		if (!isNoSpaceIssue) return;
+			// const isNoDuplicationIssue = await checkDuplication(fileId, fileName);
+			// if (!isNoDuplicationIssue) return;
 
-		await useFileDownloader(peerIP, peerHttpPort, fileId, fileName);
-		await useHashCheck(peerIP, peerHttpPort, fileId, fileName);
+			const isNoSpaceIssue = await checkEnoughSpace(fileId, fileSize);
+			if (!isNoSpaceIssue) return;
 
-		onSingleDownloadComplete();
+			await useFileDownloader(peerIP, peerHttpPort, fileId, fileName);
+			await useHashCheck(peerIP, peerHttpPort, fileId, fileName);
+		} catch (error) {
+			logError(error);
+		} finally {
+			onSingleDownloadComplete();
+		}
 	};
 
 	useEffect(() => {

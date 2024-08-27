@@ -57,9 +57,11 @@ export const getAllFiles = (
 	return arrayOfFiles;
 };
 
-// TODO:: Fix
-export const getFileSize = (fileName: string) => {
-	return 99999;
+export const getFileSize = (_path: string) => {
+	const fullPath = `${SEND_PATH}/${_path}`;
+	if (!fs.existsSync(fullPath)) return 0;
+	const stats = fs.statSync(fullPath);
+	return stats.size;
 };
 
 export const fileExists = (filePath: string) => {

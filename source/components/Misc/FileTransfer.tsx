@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
 import {CurrTransfer} from '@/stores/fileHandlerStore.js';
 import {log, logToFile} from '@/functions/log.js';
@@ -12,38 +12,36 @@ const FileTransfer = ({currTransfer}: PropType) => {
 	const totalFiles = Object.keys(files)?.length;
 
 	const [downloadIndex, setDownloadIndex] = useState(0);
+	const [isStartedTransferring, setIsStartedTransferring] = useState(false);
+	const [isTransferComplete, setIsTransferComplete] = useState(false);
 
-	const totalDefault = useMemo(
-		() =>
-			Object.keys(files)?.reduce((acc, key) => {
-				const state = files[key]?.state ?? 'DEFAULT';
-				return ['DEFAULT'].includes(state) ? acc + 1 : acc;
-			}, 0),
-		[files],
-	);
-	const totalComplete = useMemo(
-		() =>
-			Object.keys(files)?.reduce((acc, key) => {
-				const state = files[key]?.state ?? 'DEFAULT';
-				return ['SUCCESS', 'ERROR'].includes(state) ? acc + 1 : acc;
-			}, 0),
-		[files],
-	);
-	const isStartedTransferring = totalDefault !== totalFiles;
-	const isTransferComplete = totalComplete === totalFiles;
+	// const totalDefault = useMemo(
+	// 	() =>
+	// 		Object.keys(files)?.reduce((acc, key) => {
+	// 			const state = files[key]?.state ?? 'DEFAULT';
+	// 			return ['DEFAULT'].includes(state) ? acc + 1 : acc;
+	// 		}, 0),
+	// 	[files],
+	// );
+	// const totalComplete = useMemo(
+	// 	() =>
+	// 		Object.keys(files)?.reduce((acc, key) => {
+	// 			const state = files[key]?.state ?? 'DEFAULT';
+	// 			return ['SUCCESS', 'ERROR'].includes(state) ? acc + 1 : acc;
+	// 		}, 0),
+	// 	[files],
+	// );
+	// const isStartedTransferring = totalDefault !== totalFiles;
+	// const isTransferComplete = totalComplete === totalFiles;
 
 	const onSingleDownloadComplete = () => {
 		if (downloadIndex >= totalFiles - 1) {
+			setIsTransferComplete(true);
 			log('💯 Dowload Complete 💯');
 		} else {
 			setDownloadIndex(prevIndex => prevIndex + 1);
 		}
 	};
-
-	useEffect(() => {
-		// log('💯 File Changes Detecting... 💯');
-		// logToFile('💯 File Changes Detecting... 💯', files);
-	}, [files]);
 
 	return (
 		<Box
@@ -67,9 +65,6 @@ const FileTransfer = ({currTransfer}: PropType) => {
 					? 'Receiving Files...'
 					: 'Files'}
 			</Text>
-			<Text dimColor={true}>
-				TC: {totalComplete} - TF: {Object.keys(files)?.length}
-			</Text>
 			{Object.keys(files).map((key, index) => (
 				<SingleFileTransfer
 					key={key}
@@ -85,6 +80,7 @@ const FileTransfer = ({currTransfer}: PropType) => {
 					}}
 					peerInfo={currTransfer.peerInfo}
 					isStartedTransferring={isStartedTransferring}
+					setIsStartedTransferring={setIsStartedTransferring}
 					isTransferComplete={isTransferComplete}
 					onSingleDownloadComplete={onSingleDownloadComplete}
 				/>
