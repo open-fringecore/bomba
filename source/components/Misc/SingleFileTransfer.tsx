@@ -15,6 +15,7 @@ import {
 	useFileDownloader,
 } from '@/functions/useFileDownloader.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
+import {formatBytes} from '@/functions/helper.js';
 
 export type TaskStates = {
 	[key: string]: 'pending' | 'success' | 'error' | 'success' | 'loading';
@@ -92,7 +93,10 @@ const SingleFileTransfer = ({
 				state={taskState[state]}
 				spinner={cliSpinners.dots}
 			/> */}
-			<CustomTask label={`⠀${fileInfo.fileName}`} state={taskState[state]} />
+			<CustomTask
+				label={`⠀${fileInfo.fileName} - ${formatBytes(fileInfo.fileSize)}`}
+				state={taskState[state]}
+			/>
 			{error && <Text color={'red'}>⠀{error}</Text>}
 		</Box>
 	);
