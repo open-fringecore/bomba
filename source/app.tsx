@@ -8,6 +8,8 @@ import {useStore} from '@nanostores/react';
 import {$action, $baseInfo} from '@/stores/baseStore.js';
 import {hasNullValue} from '@/functions/helper.js';
 import {useCommands} from '@/functions/commands.js';
+import {$currTransfer} from '@/stores/fileHandlerStore.js';
+import FileTransfer from '@/components/Misc/FileTransfer.js';
 
 type TProps = {
 	name: string | undefined;
@@ -22,14 +24,27 @@ export default function App({name = 'Stranger'}: TProps) {
 
 	const baseInfo = useStore($baseInfo);
 	const action = useStore($action);
+	const currTransfer = useStore($currTransfer);
 
-	return (
-		<Box flexDirection="column">
-			{/* {action == 'NOTHING' && <AsciiIntro />} */}
+	if (hasNullValue(baseInfo)) {
+		return (
+			<Box flexDirection="column">
+				{action == 'NOTHING' ? <AsciiIntro /> : <Text>Setting up...</Text>}
+			</Box>
+		);
+	}
 
-			{!hasNullValue(baseInfo) && ['SEND', 'RECEIVE'].includes(action) && (
-				<Discover />
-			)}
-		</Box>
-	);
+	if (['SEND', 'RECEIVE'].includes(action)) {
+		return (
+			<Box flexDirection="column">
+				{currTransfer?.files ? (
+					<FileTransfer currTransfer={currTransfer} />
+				) : (
+					<Discover />
+				)}
+			</Box>
+		);
+	}
+
+	return <></>;
 }

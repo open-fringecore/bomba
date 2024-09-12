@@ -10,11 +10,7 @@ import PeerList from '@/components/Misc/PeerList.js';
 import {useHttpServer} from '@/functions/httpServer.js';
 import {useActivePeers} from '@/functions/useActivePeers.js';
 import FileTransfer from '@/components/Misc/FileTransfer.js';
-import {
-	$currTransfer,
-	$peersFiles,
-	initTransferInfo,
-} from '@/stores/fileHandlerStore.js';
+import {$peersFiles, initTransferInfo} from '@/stores/fileHandlerStore.js';
 import {performSingleDownloadSteps} from '@/functions/useFileDownloader.js';
 import {log, logError} from '@/functions/log.js';
 
@@ -24,7 +20,6 @@ const Discover = () => {
 	const connectedPeers = useStore($connectedPeers);
 	const sendingFiles = useStore($sendingFiles);
 	const peersFiles = useStore($peersFiles);
-	const currTransfer = useStore($currTransfer);
 
 	if (
 		!baseInfo.MY_NAME ||
@@ -96,22 +91,12 @@ const Discover = () => {
 
 	return (
 		<Box flexDirection="column">
-			{!currTransfer?.files ? (
-				<Text>
-					<Spinner frames={spinners.dotsRound} color="magenta" />{' '}
-					{action == 'SEND' ? 'Sending' : 'Receiving'}
-				</Text>
-			) : (
-				<></>
-			)}
+			<Text>
+				<Spinner frames={spinners.dotsRound} color="magenta" />{' '}
+				{action == 'SEND' ? 'Sending' : 'Receiving'}
+			</Text>
 
-			{currTransfer?.files ? (
-				<FileTransfer currTransfer={currTransfer} />
-			) : connectedPeers ? (
-				<PeerList peers={connectedPeers} onSelect={onSelect} />
-			) : (
-				<></>
-			)}
+			<PeerList peers={connectedPeers} onSelect={onSelect} />
 		</Box>
 	);
 };
