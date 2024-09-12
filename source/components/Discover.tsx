@@ -8,7 +8,7 @@ import {
 	$sendingFiles,
 	SingleSendingFile,
 } from '@/stores/baseStore.js';
-import {$connectedPeers, ConnectedPeerType} from '@/stores/peersStore.js';
+import {$connectedPeers} from '@/stores/peersStore.js';
 import {useUdpServer} from '@/functions/udpServer.js';
 import {hasNullValue} from '@/functions/helper.js';
 import PeerList from '@/components/Misc/PeerList.js';

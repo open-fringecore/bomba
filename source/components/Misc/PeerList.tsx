@@ -1,10 +1,10 @@
 import React, {useMemo} from 'react';
 import SelectInput from 'ink-select-input';
-import {ConnectedPeersType} from '@/stores/peersStore.js';
 import {Box} from 'ink';
 import {useStore} from '@nanostores/react';
 import {$peersFiles} from '@/stores/fileHandlerStore.js';
 import {formatBytes} from '@/functions/helper.js';
+import {ConnectedPeersType} from '@/types/storeTypes.js';
 
 type ItemType = {
 	label: string;

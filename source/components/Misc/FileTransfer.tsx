@@ -1,9 +1,9 @@
 import React, {useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
-import {CurrTransfer} from '@/stores/fileHandlerStore.js';
 import {log, logToFile} from '@/functions/log.js';
 import SingleFileTransfer from '@/components/Misc/SingleFileTransfer.js';
 import {findLongestString} from '@/functions/helper.js';
+import {CurrTransfer} from '@/types/storeTypes.js';
 
 type PropType = {
 	currTransfer: CurrTransfer;

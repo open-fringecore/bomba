@@ -1,48 +1,13 @@
+import {
+	CurrTransfer,
+	CurrTransferFiles,
+	CurrTransferPeerInfo,
+	Files,
+	PeersFiles,
+	SingleTransferFileInfo,
+	TransferStates,
+} from '@/types/storeTypes.js';
 import {atom, deepMap, map} from 'nanostores';
-
-export type TransferStates =
-	| 'DEFAULT'
-	| 'TRANSFERRING'
-	| 'TRANSFERRED'
-	| 'ERROR'
-	| 'SUCCESS';
-
-export type SingleTransferFileInfo = {
-	state: TransferStates;
-	errorMsg?: string;
-	progress: number;
-	fileName: string;
-	totalSize: number;
-	downloadedSize: number;
-};
-type CurrTransferFiles = {
-	[fileID: string]: SingleTransferFileInfo;
-};
-export type CurrTransferPeerInfo = {
-	peerID: string;
-	peerIP: string;
-	peerHttpPort: number;
-	senderName: string;
-};
-export type CurrTransfer = {
-	peerInfo: CurrTransferPeerInfo;
-	totalFiles: number;
-	totalProgress: number;
-	files: CurrTransferFiles;
-};
-
-export type SingleFile = {
-	fileId: string;
-	fileName: string;
-	fileSize: number;
-};
-
-export type Files = {
-	[fileID: string]: SingleFile;
-};
-export type PeersFiles = {
-	[peerID: string]: Files;
-};
 
 // export type CurrTransferWarningType = {
 // 	fileID: string;

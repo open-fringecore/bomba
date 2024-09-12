@@ -2,11 +2,6 @@ import React, {useEffect, useMemo} from 'react';
 import {Box, Text} from 'ink';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 import CustomTask from '@/components/Misc/CustomTask.js';
-import {
-	CurrTransferPeerInfo,
-	SingleFile,
-	TransferStates,
-} from '@/stores/fileHandlerStore.js';
 import {logError, logToFile} from '@/functions/log.js';
 import {
 	checkDuplication,
@@ -16,6 +11,11 @@ import {
 } from '@/functions/useFileDownloader.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
 import {adjustStringLength, formatBytes} from '@/functions/helper.js';
+import {
+	CurrTransferPeerInfo,
+	SingleFile,
+	TransferStates,
+} from '@/types/storeTypes.js';
 
 export type TaskStates = {
 	[key: string]: 'pending' | 'success' | 'error' | 'success' | 'loading';

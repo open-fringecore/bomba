@@ -9,11 +9,11 @@ import {$action, $baseInfo} from '@/stores/baseStore.js';
 import {hasNullValue} from '@/functions/helper.js';
 import {useCommands} from '@/functions/commands.js';
 
-type Props = {
+type TProps = {
 	name: string | undefined;
 };
 
-export default function App({name = 'Stranger'}: Props) {
+export default function App({name = 'Stranger'}: TProps) {
 	// console.clear();
 
 	useCommands();

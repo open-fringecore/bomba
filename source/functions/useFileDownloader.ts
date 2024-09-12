@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import {
-	CurrTransferPeerInfo,
 	updateTransferFileErrorMsg,
 	updateTransferFileState,
 	updateTransferProgress,
@@ -11,6 +10,7 @@ import {useHashCheck} from '@/functions/useHashCheck.js';
 import readlineSync from 'readline-sync';
 import {log, logError, logToFile} from '@/functions/log.js';
 import {fileExists, getDiskSpace} from '@/functions/helper.js';
+import {CurrTransferPeerInfo} from '@/types/storeTypes.js';
 
 export const checkDuplication = (
 	FILE_ID: string,

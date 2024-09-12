@@ -1,14 +1,11 @@
+import {
+	ConnectedPeersType,
+	ConnectedPeerType,
+	DiscoveredPeersType,
+	DiscoveredPeerType,
+} from '@/types/storeTypes.js';
 import {atom, deepMap} from 'nanostores';
 
-export type DiscoveredPeerType = {
-	id: string;
-	ip: string;
-	name: string;
-	httpPort: number;
-};
-type DiscoveredPeersType = {
-	[key: string]: DiscoveredPeerType;
-};
 export const $discoveredPeers = deepMap<DiscoveredPeersType>({});
 
 export const addDiscoveredPeer = (newPeer: DiscoveredPeerType) => {
@@ -32,16 +29,6 @@ export const removeDiscoveredPeer = (id: string) => {
 	}
 };
 
-export type ConnectedPeerType = {
-	id: string;
-	ip: string;
-	name: string;
-	isSending: boolean;
-	httpPort: number;
-};
-export type ConnectedPeersType = {
-	[key: string]: ConnectedPeerType;
-};
 export const $connectedPeers = deepMap<ConnectedPeersType>({});
 
 export const addConnectedPeer = (newPeer: ConnectedPeerType) => {
