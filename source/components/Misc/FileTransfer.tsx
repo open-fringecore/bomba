@@ -5,10 +5,10 @@ import SingleFileTransfer from '@/components/Misc/SingleFileTransfer.js';
 import {findLongestString} from '@/functions/helper.js';
 import {CurrTransfer} from '@/types/storeTypes.js';
 
-type PropType = {
+type TProps = {
 	currTransfer: CurrTransfer;
 };
-const FileTransfer = ({currTransfer}: PropType) => {
+const FileTransfer = ({currTransfer}: TProps) => {
 	const files = currTransfer.files;
 	const totalFiles = Object.keys(files)?.length;
 

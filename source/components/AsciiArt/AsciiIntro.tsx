@@ -1,22 +1,22 @@
 import React from 'react';
-import {Box, Newline, Text} from 'ink';
+import {Box, Text} from 'ink';
 
-type Prop = {};
-
-export default function AsciiIntro({}: Prop) {
-	return (
-		<Box>
-			<Box borderStyle="bold" paddingX={5} paddingY={2} borderColor="green">
-				<Text color={'white'} wrap={'wrap'}>
-					{` ░▒▓██████▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓██████████████▓▒░ 
+const ASCII_ART = `
+ ░▒▓██████▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓██████████████▓▒░ 
 ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░
 ░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░
 ░▒▓█▓▒▒▓███▓▒░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░
 ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░
 ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░
- ░▒▓██████▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░`}
-				</Text>
-			</Box>
+ ░▒▓██████▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░
+`.trim();
+
+const AsciiIntro: React.FC = () => {
+	return (
+		<Box borderStyle="bold" paddingX={5} paddingY={2} borderColor="green">
+			<Text color="white">{ASCII_ART}</Text>
 		</Box>
 	);
-}
+};
+
+export default AsciiIntro;

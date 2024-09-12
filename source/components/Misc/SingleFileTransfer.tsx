@@ -17,11 +17,10 @@ import {
 	TransferStates,
 } from '@/types/storeTypes.js';
 
-export type TaskStates = {
-	[key: string]: 'pending' | 'success' | 'error' | 'success' | 'loading';
-};
+type TaskStatus = 'pending' | 'success' | 'error' | 'loading';
+export type TaskStates = Record<string, TaskStatus>;
 
-type PropType = {
+type TProps = {
 	index: number;
 	downloadIndex: number;
 	progress: number;
@@ -48,7 +47,7 @@ const SingleFileTransfer = ({
 	isTransferComplete,
 	onSingleDownloadComplete,
 	longestNameLength,
-}: PropType) => {
+}: TProps) => {
 	const taskState: TaskStates = {
 		DEFAULT: 'pending',
 		TRANSFERRING: 'loading',

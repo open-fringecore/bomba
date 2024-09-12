@@ -7,6 +7,13 @@ export type InfoType = {
 	UDP_PORT: number;
 	HTTP_PORT: number;
 };
+export type SingleSendingFile = {
+	fileName: string;
+	fileSize: number;
+};
+export type SendingFiles = {
+	[fileID: string]: SingleSendingFile;
+};
 
 // ! PeersStore
 export type DiscoveredPeerType = {

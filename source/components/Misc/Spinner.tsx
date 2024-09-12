@@ -38,11 +38,11 @@ export const spinners = {
 	eye,
 };
 
-type PropType = {
+type TProps = {
 	frames: string[];
 	color?: string;
 };
-export const Spinner = ({frames, color = 'yellow'}: PropType) => {
+export const Spinner = ({frames, color = 'yellow'}: TProps) => {
 	const [index, setIndex] = useState(0);
 
 	useEffect(() => {

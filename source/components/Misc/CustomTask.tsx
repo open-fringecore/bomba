@@ -10,11 +10,11 @@ export const icon = {
 	error: <Text color={'red'}>✘</Text>,
 };
 
-type PropType = {
+type TProps = {
 	label: string;
 	state?: 'pending' | 'success' | 'warning' | 'error' | 'loading';
 };
-const CustomTask = ({label, state = 'pending'}: PropType) => {
+const CustomTask = ({label, state = 'pending'}: TProps) => {
 	return (
 		<Text>
 			<Text>{icon[state]}</Text>

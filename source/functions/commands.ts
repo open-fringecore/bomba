@@ -5,13 +5,7 @@ import yargs, {Arguments, Argv} from 'yargs';
 import {hideBin} from 'yargs/helpers';
 import express from 'express';
 import {useEffect, useMemo} from 'react';
-import {
-	$action,
-	$baseInfo,
-	$isDev,
-	$sendingFiles,
-	SendingFiles,
-} from '@/stores/baseStore.js';
+import {$action, $baseInfo, $isDev, $sendingFiles} from '@/stores/baseStore.js';
 import {
 	cleanFileName,
 	getAllFiles,
@@ -21,6 +15,7 @@ import {
 import {v4 as uuidv4} from 'uuid';
 import {logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
+import {SendingFiles} from '@/types/storeTypes.js';
 
 type DefaultArgvType = {
 	files?: string[];

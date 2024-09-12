@@ -9,11 +9,6 @@ import {
 } from '@/types/storeTypes.js';
 import {atom, deepMap, map} from 'nanostores';
 
-// export type CurrTransferWarningType = {
-// 	fileID: string;
-// 	msg: string;
-// };
-
 export const $peersFiles = deepMap<PeersFiles>({});
 export const $currTransfer = deepMap<CurrTransfer>();
 // export const $currTransferWarning = map<CurrTransferWarningType>();

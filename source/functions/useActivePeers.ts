@@ -8,8 +8,11 @@ import {
 import {useStore} from '@nanostores/react';
 import {v4 as uuidv4} from 'uuid';
 import {$peersFiles} from '@/stores/fileHandlerStore.js';
-import {SingleSendingFile} from '@/stores/baseStore.js';
-import {DiscoveredPeerType, Files} from '@/types/storeTypes.js';
+import {
+	DiscoveredPeerType,
+	Files,
+	SingleSendingFile,
+} from '@/types/storeTypes.js';
 
 export const useActivePeers = () => {
 	const discoveredPeers = useStore($discoveredPeers);

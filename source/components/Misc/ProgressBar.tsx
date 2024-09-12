@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {Box, Text} from 'ink';
 
-type PropType = {
+type TProps = {
 	left?: number;
 	percent: number;
 	title?: string;
@@ -9,7 +9,7 @@ type PropType = {
 const emptyCharacter = '⠀';
 const fillCharacter = '█';
 const remainCharacter = '░';
-const ProgressBar = ({left = 0, percent, title}: PropType) => {
+const ProgressBar = ({left = 0, percent, title}: TProps) => {
 	const fill = useMemo(() => Math.floor(percent / 5), [percent]);
 	const remain = useMemo(() => Math.ceil((100 - percent) / 5), [percent]);
 

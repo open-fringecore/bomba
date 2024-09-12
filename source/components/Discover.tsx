@@ -2,12 +2,7 @@ import React from 'react';
 import {Box, Spacer, Text} from 'ink';
 import {Spinner, spinners} from '@/components/Misc/Spinner.js';
 import {useStore} from '@nanostores/react';
-import {
-	$action,
-	$baseInfo,
-	$sendingFiles,
-	SingleSendingFile,
-} from '@/stores/baseStore.js';
+import {$action, $baseInfo, $sendingFiles} from '@/stores/baseStore.js';
 import {$connectedPeers} from '@/stores/peersStore.js';
 import {useUdpServer} from '@/functions/udpServer.js';
 import {hasNullValue} from '@/functions/helper.js';

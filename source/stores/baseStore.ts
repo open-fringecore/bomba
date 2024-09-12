@@ -1,7 +1,7 @@
 import {atom, map} from 'nanostores';
 import {v4 as uuidv4} from 'uuid';
 import {getFreePort} from '@/functions/freePort.js';
-import {InfoType} from '@/types/storeTypes.js';
+import {InfoType, SendingFiles} from '@/types/storeTypes.js';
 
 export const $baseInfo = map<InfoType>({
 	MY_ID: uuidv4(),
@@ -15,11 +15,4 @@ export const $baseInfo = map<InfoType>({
 export const $action = atom<'SEND' | 'RECEIVE' | 'NOTHING'>('NOTHING');
 export const $isDev = atom<boolean>(false);
 
-export type SingleSendingFile = {
-	fileName: string;
-	fileSize: number;
-};
-export type SendingFiles = {
-	[fileID: string]: SingleSendingFile;
-};
 export const $sendingFiles = atom<SendingFiles | null>(null);
