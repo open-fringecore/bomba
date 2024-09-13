@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useRef} from 'react';
 import {
 	$discoveredPeers,
 	addConnectedPeer,
@@ -6,7 +6,6 @@ import {
 	removeDiscoveredPeer,
 } from '@/stores/peersStore.js';
 import {useStore} from '@nanostores/react';
-import {v4 as uuidv4} from 'uuid';
 import {$peersFiles} from '@/stores/fileHandlerStore.js';
 import {
 	DiscoveredPeerType,
@@ -16,17 +15,25 @@ import {
 
 export const useActivePeers = () => {
 	const discoveredPeers = useStore($discoveredPeers);
+	const activePolls = useRef<{[key: string]: AbortController}>({});
 
 	const pollingDiscoveredPeers = useCallback(
-		(discoveredPeer: DiscoveredPeerType, is_first_call: boolean) => {
+		(
+			discoveredPeer: DiscoveredPeerType,
+			is_first_call: boolean,
+			abortController: AbortController,
+		) => {
 			fetch(
 				`http://${discoveredPeer.ip}:${
 					discoveredPeer.httpPort
 				}/get-active-peer?${is_first_call ? 'is_first_call' : ''}`,
+				{signal: abortController.signal},
 			)
 				.then(response => response.json())
 				.then(data => {
 					// log('🟢 Peer Active 🟢');
+
+					if (abortController.signal.aborted) return;
 
 					if (is_first_call) {
 						addConnectedPeer({
@@ -53,25 +60,43 @@ export const useActivePeers = () => {
 							$peersFiles.setKey(`${discoveredPeer.id}`, peerFiles);
 						}
 					}
-					pollingDiscoveredPeers(discoveredPeer, false);
+					pollingDiscoveredPeers(discoveredPeer, false, abortController);
 				})
 				.catch(error => {
+					if (error.name === 'AbortError') return;
 					// log('⭕ Peer Gone ⭕');
 					// log(error);
 					removeConnectedPeer(discoveredPeer.id);
 					removeDiscoveredPeer(discoveredPeer.id);
+					delete activePolls.current[discoveredPeer.id];
 				});
 		},
-		[discoveredPeers],
+		[],
 	);
 
-	// TODO:: This code might cause issues like calling same peers multiple times
 	useEffect(() => {
 		Object.keys(discoveredPeers).forEach(peerID => {
 			const peer = discoveredPeers[peerID];
-			if (peer) {
-				pollingDiscoveredPeers(peer, true);
+			if (peer && !activePolls.current[peerID]) {
+				const abortController = new AbortController();
+				activePolls.current[peerID] = abortController;
+				pollingDiscoveredPeers(peer, true, abortController);
 			}
 		});
-	}, [discoveredPeers]);
+
+		// ! Clean up polls for peers that are no longer discovered
+		Object.keys(activePolls.current).forEach(peerID => {
+			if (!discoveredPeers[peerID]) {
+				activePolls.current[peerID]?.abort();
+				delete activePolls.current[peerID];
+			}
+		});
+
+		return () => {
+			Object.values(activePolls.current).forEach(controller =>
+				controller.abort(),
+			);
+			activePolls.current = {};
+		};
+	}, [discoveredPeers, pollingDiscoveredPeers]);
 };
