@@ -96,7 +96,7 @@ const SingleFileTransfer: React.FC<TProps> = ({
 		<Box>
 			{isStartedTransferring && !isTransferComplete && (
 				<ProgressBar
-					left={1}
+					left={0}
 					percent={currTransferProgress[fileInfo.fileId] ?? 0}
 				/>
 			)}
