@@ -23,17 +23,17 @@ export const useHttpServer = (
 			});
 		});
 
+		app.get('/get-active-peer-info', (req, res) => {
+			res.json({
+				isSending,
+				sendingFileNames,
+			});
+		});
+
 		app.get('/get-active-peer', (req, res) => {
-			if (typeof req.query['is_first_call'] == 'string') {
-				res.json({
-					isSending,
-					sendingFileNames,
-				});
-			} else {
-				setTimeout(() => {
-					res.json({active: true});
-				}, 10000);
-			}
+			setTimeout(() => {
+				res.json({active: true});
+			}, 10000);
 		});
 
 		app.get('/download/*', (req, res) => {

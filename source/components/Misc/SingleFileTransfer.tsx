@@ -1,12 +1,10 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useCallback} from 'react';
 import {Box, Text} from 'ink';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 import CustomTask from '@/components/Misc/CustomTask.js';
-import {logError, logToFile} from '@/functions/log.js';
+import {logError} from '@/functions/log.js';
 import {
-	checkDuplication,
 	checkEnoughSpace,
-	performSingleDownloadSteps,
 	useFileDownloader,
 } from '@/functions/useFileDownloader.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
@@ -18,7 +16,7 @@ import {
 } from '@/types/storeTypes.js';
 
 type TaskStatus = 'pending' | 'success' | 'error' | 'loading';
-export type TaskStates = Record<string, TaskStatus>;
+export type TaskStates = Record<TransferStates, TaskStatus>;
 
 type TProps = {
 	index: number;
@@ -34,7 +32,8 @@ type TProps = {
 	onSingleDownloadComplete: () => void;
 	longestNameLength: number;
 };
-const SingleFileTransfer = ({
+
+const SingleFileTransfer: React.FC<TProps> = ({
 	index,
 	downloadIndex,
 	progress,
@@ -47,7 +46,7 @@ const SingleFileTransfer = ({
 	isTransferComplete,
 	onSingleDownloadComplete,
 	longestNameLength,
-}: TProps) => {
+}) => {
 	const taskState: TaskStates = {
 		DEFAULT: 'pending',
 		TRANSFERRING: 'loading',
@@ -56,10 +55,10 @@ const SingleFileTransfer = ({
 		SUCCESS: 'success',
 	};
 
-	const startDownload = async () => {
+	const startDownload = useCallback(async () => {
 		try {
 			const {fileId, fileName, fileSize} = fileInfo;
-			const {peerIP, peerID, peerHttpPort, senderName} = peerInfo;
+			const {peerIP, peerHttpPort} = peerInfo;
 
 			if (!isStartedTransferring) setIsStartedTransferring(true);
 
@@ -76,32 +75,33 @@ const SingleFileTransfer = ({
 		} finally {
 			onSingleDownloadComplete();
 		}
-	};
+	}, [
+		fileInfo,
+		peerInfo,
+		isStartedTransferring,
+		setIsStartedTransferring,
+		onSingleDownloadComplete,
+	]);
 
 	useEffect(() => {
-		if (downloadIndex == index) {
+		if (downloadIndex === index) {
 			startDownload();
 		}
-	}, [downloadIndex]);
+	}, [downloadIndex, index, startDownload]);
 
 	const label = useMemo(() => {
 		const fileName = adjustStringLength(fileInfo.fileName, longestNameLength);
 		const formattedSize = formatBytes(fileInfo.fileSize);
 		return `⠀${fileName} - ${formattedSize}`;
-	}, [fileInfo]);
+	}, [fileInfo, longestNameLength]);
 
 	return (
 		<Box>
 			{isStartedTransferring && !isTransferComplete && (
 				<ProgressBar left={1} percent={progress} />
 			)}
-			{/* <Task
-				label={fileName ?? ''}
-				state={taskState[state]}
-				spinner={cliSpinners.dots}
-			/> */}
 			<CustomTask label={label} state={taskState[state]} />
-			{error && <Text color={'red'}>⠀{error}</Text>}
+			{error && <Text color="red">⠀{error}</Text>}
 		</Box>
 	);
 };

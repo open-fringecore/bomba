@@ -12,77 +12,91 @@ import {
 	Files,
 	SingleSendingFile,
 } from '@/types/storeTypes.js';
+import {log, logError} from '@/functions/log.js';
 
 export const useActivePeers = () => {
 	const discoveredPeers = useStore($discoveredPeers);
 	const activePolls = useRef<{[key: string]: AbortController}>({});
 
-	const pollingDiscoveredPeers = useCallback(
-		(
-			discoveredPeer: DiscoveredPeerType,
-			is_first_call: boolean,
-			abortController: AbortController,
-		) => {
+	const getActivePeerInfo = useCallback(
+		(discoveredPeer: DiscoveredPeerType) => {
 			fetch(
-				`http://${discoveredPeer.ip}:${
-					discoveredPeer.httpPort
-				}/get-active-peer?${is_first_call ? 'is_first_call' : ''}`,
-				{signal: abortController.signal},
+				`http://${discoveredPeer.ip}:${discoveredPeer.httpPort}/get-active-peer-info`,
 			)
 				.then(response => response.json())
 				.then(data => {
-					// log('🟢 Peer Active 🟢');
+					log('Active Peer Info', data);
 
-					if (abortController.signal.aborted) return;
+					addConnectedPeer({
+						id: discoveredPeer.id,
+						ip: discoveredPeer.ip,
+						name: discoveredPeer.name,
+						httpPort: discoveredPeer.httpPort,
+						isSending: data.isSending,
+					});
 
-					if (is_first_call) {
-						addConnectedPeer({
-							id: discoveredPeer.id,
-							ip: discoveredPeer.ip,
-							name: discoveredPeer.name,
-							httpPort: discoveredPeer.httpPort,
-							isSending: data.isSending,
-						});
-
-						const {sendingFileNames} = data;
-						if (sendingFileNames) {
-							const peerFiles = Object.entries(sendingFileNames)?.reduce(
-								(acc: Files, [key, value]) => {
-									acc[key] = {
-										fileId: key,
-										...(value as SingleSendingFile),
-									};
-									return acc;
-								},
-								{},
-							);
-
-							$peersFiles.setKey(`${discoveredPeer.id}`, peerFiles);
-						}
+					const {sendingFileNames} = data;
+					if (sendingFileNames) {
+						const peerFiles = Object.entries(sendingFileNames).reduce(
+							(acc: Files, [key, value]) => {
+								acc[key] = {
+									fileId: key,
+									...(value as SingleSendingFile),
+								};
+								return acc;
+							},
+							{},
+						);
+						$peersFiles.setKey(`${discoveredPeer.id}`, peerFiles);
 					}
-					pollingDiscoveredPeers(discoveredPeer, false, abortController);
 				})
 				.catch(error => {
-					if (error.name === 'AbortError') return;
-					// log('⭕ Peer Gone ⭕');
-					// log(error);
-					removeConnectedPeer(discoveredPeer.id);
-					removeDiscoveredPeer(discoveredPeer.id);
-					delete activePolls.current[discoveredPeer.id];
+					logError('Error getting active peer info', error);
 				});
+		},
+		[],
+	);
+	const pollingDiscoveredPeers = useCallback(
+		async (
+			discoveredPeer: DiscoveredPeerType,
+			abortController: AbortController,
+		) => {
+			try {
+				const response = await fetch(
+					`http://${discoveredPeer.ip}:${discoveredPeer.httpPort}/get-active-peer`,
+					{signal: abortController.signal},
+				);
+				await response.json();
+
+				if (abortController.signal.aborted) return;
+
+				pollingDiscoveredPeers(discoveredPeer, abortController);
+			} catch (error) {
+				// log('⭕ Peer Gone ⭕');
+				// logError(error);
+				if ((error as Error).name === 'AbortError') return;
+				removeConnectedPeer(discoveredPeer.id);
+				removeDiscoveredPeer(discoveredPeer.id);
+				delete activePolls.current[discoveredPeer.id];
+			}
 		},
 		[],
 	);
 
 	useEffect(() => {
-		Object.keys(discoveredPeers).forEach(peerID => {
-			const peer = discoveredPeers[peerID];
-			if (peer && !activePolls.current[peerID]) {
-				const abortController = new AbortController();
-				activePolls.current[peerID] = abortController;
-				pollingDiscoveredPeers(peer, true, abortController);
+		const pollActivePeers = async () => {
+			for (const peerID in discoveredPeers) {
+				const peer = discoveredPeers[peerID];
+				if (peer && !activePolls.current[peerID]) {
+					const abortController = new AbortController();
+					activePolls.current[peerID] = abortController;
+					await getActivePeerInfo(peer);
+					pollingDiscoveredPeers(peer, abortController);
+				}
 			}
-		});
+		};
+
+		pollActivePeers();
 
 		// ! Clean up polls for peers that are no longer discovered
 		Object.keys(activePolls.current).forEach(peerID => {
@@ -98,5 +112,5 @@ export const useActivePeers = () => {
 			);
 			activePolls.current = {};
 		};
-	}, [discoveredPeers, pollingDiscoveredPeers]);
+	}, [discoveredPeers, getActivePeerInfo, pollingDiscoveredPeers]);
 };
