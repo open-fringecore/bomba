@@ -38,7 +38,7 @@ const FileTransfer = ({currTransfer}: TProps) => {
 	const onSingleDownloadComplete = () => {
 		if (downloadIndex >= totalFiles - 1) {
 			setIsTransferComplete(true);
-			log('💯 Dowload Complete 💯');
+			log('💯 Download Complete 💯');
 		} else {
 			setDownloadIndex(prevIndex => prevIndex + 1);
 		}
