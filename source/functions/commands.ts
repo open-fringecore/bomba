@@ -8,12 +8,13 @@ import {useEffect, useMemo} from 'react';
 import {$action, $baseInfo, $isDev, $sendingFiles} from '@/stores/baseStore.js';
 import {
 	cleanFileName,
+	fileExists,
 	getAllFiles,
 	getFileSize,
 	isDirectory,
 } from '@/functions/helper.js';
 import {v4 as uuidv4} from 'uuid';
-import {logError, logToFile} from '@/functions/log.js';
+import {log, logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {SendingFiles} from '@/types/storeTypes.js';
 
@@ -61,6 +62,7 @@ export const useCommands = () => {
 						try {
 							$action.set('SEND');
 
+							// ! Get all files from the command line
 							const files: any = argv.files?.flatMap(item => {
 								if (isDirectory(item)) {
 									return getAllFiles(`${SEND_PATH}/${item}`);
@@ -69,6 +71,16 @@ export const useCommands = () => {
 								}
 							});
 
+							// ! Check if file exists | only for debugging
+							files.forEach((file: string) => {
+								log(
+									`${
+										fileExists(`${SEND_PATH}/${file}`) ? 'Exists' : 'Not Exists'
+									}: ${file}`,
+								);
+							});
+
+							// ! Create peer transfer info
 							const peerTransferInfo = files?.reduce(
 								(acc: SendingFiles, uncleanFileName: string, index: number) => {
 									const fileName = cleanFileName(uncleanFileName);
