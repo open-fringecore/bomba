@@ -12,6 +12,7 @@ const cli = meow(
 
 	Options
 		--name  Your name
+		-v, --version  Show version number
 
 	Examples
 	  $ khamba --name=Jane
@@ -23,7 +24,18 @@ const cli = meow(
 			name: {
 				type: 'string',
 			},
+			version: {
+				type: 'boolean',
+				alias: 'v',
+			},
 		},
 	},
 );
+
+console.log(cli);
+if (cli.flags.version) {
+	console.log(`version: ${cli.pkg?.version || 'unknown'}`);
+	process.exit(0);
+}
+
 render(<App name={cli.flags.name} />);

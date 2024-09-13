@@ -12,7 +12,7 @@ import {$currTransfer} from '@/stores/fileHandlerStore.js';
 import FileTransfer from '@/components/Misc/FileTransfer.js';
 
 type TProps = {
-	name: string | undefined;
+	name?: string;
 };
 
 export default function App({name = 'Stranger'}: TProps) {

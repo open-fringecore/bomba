@@ -51,6 +51,10 @@ export const useCommands = () => {
 					});
 				},
 				(argv: DefaultArgvType) => {
+					// if (argv.version) {
+					// 	console.log('version: ' + argv.version);
+					// 	process.exit(0);
+					// }
 					if (argv.dev_mode) {
 						$isDev.set(true);
 					}
