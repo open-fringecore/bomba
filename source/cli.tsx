@@ -32,7 +32,6 @@ const cli = meow(
 	},
 );
 
-console.log(cli);
 if (cli.flags.version) {
 	console.log(`version: ${cli.pkg?.version || 'unknown'}`);
 	process.exit(0);

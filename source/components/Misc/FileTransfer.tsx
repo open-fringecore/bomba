@@ -1,20 +1,22 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
 import {log, logToFile} from '@/functions/log.js';
 import SingleFileTransfer from '@/components/Misc/SingleFileTransfer.js';
 import {findLongestString} from '@/functions/helper.js';
 import {CurrTransfer} from '@/types/storeTypes.js';
+import {useStore} from '@nanostores/react';
+import {$currTransfer} from '@/stores/fileHandlerStore.js';
 
-type TProps = {
-	currTransfer: CurrTransfer;
-};
-const FileTransfer = ({currTransfer}: TProps) => {
-	const files = currTransfer.files;
-	const totalFiles = Object.keys(files)?.length;
+type TProps = {};
+const FileTransfer = ({}: TProps) => {
+	const currTransfer = useStore($currTransfer);
 
-	const [downloadIndex, setDownloadIndex] = useState(0);
+	const [downloadIndex, setDownloadIndex] = useState(-1);
 	const [isStartedTransferring, setIsStartedTransferring] = useState(false);
 	const [isTransferComplete, setIsTransferComplete] = useState(false);
+
+	const {files} = currTransfer;
+	const totalFiles = Object.keys(files)?.length;
 
 	// const totalDefault = useMemo(
 	// 	() =>
@@ -35,14 +37,14 @@ const FileTransfer = ({currTransfer}: TProps) => {
 	// const isStartedTransferring = totalDefault !== totalFiles;
 	// const isTransferComplete = totalComplete === totalFiles;
 
-	const onSingleDownloadComplete = () => {
+	const onSingleDownloadComplete = useCallback(() => {
 		if (downloadIndex >= totalFiles - 1) {
 			setIsTransferComplete(true);
 			log('💯 Download Complete 💯');
 		} else {
 			setDownloadIndex(prevIndex => prevIndex + 1);
 		}
-	};
+	}, [totalFiles]);
 
 	const longestNameLength = useMemo(() => {
 		const longestLength =
@@ -50,6 +52,13 @@ const FileTransfer = ({currTransfer}: TProps) => {
 				?.length ?? Infinity;
 		return Math.min(longestLength, 30);
 	}, [files]);
+
+	useEffect(() => {
+		if (!isStartedTransferring && !isTransferComplete) {
+			setIsStartedTransferring(true);
+			setDownloadIndex(0);
+		}
+	}, [isStartedTransferring, isTransferComplete]);
 
 	return (
 		<Box
@@ -78,7 +87,6 @@ const FileTransfer = ({currTransfer}: TProps) => {
 					key={key}
 					index={index}
 					downloadIndex={downloadIndex}
-					progress={files[key]?.progress ?? 0}
 					state={files[key]?.state!}
 					error={files[key]?.errorMsg}
 					fileInfo={{
@@ -88,7 +96,6 @@ const FileTransfer = ({currTransfer}: TProps) => {
 					}}
 					peerInfo={currTransfer.peerInfo}
 					isStartedTransferring={isStartedTransferring}
-					setIsStartedTransferring={setIsStartedTransferring}
 					isTransferComplete={isTransferComplete}
 					onSingleDownloadComplete={onSingleDownloadComplete}
 					longestNameLength={longestNameLength}

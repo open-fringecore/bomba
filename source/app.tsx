@@ -37,11 +37,7 @@ export default function App({name = 'Stranger'}: TProps) {
 	if (['SEND', 'RECEIVE'].includes(action)) {
 		return (
 			<Box flexDirection="column">
-				{currTransfer?.files ? (
-					<FileTransfer currTransfer={currTransfer} />
-				) : (
-					<Discover />
-				)}
+				{currTransfer?.files ? <FileTransfer /> : <Discover />}
 			</Box>
 		);
 	}

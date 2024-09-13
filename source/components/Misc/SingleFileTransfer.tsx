@@ -1,8 +1,8 @@
-import React, {useEffect, useMemo, useCallback} from 'react';
+import React, {useEffect, useMemo, useCallback, useRef} from 'react';
 import {Box, Text} from 'ink';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 import CustomTask from '@/components/Misc/CustomTask.js';
-import {logError} from '@/functions/log.js';
+import {logError, logToFile} from '@/functions/log.js';
 import {
 	checkEnoughSpace,
 	useFileDownloader,
@@ -14,6 +14,8 @@ import {
 	SingleFile,
 	TransferStates,
 } from '@/types/storeTypes.js';
+import {useStore} from '@nanostores/react';
+import {$currTransferProgress} from '@/stores/fileHandlerStore.js';
 
 type TaskStatus = 'pending' | 'success' | 'error' | 'loading';
 export type TaskStates = Record<TransferStates, TaskStatus>;
@@ -21,13 +23,11 @@ export type TaskStates = Record<TransferStates, TaskStatus>;
 type TProps = {
 	index: number;
 	downloadIndex: number;
-	progress: number;
 	state: TransferStates;
 	error?: string;
 	fileInfo: SingleFile;
 	peerInfo: CurrTransferPeerInfo;
 	isStartedTransferring: boolean;
-	setIsStartedTransferring: (x: boolean) => void;
 	isTransferComplete: boolean;
 	onSingleDownloadComplete: () => void;
 	longestNameLength: number;
@@ -36,17 +36,19 @@ type TProps = {
 const SingleFileTransfer: React.FC<TProps> = ({
 	index,
 	downloadIndex,
-	progress,
 	state,
 	error,
 	fileInfo,
 	peerInfo,
 	isStartedTransferring,
-	setIsStartedTransferring,
 	isTransferComplete,
 	onSingleDownloadComplete,
 	longestNameLength,
 }) => {
+	const currTransferProgress = useStore($currTransferProgress);
+
+	const downloadAttempted = useRef(false);
+
 	const taskState: TaskStates = {
 		DEFAULT: 'pending',
 		TRANSFERRING: 'loading',
@@ -57,10 +59,11 @@ const SingleFileTransfer: React.FC<TProps> = ({
 
 	const startDownload = useCallback(async () => {
 		try {
+			if (downloadAttempted.current) return;
+			downloadAttempted.current = true;
+
 			const {fileId, fileName, fileSize} = fileInfo;
 			const {peerIP, peerHttpPort} = peerInfo;
-
-			if (!isStartedTransferring) setIsStartedTransferring(true);
 
 			// const isNoDuplicationIssue = await checkDuplication(fileId, fileName);
 			// if (!isNoDuplicationIssue) return;
@@ -70,21 +73,15 @@ const SingleFileTransfer: React.FC<TProps> = ({
 
 			await useFileDownloader(peerIP, peerHttpPort, fileId, fileName);
 			await useHashCheck(peerIP, peerHttpPort, fileId, fileName);
+			onSingleDownloadComplete();
 		} catch (error) {
 			logError(error);
-		} finally {
-			onSingleDownloadComplete();
 		}
-	}, [
-		fileInfo,
-		peerInfo,
-		isStartedTransferring,
-		setIsStartedTransferring,
-		onSingleDownloadComplete,
-	]);
+	}, [fileInfo, peerInfo, onSingleDownloadComplete]);
 
 	useEffect(() => {
-		if (downloadIndex === index) {
+		if (downloadIndex === index && !downloadAttempted.current) {
+			logToFile('RERENDER RESTING');
 			startDownload();
 		}
 	}, [downloadIndex, index, startDownload]);
@@ -98,7 +95,10 @@ const SingleFileTransfer: React.FC<TProps> = ({
 	return (
 		<Box>
 			{isStartedTransferring && !isTransferComplete && (
-				<ProgressBar left={1} percent={progress} />
+				<ProgressBar
+					left={1}
+					percent={currTransferProgress[fileInfo.fileId] ?? 0}
+				/>
 			)}
 			<CustomTask label={label} state={taskState[state]} />
 			{error && <Text color="red">⠀{error}</Text>}

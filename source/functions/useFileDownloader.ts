@@ -122,13 +122,18 @@ export const useFileDownloader = (
 					downloaded += value.length;
 					progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
 
-					updateTransferProgress(FILE_ID, {
-						state: progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
-						progress: progress,
-						fileName: FILENAME,
-						totalSize: totalLength,
-						downloadedSize: downloaded,
-					});
+					// updateTransferProgress(FILE_ID, {
+					// 	state: progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
+					// 	progress: progress,
+					// 	fileName: FILENAME,
+					// 	totalSize: totalLength,
+					// 	downloadedSize: downloaded,
+					// });
+					updateTransferProgress(FILE_ID, progress);
+					updateTransferFileState(
+						FILE_ID,
+						progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
+					);
 
 					await pump();
 				} catch (error) {

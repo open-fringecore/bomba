@@ -47,10 +47,12 @@ export type TransferStates =
 export type SingleTransferFileInfo = {
 	state: TransferStates;
 	errorMsg?: string;
-	progress: number;
 	fileName: string;
 	totalSize: number;
 	downloadedSize: number;
+};
+export type CurrTransferProgress = {
+	[fileID: string]: number;
 };
 export type CurrTransferFiles = {
 	[fileID: string]: SingleTransferFileInfo;
