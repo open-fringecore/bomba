@@ -3,10 +3,23 @@ import fs from 'fs';
 import path from 'path';
 import tar from 'tar-stream';
 
+// Helper function to calculate the total size of files in a folder
+const calculateTotalSize = folderPath => {
+	let totalSize = 0;
+	const files = fs.readdirSync(folderPath);
+	files.forEach(file => {
+		const filePath = path.join(folderPath, file);
+		const stat = fs.statSync(filePath);
+		if (stat.isFile()) {
+			totalSize += stat.size; // Add file size to total
+		}
+	});
+	return totalSize;
+};
+
 // Function to stream a folder as a tarball
-const streamFolderAsTar = (folderPath, res) => {
+const streamFolderAsTar = (folderPath, res, totalBytes) => {
 	const pack = tar.pack(); // Create a tar pack stream
-	let totalBytes = 0; // Track total bytes transferred
 	let transferredBytes = 0; // Track progress
 
 	fs.readdir(folderPath, (err, files) => {
@@ -15,15 +28,6 @@ const streamFolderAsTar = (folderPath, res) => {
 			res.statusCode = 500;
 			return res.end('Error reading directory');
 		}
-
-		// Calculate the total size of all files to be sent
-		files.forEach(file => {
-			const filePath = path.join(folderPath, file);
-			const stat = fs.statSync(filePath);
-			if (stat.isFile()) {
-				totalBytes += stat.size;
-			}
-		});
 
 		files.forEach(file => {
 			const filePath = path.join(folderPath, file);
@@ -75,14 +79,18 @@ http
 		if (req.url === '/download-folder') {
 			const folderPath = path.join(process.cwd(), 'folder-to-send');
 
-			// Set the headers for the tarball download
+			/// Calculate the total size of the files to be tarred
+			const totalSize = calculateTotalSize(folderPath);
+
+			// Set headers for the response, including Content-Length
 			res.writeHead(200, {
 				'Content-Type': 'application/x-tar',
 				'Content-Disposition': 'attachment; filename="folder.tar"',
+				'Content-Length': totalSize, // Send total size as Content-Length
 			});
 
 			// Stream the folder as a tarball
-			streamFolderAsTar(folderPath, res);
+			streamFolderAsTar(folderPath, res, totalSize);
 		} else {
 			res.writeHead(404);
 			res.end('Not Found');
