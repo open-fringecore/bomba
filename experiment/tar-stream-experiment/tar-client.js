@@ -38,12 +38,16 @@ const downloadAndExtractTar = async () => {
 
 		// Track download progress as the body is streamed
 		for await (const chunk of response.body) {
-			downloadedBytes += chunk.length;
-			if (contentLength) {
-				const progress = ((downloadedBytes / contentLength) * 100).toFixed(2);
-				console.log(`Downloaded: ${progress}%`);
+			try {
+				extract.write(chunk);
+				downloadedBytes += chunk.length;
+				if (contentLength) {
+					const progress = ((downloadedBytes / contentLength) * 100).toFixed(2);
+					console.log(`Downloaded: ${progress}%`);
+				}
+			} catch (error) {
+				console.error('Error -------------:', err);
 			}
-			extract.write(chunk);
 		}
 
 		extract.end(); // End the extraction when streaming is done
