@@ -11,6 +11,9 @@ const downloadAndExtractTar = async () => {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 
+		const contentLength = response.headers.get('content-length'); // Get total file size
+		let downloadedBytes = 0;
+
 		const extract = tar.extract();
 		const outputDir = path.join(process.cwd(), 'output-folder');
 
@@ -33,8 +36,13 @@ const downloadAndExtractTar = async () => {
 			console.log('Tarball extraction complete.');
 		});
 
-		// Manually pipe the response body to the extractor
+		// Track download progress as the body is streamed
 		for await (const chunk of response.body) {
+			downloadedBytes += chunk.length;
+			if (contentLength) {
+				const progress = ((downloadedBytes / contentLength) * 100).toFixed(2);
+				console.log(`Downloaded: ${progress}%`);
+			}
 			extract.write(chunk);
 		}
 

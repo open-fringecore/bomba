@@ -6,6 +6,8 @@ import tar from 'tar-stream';
 // Function to stream a folder as a tarball
 const streamFolderAsTar = (folderPath, res) => {
 	const pack = tar.pack(); // Create a tar pack stream
+	let totalBytes = 0; // Track total bytes transferred
+	let transferredBytes = 0; // Track progress
 
 	fs.readdir(folderPath, (err, files) => {
 		if (err) {
@@ -13,6 +15,15 @@ const streamFolderAsTar = (folderPath, res) => {
 			res.statusCode = 500;
 			return res.end('Error reading directory');
 		}
+
+		// Calculate the total size of all files to be sent
+		files.forEach(file => {
+			const filePath = path.join(folderPath, file);
+			const stat = fs.statSync(filePath);
+			if (stat.isFile()) {
+				totalBytes += stat.size;
+			}
+		});
 
 		files.forEach(file => {
 			const filePath = path.join(folderPath, file);
@@ -32,6 +43,13 @@ const streamFolderAsTar = (folderPath, res) => {
 					if (err) {
 						console.error('Error creating tar entry:', err);
 					}
+				});
+
+				// Track how much data is being streamed
+				readStream.on('data', chunk => {
+					transferredBytes += chunk.length;
+					const progress = ((transferredBytes / totalBytes) * 100).toFixed(2);
+					console.log(`Progress: ${progress}%`);
 				});
 
 				// Pipe the file content into the entry
