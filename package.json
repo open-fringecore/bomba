@@ -38,6 +38,7 @@
 		"nanostores": "^0.10.3",
 		"react": "^18.2.0",
 		"readline-sync": "^1.4.10",
+		"tar-fs": "^3.0.6",
 		"tar-stream": "^3.1.7",
 		"tsc-alias": "^1.8.10",
 		"uuid": "^9.0.1",
