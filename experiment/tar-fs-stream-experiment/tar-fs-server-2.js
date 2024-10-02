@@ -9,7 +9,9 @@ const server = http.createServer((req, res) => {
 		res.setHeader('Content-Type', 'application/x-tar');
 		res.setHeader('Content-Disposition', 'attachment; filename="archive.tar"');
 
-		const pack = tar.pack('./folder-to-send');
+		const folderPath = path.join(process.cwd(), 'folder-to-send');
+
+		const pack = tar.pack(folderPath);
 
 		pack.on('error', err => {
 			console.error('Pack stream error:', err);
@@ -21,6 +23,10 @@ const server = http.createServer((req, res) => {
 
 		res.on('close', () => {
 			console.log('Response stream closed');
+		});
+
+		pack.on('data', chunk => {
+			console.log(chunk);
 		});
 
 		pack.pipe(res);
