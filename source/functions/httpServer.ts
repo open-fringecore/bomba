@@ -7,6 +7,7 @@ import {log, logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {SendingFiles} from '@/types/storeTypes.js';
 import tar from 'tar-fs';
+import {getFolderSize} from '@/functions/helper.js';
 
 export const useHttpServer = (
 	MY_IP: string,
@@ -89,8 +90,7 @@ export const useHttpServer = (
 					return res.status(404).json({msg: 'Folder not found!', folderPath});
 				}
 
-				const stat = fs.statSync(folderPath);
-				const folderSize = stat.size;
+				const folderSize = getFolderSize(folderPath);
 
 				console.log('====================================');
 				console.log('folderSize', folderSize);

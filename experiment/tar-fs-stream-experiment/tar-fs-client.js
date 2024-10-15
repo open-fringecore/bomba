@@ -1,7 +1,7 @@
 import fs from 'fs';
 import https from 'http';
 
-const fileUrl = 'http://192.168.68.129:40875/download-tar/lily';
+const fileUrl = 'http://192.168.68.129:42089/download-tar/lily';
 // const fileUrl = 'http://localhost:3000/download';
 
 const outputPath = './downloaded-file.tar';
@@ -17,7 +17,7 @@ https.get(fileUrl, response => {
 	response.on('data', chunk => {
 		downloadedSize += chunk.length;
 		const progress = ((downloadedSize / totalSize) * 100).toFixed(2);
-		process.stdout.write(`Progress: ${progress}%\r`);
+		console.log(`Progress: ${progress}%\r`);
 	});
 
 	response.pipe(file);

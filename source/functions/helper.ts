@@ -64,6 +64,24 @@ export const getFileSize = (_path: string) => {
 	return stats.size;
 };
 
+export const getFolderSize = (_path: string) => {
+	let totalSize = 0;
+
+	const calculateSize = (filePath: string) => {
+		const stats = fs.statSync(filePath);
+
+		if (stats.isDirectory()) {
+			const files = fs.readdirSync(filePath);
+			files.forEach(file => calculateSize(path.join(filePath, file)));
+		} else {
+			totalSize += stats.size;
+		}
+	};
+
+	calculateSize(_path);
+	return totalSize;
+};
+
 export const fileExists = (filePath: string) => {
 	try {
 		return fs.existsSync(filePath);
