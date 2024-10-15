@@ -1,25 +1,13 @@
+import {fileTypeMapping, peoplesNames} from '@/functions/data.js';
 import {logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
+import {FileTypes} from '@/types/storeTypes.js';
 import fs, {statfs} from 'fs';
 import path from 'path';
 
 export function getRandomBanglaName() {
-	const names = [
-		'অনিক',
-		'বৃষ্টি',
-		'চৈতি',
-		'দীপন',
-		'এলিনা',
-		'ফাহিম',
-		'গার্গী',
-		'হৃদয়',
-		'ইমরান',
-		'জাহিদ',
-	];
-
-	const randomIndex = Math.floor(Math.random() * names.length);
-
-	return names[randomIndex];
+	const randomIndex = Math.floor(Math.random() * peoplesNames.length);
+	return peoplesNames[randomIndex];
 }
 
 export const hasNullValue = (obj: {[key: string]: any}): boolean => {
@@ -55,6 +43,16 @@ export const getAllFiles = (
 	});
 
 	return arrayOfFiles;
+};
+
+export const getFileType = (_path: string): FileTypes => {
+	if (isDirectory(_path)) {
+		return 'folder';
+	}
+
+	const extension = _path.substring(_path.lastIndexOf('.')).toLowerCase();
+
+	return fileTypeMapping[extension] || 'others';
 };
 
 export const getFileSize = (_path: string) => {

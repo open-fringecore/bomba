@@ -11,6 +11,7 @@ import {
 	fileExists,
 	getAllFiles,
 	getFileSize,
+	getFileType,
 	isDirectory,
 } from '@/functions/helper.js';
 import {v4 as uuidv4} from 'uuid';
@@ -66,14 +67,16 @@ export const useCommands = () => {
 						try {
 							$action.set('SEND');
 
+							// NOTE: // ! [-KEEP COMMENT-]
 							// ! Get all files from the command line
-							const files: any = argv.files?.flatMap(item => {
-								if (isDirectory(item)) {
-									return getAllFiles(`${SEND_PATH}/${item}`);
-								} else {
-									return [item];
-								}
-							});
+							// const files: any = argv.files?.flatMap(item => {
+							// 	if (isDirectory(item)) {
+							// 		return getAllFiles(`${SEND_PATH}/${item}`);
+							// 	} else {
+							// 		return [item];
+							// 	}
+							// });
+							const files = argv.files;
 
 							// ! Check if file exists | only for debugging
 							files.forEach((file: string) => {
@@ -91,6 +94,7 @@ export const useCommands = () => {
 									acc[uuidv4()] = {
 										fileName: fileName,
 										fileSize: getFileSize(fileName),
+										fileType: getFileType(fileName),
 									};
 									return acc;
 								},

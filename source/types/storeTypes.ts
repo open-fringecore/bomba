@@ -7,9 +7,11 @@ export type InfoType = {
 	UDP_PORT: number;
 	HTTP_PORT: number;
 };
+export type FileTypes = 'image' | 'video' | 'text' | 'folder' | 'others';
 export type SingleSendingFile = {
 	fileName: string;
 	fileSize: number;
+	fileType: FileTypes;
 };
 export type SendingFiles = {
 	[fileID: string]: SingleSendingFile;
