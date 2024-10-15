@@ -6,6 +6,7 @@ import {hashFile} from '@/functions/useHashCheck.js';
 import {log, logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {SendingFiles} from '@/types/storeTypes.js';
+import tar from 'tar-fs';
 
 export const useHttpServer = (
 	MY_IP: string,
@@ -45,7 +46,7 @@ export const useHttpServer = (
 					return res.status(400).json({msg: 'filename required.'});
 				}
 
-				const filePath = `${SEND_PATH}/${filename}`;
+				const filePath = path.join(SEND_PATH, filename);
 
 				if (!fs.existsSync(filePath)) {
 					return res.status(404).json({msg: 'File not found!', filePath});
@@ -67,6 +68,69 @@ export const useHttpServer = (
 				// 	if (err) {
 				// 		logError('Error downloading file:', err);
 				// 		res.status(500).send('Error downloading file');
+				// 	}
+				// });
+			} catch (error) {
+				logError(error);
+			}
+		});
+
+		app.get('/download-tar/*', (req, res) => {
+			try {
+				const foldername = (req.params as any)['0'];
+
+				if (!foldername) {
+					return res.status(400).json({msg: 'foldername required.'});
+				}
+
+				const folderPath = path.join(SEND_PATH, foldername);
+
+				if (!fs.existsSync(folderPath)) {
+					return res.status(404).json({msg: 'Folder not found!', folderPath});
+				}
+
+				const stat = fs.statSync(folderPath);
+				const folderSize = stat.size;
+
+				console.log('====================================');
+				console.log('folderSize', folderSize);
+				console.log('folderPath', folderPath);
+				console.log('====================================');
+
+				res.setHeader('Content-Type', 'application/x-tar');
+				res.setHeader('Content-Length', folderSize);
+				res.setHeader(
+					'Content-Disposition',
+					`attachment; filename=${foldername}.tar`,
+				);
+
+				const pack = tar.pack(folderPath);
+
+				pack.on('error', err => {
+					console.error('Pack stream error:', err);
+				});
+
+				res.on('error', err => {
+					console.error('Response stream error:', err);
+				});
+
+				res.on('close', () => {
+					console.log('Response stream closed');
+				});
+
+				pack.on('data', chunk => {
+					console.log(chunk.length);
+				});
+
+				pack.pipe(res);
+
+				// pump(pack, res, err => {
+				// 	if (err) {
+				// 		console.error('Pump error:', err);
+				// 		if (!res.headersSent) {
+				// 			res.statusCode = 500;
+				// 			res.end('Internal Server Error');
+				// 		}
 				// 	}
 				// });
 			} catch (error) {
