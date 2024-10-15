@@ -97,12 +97,14 @@ export const useFileDownloader = async (
 	FILENAME: string,
 	FILETYPE: FileTypes,
 ): Promise<void> => {
-	const normalFileDownloadUrl = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
-	const folderTarDownloadUrl = `http://${PEER_IP}:${PEER_TCP_PORT}/download-tar/${FILENAME}`;
+	const downloadUrlForNormalFile = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
+	const downloadUrlForTar = `http://${PEER_IP}:${PEER_TCP_PORT}/download-tar/${FILENAME}`;
 
+	const saveFileAs = FILETYPE == 'folder' ? `${FILENAME}.tar` : FILENAME;
 	const url =
-		FILETYPE == 'folder' ? folderTarDownloadUrl : normalFileDownloadUrl;
-	const outputPath = path.join(RECEIVE_PATH, FILENAME);
+		FILETYPE == 'folder' ? downloadUrlForTar : downloadUrlForNormalFile;
+
+	const outputPath = path.join(RECEIVE_PATH, saveFileAs);
 
 	try {
 		const res = await fetch(url);
