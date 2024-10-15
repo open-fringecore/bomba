@@ -25,6 +25,7 @@
 	"dependencies": {
 		"@nanostores/react": "^0.7.2",
 		"@types/readline-sync": "^1.4.8",
+		"@types/tar-fs": "^2.0.4",
 		"@types/uuid": "^9.0.8",
 		"@types/yargs": "^17.0.32",
 		"cli-spinners": "^3.1.0",
