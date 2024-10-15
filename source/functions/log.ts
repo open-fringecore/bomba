@@ -5,7 +5,7 @@ import chalk from 'chalk';
 
 export const logError = (...args: any) => {
 	console.log(chalk.bgRed('ERROR:'));
-	// console.log(...args);
+	console.log(...args);
 };
 
 export const log = (...args: any) => {

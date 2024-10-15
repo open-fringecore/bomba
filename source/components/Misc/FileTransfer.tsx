@@ -92,6 +92,7 @@ const FileTransfer = ({}: TProps) => {
 					fileInfo={{
 						fileId: key,
 						fileName: files[key]?.fileName!,
+						fileType: files[key]?.fileType!,
 						fileSize: files[key]?.totalSize!,
 					}}
 					peerInfo={currTransfer.peerInfo}

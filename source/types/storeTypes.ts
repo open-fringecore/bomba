@@ -50,6 +50,7 @@ export type SingleTransferFileInfo = {
 	state: TransferStates;
 	errorMsg?: string;
 	fileName: string;
+	fileType: FileTypes;
 	totalSize: number;
 	downloadedSize: number;
 };
@@ -76,6 +77,7 @@ export type SingleFile = {
 	fileId: string;
 	fileName: string;
 	fileSize: number;
+	fileType: FileTypes;
 };
 
 export type Files = {

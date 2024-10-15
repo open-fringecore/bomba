@@ -62,7 +62,7 @@ const SingleFileTransfer: React.FC<TProps> = ({
 			if (downloadAttempted.current) return;
 			downloadAttempted.current = true;
 
-			const {fileId, fileName, fileSize} = fileInfo;
+			const {fileId, fileName, fileSize, fileType} = fileInfo;
 			const {peerIP, peerHttpPort} = peerInfo;
 
 			// const isNoDuplicationIssue = await checkDuplication(fileId, fileName);
@@ -71,7 +71,7 @@ const SingleFileTransfer: React.FC<TProps> = ({
 			const isNoSpaceIssue = await checkEnoughSpace(fileId, fileSize);
 			if (!isNoSpaceIssue) return;
 
-			await useFileDownloader(peerIP, peerHttpPort, fileId, fileName);
+			await useFileDownloader(peerIP, peerHttpPort, fileId, fileName, fileType);
 			await useHashCheck(peerIP, peerHttpPort, fileId, fileName);
 			onSingleDownloadComplete();
 		} catch (error) {

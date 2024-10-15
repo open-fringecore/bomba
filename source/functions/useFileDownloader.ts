@@ -10,7 +10,7 @@ import {useHashCheck} from '@/functions/useHashCheck.js';
 import readlineSync from 'readline-sync';
 import {log, logError, logToFile} from '@/functions/log.js';
 import {fileExists, getDiskSpace} from '@/functions/helper.js';
-import {CurrTransferPeerInfo} from '@/types/storeTypes.js';
+import {CurrTransferPeerInfo, FileTypes} from '@/types/storeTypes.js';
 import {pipeline, Readable} from 'stream';
 import {promisify} from 'util';
 import {ReadableStream} from 'stream/web';
@@ -63,10 +63,13 @@ export const checkEnoughSpace = (
 	});
 };
 
+// NOTE:: // ! This function is not being used at this moment.
+// TODO:: DELETE LATER
 export const performSingleDownloadSteps = async (
 	fileID: string,
 	fileName: string,
 	fileSize: number,
+	fileType: FileTypes,
 	peer: CurrTransferPeerInfo,
 ) => {
 	const isNoDuplicationIssue = await checkDuplication(fileID, fileName);
@@ -75,7 +78,13 @@ export const performSingleDownloadSteps = async (
 	const isNoSpaceIssue = await checkEnoughSpace(fileID, fileSize);
 	if (!isNoSpaceIssue) return;
 
-	await useFileDownloader(peer.peerIP, peer.peerHttpPort, fileID, fileName);
+	await useFileDownloader(
+		peer.peerIP,
+		peer.peerHttpPort,
+		fileID,
+		fileName,
+		fileType,
+	);
 	await useHashCheck(peer.peerIP, peer.peerHttpPort, fileID, fileName);
 };
 
@@ -86,8 +95,13 @@ export const useFileDownloader = async (
 	PEER_TCP_PORT: number,
 	FILE_ID: string,
 	FILENAME: string,
+	FILETYPE: FileTypes,
 ): Promise<void> => {
-	const url = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
+	const normalFileDownloadUrl = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
+	const folderTarDownloadUrl = `http://${PEER_IP}:${PEER_TCP_PORT}/download-tar/${FILENAME}`;
+
+	const url =
+		FILETYPE == 'folder' ? folderTarDownloadUrl : normalFileDownloadUrl;
 	const outputPath = path.join(RECEIVE_PATH, FILENAME);
 
 	try {

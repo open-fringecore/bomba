@@ -25,6 +25,7 @@ export const initTransferInfo = (
 			acc[key] = {
 				state: 'DEFAULT',
 				fileName: value.fileName,
+				fileType: value.fileType,
 				totalSize: value.fileSize,
 				downloadedSize: 0,
 			};

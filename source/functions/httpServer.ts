@@ -130,7 +130,7 @@ export const useHttpServer = (
 					return res.status(400).json({msg: 'filename required.'});
 				}
 
-				const filePath = `${SEND_PATH}/${filename}`;
+				const filePath = path.join(SEND_PATH, filename);
 
 				if (!fs.existsSync(filePath)) {
 					return res.status(404).json({msg: 'File not found!!'});

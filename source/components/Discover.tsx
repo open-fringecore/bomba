@@ -73,18 +73,25 @@ const Discover = () => {
 			selectedPeerFiles,
 		);
 
+		// TODO:: DELETE LATER
 		// for (const [key, value] of Object.entries(selectedPeerFiles)) {
 		// 	log(`📥 Downloading: ${value.fileName}`);
 
 		// 	try {
-		// 		await performSingleDownloadSteps(key, value.fileName, value.fileSize, {
-		// 			peerIP: selectedPeer.ip,
-		// 			peerID: selectedPeer.id,
-		// 			peerHttpPort: selectedPeer.httpPort,
-		// 			senderName: selectedPeer.name,
-		// 		});
+		// 		await performSingleDownloadSteps(
+		// 			key,
+		// 			value.fileName,
+		// 			value.fileSize,
+		// 			value.fileType,
+		// 			{
+		// 				peerIP: selectedPeer.ip,
+		// 				peerID: selectedPeer.id,
+		// 				peerHttpPort: selectedPeer.httpPort,
+		// 				senderName: selectedPeer.name,
+		// 			},
+		// 		);
 		// 	} catch (error) {
-		// logError('An error occurred:', error);
+		// 		logError('An error occurred:', error);
 		// 	}
 		// }
 	};
