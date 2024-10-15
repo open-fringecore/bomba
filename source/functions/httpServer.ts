@@ -40,7 +40,6 @@ export const useHttpServer = (
 
 		app.get('/download/*', (req, res) => {
 			try {
-				// const {filename} = req.params;
 				const filename = (req.params as any)['0'];
 
 				if (!filename) {
@@ -118,16 +117,6 @@ export const useHttpServer = (
 				});
 
 				pack.pipe(res);
-
-				// pump(pack, res, err => {
-				// 	if (err) {
-				// 		console.error('Pump error:', err);
-				// 		if (!res.headersSent) {
-				// 			res.statusCode = 500;
-				// 			res.end('Internal Server Error');
-				// 		}
-				// 	}
-				// });
 			} catch (error) {
 				logError(error);
 			}
@@ -135,7 +124,6 @@ export const useHttpServer = (
 
 		app.get('/get-hash/*', async (req, res) => {
 			try {
-				// const {filename} = req.params;
 				const filename = (req.params as any)['0'];
 
 				if (!filename) {
