@@ -2,12 +2,12 @@ import express from 'express';
 import {useEffect} from 'react';
 import fs from 'fs';
 import path from 'path';
-import {hashFile} from '@/functions/useHashCheck.js';
+import {hashFile, hashFolder} from '@/functions/useHashCheck.js';
 import {log, logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {SendingFiles} from '@/types/storeTypes.js';
 import tar from 'tar-fs';
-import {getFolderSize} from '@/functions/helper.js';
+import {getFolderSize, isDirectory} from '@/functions/helper.js';
 
 export const useHttpServer = (
 	MY_IP: string,
@@ -137,8 +137,11 @@ export const useHttpServer = (
 				}
 
 				try {
-					const hash = await hashFile(filePath);
-					log(`Hash of the file is: ${hash}`);
+					const stats = fs.statSync(filePath);
+					const hash = stats.isDirectory()
+						? await hashFolder(filePath)
+						: await hashFile(filePath);
+					log(`Hash of ${filename} is -> ${hash}`);
 					return res.status(200).json({msg: 'Hash Successful!', hash});
 				} catch (err) {
 					logError('Error hashing file:', err);

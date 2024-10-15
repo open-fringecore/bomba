@@ -1,4 +1,5 @@
-import crypto from 'crypto';
+import crypto, {BinaryLike} from 'crypto';
+import path from 'path';
 import fs from 'fs';
 import {
 	updateTransferFileErrorMsg,
@@ -24,6 +25,26 @@ export const hashFile = (filePath: string) => {
 			reject(err);
 		});
 	});
+};
+
+export const hashFolder = async (folderPath: string) => {
+	const hash = crypto.createHash('sha256');
+	const files = fs.readdirSync(folderPath);
+
+	for (const file of files) {
+		const filePath = path.join(folderPath, file);
+		const stats = fs.statSync(filePath);
+
+		if (stats.isDirectory()) {
+			const subFolderHash = await hashFolder(filePath);
+			hash.update(subFolderHash);
+		} else {
+			const fileHash = await hashFile(filePath);
+			hash.update(fileHash as unknown as BinaryLike);
+		}
+	}
+
+	return hash.digest('hex');
 };
 
 export const useHashCheck = async (
