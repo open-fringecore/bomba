@@ -11,6 +11,9 @@ import readlineSync from 'readline-sync';
 import {log, logError, logToFile} from '@/functions/log.js';
 import {fileExists, getDiskSpace} from '@/functions/helper.js';
 import {CurrTransferPeerInfo} from '@/types/storeTypes.js';
+import {pipeline, Readable} from 'stream';
+import {promisify} from 'util';
+import {ReadableStream} from 'stream/web';
 
 export const checkDuplication = (
 	FILE_ID: string,
@@ -76,88 +79,145 @@ export const performSingleDownloadSteps = async (
 	await useHashCheck(peer.peerIP, peer.peerHttpPort, fileID, fileName);
 };
 
-// TODO:: Use Pipe Later
-export const useFileDownloader = (
+const pipelineAsync = promisify(pipeline);
+
+export const useFileDownloader = async (
 	PEER_IP: string,
 	PEER_TCP_PORT: number,
 	FILE_ID: string,
 	FILENAME: string,
 ): Promise<void> => {
 	const url = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
-	const outputPath = `${RECEIVE_PATH}/${FILENAME}`;
+	const outputPath = path.join(RECEIVE_PATH, FILENAME);
 
-	return new Promise<void>(async (resolve, reject) => {
-		try {
-			const res = await fetch(url);
-			if (!res.ok) {
-				throw new Error(
-					res.status == 404 ? `File not found!` : 'Failed to download file!',
-				);
-			}
+	try {
+		const res = await fetch(url);
 
-			const dir = path.dirname(outputPath);
-			if (!fs.existsSync(dir)) {
-				fs.mkdirSync(dir, {recursive: true});
-			}
-
-			const totalLength = parseInt(
-				res.headers.get('content-length') || '0',
-				10,
+		if (!res.ok) {
+			throw new Error(
+				res.status === 404 ? 'File not found!' : 'Failed to download file!',
 			);
-			const writer = fs.createWriteStream(outputPath);
-			let downloaded = 0;
-			let progress = 0;
-
-			const reader = res.body!.getReader();
-
-			const pump = async () => {
-				try {
-					const {done, value} = await reader.read();
-					if (done) {
-						writer.end();
-						resolve();
-						return;
-					}
-					writer.write(value);
-					downloaded += value.length;
-					progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
-
-					// updateTransferProgress(FILE_ID, {
-					// 	state: progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
-					// 	progress: progress,
-					// 	fileName: FILENAME,
-					// 	totalSize: totalLength,
-					// 	downloadedSize: downloaded,
-					// });
-					updateTransferProgress(FILE_ID, progress);
-					updateTransferFileState(
-						FILE_ID,
-						progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
-					);
-
-					await pump();
-				} catch (error) {
-					writer.end();
-					updateTransferFileState(FILE_ID, 'ERROR');
-					updateTransferFileErrorMsg(FILE_ID, 'Failed to read file!');
-					reject(new Error('Failed to read file'));
-				}
-			};
-
-			writer.on('error', () => {
-				reject(new Error('Failed to write file'));
-			});
-
-			await pump();
-		} catch (error) {
-			logError(error);
-			let errMsg = '';
-			if (error instanceof Error) {
-				errMsg = error.message;
-			}
-			updateTransferFileState(FILE_ID, 'ERROR');
-			updateTransferFileErrorMsg(FILE_ID, errMsg);
-			reject(error);
 		}
-	});
+
+		const dir = path.dirname(outputPath);
+		await fs.promises.mkdir(dir, {recursive: true});
+
+		const totalLength = parseInt(res.headers.get('content-length') || '0', 10);
+
+		let downloaded = 0;
+		let progress = 0;
+
+		const reader = Readable.fromWeb(res.body! as ReadableStream);
+		const writer = fs.createWriteStream(outputPath);
+
+		reader.on('data', chunk => {
+			downloaded += chunk.length;
+			progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
+
+			updateTransferProgress(FILE_ID, progress);
+			updateTransferFileState(
+				FILE_ID,
+				progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
+			);
+		});
+
+		await pipelineAsync(reader, writer);
+
+		writer.on('finish', () => {
+			log('File writing completed.');
+			updateTransferFileState(FILE_ID, 'TRANSFERRED');
+		});
+	} catch (error) {
+		logError(error);
+		const errMsg = error instanceof Error ? error.message : 'Unknown error';
+		updateTransferFileState(FILE_ID, 'ERROR');
+		updateTransferFileErrorMsg(FILE_ID, errMsg);
+		throw error;
+	}
 };
+
+// TODO:: REMOVE LATER
+// export const useFileDownloader = (
+// 	PEER_IP: string,
+// 	PEER_TCP_PORT: number,
+// 	FILE_ID: string,
+// 	FILENAME: string,
+// ): Promise<void> => {
+// 	const url = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
+// 	const outputPath = `${RECEIVE_PATH}/${FILENAME}`;
+
+// 	return new Promise<void>(async (resolve, reject) => {
+// 		try {
+// 			const res = await fetch(url);
+// 			if (!res.ok) {
+// 				throw new Error(
+// 					res.status == 404 ? `File not found!` : 'Failed to download file!',
+// 				);
+// 			}
+
+// 			const dir = path.dirname(outputPath);
+// 			if (!fs.existsSync(dir)) {
+// 				fs.mkdirSync(dir, {recursive: true});
+// 			}
+
+// 			const totalLength = parseInt(
+// 				res.headers.get('content-length') || '0',
+// 				10,
+// 			);
+// 			const writer = fs.createWriteStream(outputPath);
+// 			let downloaded = 0;
+// 			let progress = 0;
+
+// 			const reader = res.body!.getReader();
+
+// 			const pump = async () => {
+// 				try {
+// 					const {done, value} = await reader.read();
+// 					if (done) {
+// 						writer.end();
+// 						resolve();
+// 						return;
+// 					}
+// 					writer.write(value);
+// 					downloaded += value.length;
+// 					progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
+
+// 					// updateTransferProgress(FILE_ID, {
+// 					// 	state: progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
+// 					// 	progress: progress,
+// 					// 	fileName: FILENAME,
+// 					// 	totalSize: totalLength,
+// 					// 	downloadedSize: downloaded,
+// 					// });
+// 					updateTransferProgress(FILE_ID, progress);
+// 					updateTransferFileState(
+// 						FILE_ID,
+// 						progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
+// 					);
+
+// 					await pump();
+// 				} catch (error) {
+// 					writer.end();
+// 					updateTransferFileState(FILE_ID, 'ERROR');
+// 					updateTransferFileErrorMsg(FILE_ID, 'Failed to read file!');
+// 					reject(new Error('Failed to read file'));
+// 				}
+// 			};
+
+// 			writer.on('error', () => {
+// 				reject(new Error('Failed to write file'));
+// 			});
+
+// 			await pump();
+// 		} catch (error) {
+// 			logError(error);
+// 			let errMsg = '';
+// 			if (error instanceof Error) {
+// 				errMsg = error.message;
+// 			}
+// 			updateTransferFileState(FILE_ID, 'ERROR');
+// 			updateTransferFileErrorMsg(FILE_ID, errMsg);
+// 			reject(error);
+// 		}
+// 	});
+// };
