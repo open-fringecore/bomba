@@ -92,11 +92,6 @@ export const useHttpServer = (
 
 				const folderSize = getFolderSize(folderPath);
 
-				console.log('====================================');
-				console.log('folderSize', folderSize);
-				console.log('folderPath', folderPath);
-				console.log('====================================');
-
 				res.setHeader('Content-Type', 'application/x-tar');
 				res.setHeader('Content-Length', folderSize);
 				res.setHeader(
