@@ -101,19 +101,19 @@ export const useHttpServer = (
 				const pack = tar.pack(folderPath);
 
 				pack.on('error', err => {
-					console.error('Pack stream error:', err);
+					logError('Pack stream error:', err);
 				});
 
 				res.on('error', err => {
-					console.error('Response stream error:', err);
+					logError('Response stream error:', err);
 				});
 
 				res.on('close', () => {
-					console.log('Response stream closed');
+					log('Response stream closed');
 				});
 
 				pack.on('data', chunk => {
-					console.log(chunk.length);
+					// log('chunk.length', chunk.length);
 				});
 
 				pack.pipe(res);

@@ -8,42 +8,76 @@ import {
 import {RECEIVE_PATH} from '@/functions/variables.js';
 import {log, logError} from '@/functions/log.js';
 
-export const hashFile = (filePath: string) => {
-	return new Promise((resolve, reject) => {
-		const hash = crypto.createHash('sha256');
-		const stream = fs.createReadStream(filePath);
+// export const hashFile = async (filePath: string) => {
+// 	return new Promise((resolve, reject) => {
+// 		const hash = crypto.createHash('sha256');
 
-		stream.on('data', chunk => {
-			hash.update(chunk as any);
-		});
+// 		console.log('====================================');
+// 		console.log('hashFile', filePath);
+// 		console.log('====================================');
+// 		const stream = fs.createReadStream(filePath);
 
-		stream.on('end', () => {
-			resolve(hash.digest('hex'));
-		});
+// 		stream.on('data', chunk => {
+// 			hash.update(chunk as any);
+// 		});
 
-		stream.on('error', err => {
-			reject(err);
-		});
-	});
+// 		stream.on('end', () => {
+// 			resolve(hash.digest('hex'));
+// 		});
+
+// 		stream.on('error', err => {
+// 			console.log('-----------------------', err);
+// 			reject(err);
+// 		});
+// 	});
+// };
+
+// import fs from 'fs/promises';
+// import crypto from 'crypto';
+
+export const hashFile = async (filePath: string) => {
+	const data = fs.readFileSync(filePath);
+	const hash = crypto.createHash('sha256');
+	hash.update(data as any);
+	return hash.digest('hex');
 };
 
 export const hashFolder = async (folderPath: string) => {
 	const hash = crypto.createHash('sha256');
-	const files = fs.readdirSync(folderPath);
+	try {
+		const files = fs.readdirSync(folderPath);
+		await Promise.all(
+			files.map(async file => {
+				const filePath = path.join(folderPath, file);
+				const stats = fs.statSync(filePath);
 
-	for (const file of files) {
-		const filePath = path.join(folderPath, file);
-		const stats = fs.statSync(filePath);
+				if (stats.isDirectory()) {
+					const subFolderHash = await hashFolder(filePath);
+					hash.update(subFolderHash);
+				} else {
+					console.log('✔✔✔✔✔', file);
+					const fileHash = await hashFile(filePath);
+					console.log('✔✔✔✔✔', file, fileHash);
+					hash.update(fileHash as unknown as BinaryLike);
+				}
+			}),
+		);
+		// for (const file of files) {
+		// 	const filePath = path.join(folderPath, file);
+		// 	const stats = fs.statSync(filePath);
 
-		if (stats.isDirectory()) {
-			const subFolderHash = await hashFolder(filePath);
-			hash.update(subFolderHash);
-		} else {
-			const fileHash = await hashFile(filePath);
-			hash.update(fileHash as unknown as BinaryLike);
-		}
+		// 	if (stats.isDirectory()) {
+		// 		const subFolderHash = await hashFolder(filePath);
+		// 		hash.update(subFolderHash);
+		// 	} else {
+		// 		const fileHash = await hashFile(filePath);
+		// 		console.log('✔✔✔✔✔', file, fileHash);
+		// 		hash.update(fileHash as unknown as BinaryLike);
+		// 	}
+		// }
+	} catch (error) {
+		console.log('first', error);
 	}
-
 	return hash.digest('hex');
 };
 
@@ -57,7 +91,7 @@ export const useHashCheck = async (
 		log('Hash checking: ', FILENAME);
 		try {
 			const url = `http://${PEER_IP}:${PEER_TCP_PORT}/get-hash/${FILENAME}`;
-			const outputPath = `${RECEIVE_PATH}/${FILENAME}`;
+			const outputPath = path.join(RECEIVE_PATH, FILENAME);
 
 			const response = await fetch(url);
 			if (!response.ok) {
@@ -68,15 +102,17 @@ export const useHashCheck = async (
 			const data = await response.json();
 
 			const sendFileHash = data.hash;
-			const receivedFileHash = await hashFile(outputPath);
+			const stats = fs.statSync(outputPath);
+
+			const receivedFileHash = stats.isDirectory()
+				? await hashFolder(outputPath)
+				: await hashFile(outputPath);
 
 			if (sendFileHash === receivedFileHash) {
 				log('HASH MATCHED');
 				updateTransferFileState(FILE_ID, 'SUCCESS');
 			} else {
 				log("HASH DIDN'T MATCHED", sendFileHash, receivedFileHash);
-				// updateTransferFileState(FILE_ID, 'ERROR');
-				// updateTransferFileErrorMsg(FILE_ID, 'Hash Mismatch.');
 				throw new Error('Hash Mismatch.');
 			}
 			resolve();
@@ -87,8 +123,8 @@ export const useHashCheck = async (
 			}
 			updateTransferFileState(FILE_ID, 'ERROR');
 			updateTransferFileErrorMsg(FILE_ID, errMsg);
+			logError('Error hash check:', error);
 			reject(error);
-			// logError('Error hash check:', error);
 		}
 	});
 };

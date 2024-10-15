@@ -5,7 +5,7 @@ import {
 	updateTransferFileState,
 	updateTransferProgress,
 } from '@/stores/fileHandlerStore.js';
-import {RECEIVE_PATH} from '@/functions/variables.js';
+import {RECEIVE_PATH, SEND_PATH} from '@/functions/variables.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
 import readlineSync from 'readline-sync';
 import {log, logError, logToFile} from '@/functions/log.js';
@@ -14,6 +14,7 @@ import {CurrTransferPeerInfo, FileTypes} from '@/types/storeTypes.js';
 import {pipeline, Readable} from 'stream';
 import {promisify} from 'util';
 import {ReadableStream} from 'stream/web';
+import tar from 'tar-fs';
 
 export const checkDuplication = (
 	FILE_ID: string,
@@ -90,6 +91,30 @@ export const performSingleDownloadSteps = async (
 
 const pipelineAsync = promisify(pipeline);
 
+const extractTar = async (tarFileName: string) => {
+	const tarPath = path.join(RECEIVE_PATH, tarFileName);
+	const folderName = tarFileName.replace('.tar', '');
+	const tarExtractOutputPath = path.join(RECEIVE_PATH, folderName);
+
+	try {
+		fs.createReadStream(tarPath).pipe(tar.extract(tarExtractOutputPath));
+	} catch (error) {
+		logError(`Error extracting tar: ${error}`);
+		throw error;
+	}
+};
+
+const deleteTar = async (tarFileName: string) => {
+	const tarPath = path.join(RECEIVE_PATH, tarFileName);
+	try {
+		await fs.unlinkSync(tarPath);
+		console.log(`File deleted successfully: ${tarPath}`);
+	} catch (error) {
+		logError(`Error deleting file: ${error}`);
+		throw error;
+	}
+};
+
 export const useFileDownloader = async (
 	PEER_IP: string,
 	PEER_TCP_PORT: number,
@@ -100,9 +125,9 @@ export const useFileDownloader = async (
 	const downloadUrlForNormalFile = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
 	const downloadUrlForTar = `http://${PEER_IP}:${PEER_TCP_PORT}/download-tar/${FILENAME}`;
 
-	const saveFileAs = FILETYPE == 'folder' ? `${FILENAME}.tar` : FILENAME;
-	const url =
-		FILETYPE == 'folder' ? downloadUrlForTar : downloadUrlForNormalFile;
+	const isFolder = FILETYPE == 'folder';
+	const saveFileAs = isFolder ? `${FILENAME}.tar` : FILENAME;
+	const url = isFolder ? downloadUrlForTar : downloadUrlForNormalFile;
 
 	const outputPath = path.join(RECEIVE_PATH, saveFileAs);
 
@@ -139,10 +164,15 @@ export const useFileDownloader = async (
 
 		await pipelineAsync(reader, writer);
 
-		writer.on('finish', () => {
-			log('File writing completed.');
-			updateTransferFileState(FILE_ID, 'TRANSFERRED');
-		});
+		if (isFolder) {
+			await extractTar(saveFileAs);
+			// await deleteTar(saveFileAs);
+		}
+
+		// writer.on('finish', () => {
+		// 	log('File writing completed.');
+		// 	updateTransferFileState(FILE_ID, 'TRANSFERRED');
+		// });
 	} catch (error) {
 		logError(error);
 		const errMsg = error instanceof Error ? error.message : 'Unknown error';
