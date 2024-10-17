@@ -11,7 +11,6 @@ import {useHttpServer} from '@/functions/httpServer.js';
 import {useActivePeers} from '@/functions/useActivePeers.js';
 import FileTransfer from '@/components/Misc/FileTransfer.js';
 import {$peersFiles, initTransferInfo} from '@/stores/fileHandlerStore.js';
-import {performSingleDownloadSteps} from '@/functions/useFileDownloader.js';
 import {log, logError} from '@/functions/log.js';
 
 const Discover = () => {
@@ -72,28 +71,6 @@ const Discover = () => {
 			totalFiles,
 			selectedPeerFiles,
 		);
-
-		// TODO:: DELETE LATER
-		// for (const [key, value] of Object.entries(selectedPeerFiles)) {
-		// 	log(`📥 Downloading: ${value.fileName}`);
-
-		// 	try {
-		// 		await performSingleDownloadSteps(
-		// 			key,
-		// 			value.fileName,
-		// 			value.fileSize,
-		// 			value.fileType,
-		// 			{
-		// 				peerIP: selectedPeer.ip,
-		// 				peerID: selectedPeer.id,
-		// 				peerHttpPort: selectedPeer.httpPort,
-		// 				senderName: selectedPeer.name,
-		// 			},
-		// 		);
-		// 	} catch (error) {
-		// 		logError('An error occurred:', error);
-		// 	}
-		// }
 	};
 
 	return (

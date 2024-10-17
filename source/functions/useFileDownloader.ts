@@ -9,11 +9,7 @@ import {RECEIVE_PATH, SEND_PATH} from '@/functions/variables.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
 import readlineSync from 'readline-sync';
 import {log, logError, logToFile} from '@/functions/log.js';
-import {
-	checkAndCreateFolder,
-	fileExists,
-	getDiskSpace,
-} from '@/functions/helper.js';
+import {fileExists, getDiskSpace} from '@/functions/helper.js';
 import {CurrTransferPeerInfo, FileTypes} from '@/types/storeTypes.js';
 import {pipeline, Readable} from 'stream';
 import {promisify} from 'util';
@@ -71,51 +67,12 @@ export const checkEnoughSpace = (
 	});
 };
 
-// NOTE:: // ! This function is not being used at this moment.
-// TODO:: DELETE LATER
-export const performSingleDownloadSteps = async (
-	fileID: string,
-	fileName: string,
-	fileSize: number,
-	fileType: FileTypes,
-	peer: CurrTransferPeerInfo,
-) => {
-	const isNoDuplicationIssue = await checkDuplication(fileID, fileName);
-	if (!isNoDuplicationIssue) return;
-
-	const isNoSpaceIssue = await checkEnoughSpace(fileID, fileSize);
-	if (!isNoSpaceIssue) return;
-
-	// await useFileDownloader(
-	// 	peer.peerIP,
-	// 	peer.peerHttpPort,
-	// 	fileID,
-	// 	fileName,
-	// 	fileType,
-	// );
-	// await useHashCheck(peer.peerIP, peer.peerHttpPort, fileID, fileName);
-};
-
-// const extractTar = async (tarFileName: string) => {
-// 	const tarPath = path.join(RECEIVE_PATH, tarFileName);
-// 	const folderName = tarFileName.replace('.tar', '');
-// 	const tarExtractOutputPath = path.join(RECEIVE_PATH, folderName);
-
-// 	try {
-// 		fs.createReadStream(tarPath).pipe(tarFs.extract(tarExtractOutputPath));
-// 	} catch (error) {
-// 		logError(`Error extracting tarFs: ${error}`);
-// 		throw error;
-// 	}
-// };
-
 const extractTar = async (tarFileName: string): Promise<void> => {
 	const tarPath = path.join(RECEIVE_PATH, tarFileName);
 	const folderName = tarFileName.replace('.tar', '');
 	const extractDir = path.join(RECEIVE_PATH, folderName);
 
 	try {
-		// await checkAndCreateFolder(extractDir);
 		await fs.promises.mkdir(extractDir, {recursive: true});
 
 		await extract({

@@ -86,28 +86,6 @@ export const fileExists = (filePath: string) => {
 	}
 };
 
-export const checkAndCreateFolder = async (_path: string) => {
-	try {
-		await fs.access(_path, err => {
-			if (err) {
-				return console.error(err);
-			}
-			console.log('Directory created successfully!');
-		});
-	} catch (err) {
-		try {
-			await fs.mkdir(_path, err => {
-				if (err) {
-					return console.error(err);
-				}
-				console.log('Directory created successfully!');
-			});
-		} catch (err) {
-			console.error('Error creating folder:', err);
-		}
-	}
-};
-
 export const getDiskSpace = async (): Promise<number> => {
 	const drive = path.parse(process.cwd()).root;
 
