@@ -71,7 +71,14 @@ const SingleFileTransfer: React.FC<TProps> = ({
 			const isNoSpaceIssue = await checkEnoughSpace(fileId, fileSize);
 			if (!isNoSpaceIssue) return;
 
-			await useFileDownloader(peerIP, peerHttpPort, fileId, fileName, fileType);
+			await useFileDownloader(
+				peerIP,
+				peerHttpPort,
+				fileId,
+				fileName,
+				fileType,
+				fileSize,
+			);
 			await useHashCheck(peerIP, peerHttpPort, fileId, fileName);
 			onSingleDownloadComplete();
 		} catch (error) {

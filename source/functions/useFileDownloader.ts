@@ -86,14 +86,14 @@ export const performSingleDownloadSteps = async (
 	const isNoSpaceIssue = await checkEnoughSpace(fileID, fileSize);
 	if (!isNoSpaceIssue) return;
 
-	await useFileDownloader(
-		peer.peerIP,
-		peer.peerHttpPort,
-		fileID,
-		fileName,
-		fileType,
-	);
-	await useHashCheck(peer.peerIP, peer.peerHttpPort, fileID, fileName);
+	// await useFileDownloader(
+	// 	peer.peerIP,
+	// 	peer.peerHttpPort,
+	// 	fileID,
+	// 	fileName,
+	// 	fileType,
+	// );
+	// await useHashCheck(peer.peerIP, peer.peerHttpPort, fileID, fileName);
 };
 
 // const extractTar = async (tarFileName: string) => {
@@ -146,6 +146,7 @@ export const useFileDownloader = async (
 	FILE_ID: string,
 	FILENAME: string,
 	FILETYPE: FileTypes,
+	FILESIZE: number,
 ): Promise<void> => {
 	const downloadUrlForNormalFile = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
 	const downloadUrlForTar = `http://${PEER_IP}:${PEER_TCP_PORT}/download-tar/${FILENAME}`;
@@ -168,7 +169,8 @@ export const useFileDownloader = async (
 		const dir = path.dirname(outputPath);
 		await fs.promises.mkdir(dir, {recursive: true});
 
-		const totalLength = parseInt(res.headers.get('content-length') || '0', 10);
+		// const totalLength = parseInt(res.headers.get('content-length') || '0', 10);
+		const totalLength = FILESIZE;
 
 		let downloaded = 0;
 		let progress = 0;

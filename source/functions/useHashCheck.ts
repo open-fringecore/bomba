@@ -43,7 +43,6 @@ export const hashFolder = async (folderPath: string) => {
 				hash.update(subFolderHash);
 			} else {
 				const fileHash = await hashFile(filePath);
-				console.log(file, '++++++++++++++', fileHash);
 				hash.update(fileHash as unknown as BinaryLike);
 			}
 		}

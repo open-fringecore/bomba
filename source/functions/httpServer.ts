@@ -93,7 +93,7 @@ export const useHttpServer = (
 				const folderSize = getFolderSize(folderPath);
 
 				res.setHeader('Content-Type', 'application/x-tar');
-				res.setHeader('Content-Length', folderSize);
+				// res.setHeader('Content-Length', folderSize);
 				res.setHeader(
 					'Content-Disposition',
 					`attachment; filename=${foldername}.tar`,
