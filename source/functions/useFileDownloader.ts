@@ -128,6 +128,7 @@ export const useFileDownloader = async (
 
 		// const totalLength = parseInt(res.headers.get('content-length') || '0', 10);
 		const totalLength = FILESIZE;
+		console.log('FILESIZE', FILESIZE);
 
 		let downloaded = 0;
 		let progress = 0;
