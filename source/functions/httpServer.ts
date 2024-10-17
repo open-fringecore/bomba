@@ -6,8 +6,8 @@ import {hashFile, hashFolder} from '@/functions/useHashCheck.js';
 import {log, logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {SendingFiles} from '@/types/storeTypes.js';
-import {default as tarFs} from 'tar-fs';
-import tar from 'tar';
+// import {default as tarFs} from 'tar-fs';
+import {c} from 'tar';
 import {getFolderSize} from '@/functions/helper.js';
 
 export const useHttpServer = (
@@ -100,15 +100,14 @@ export const useHttpServer = (
 				);
 
 				// const pack = tarFs.pack(folderPath);
-				const pack = tar.create(
+				const pack = c(
 					{
-						gzip: false, // Optional: enable gzip compression
-						C: folderPath, // Change to the directory before adding files
+						C: folderPath,
 					},
-					['.'],
+					[''],
 				);
 
-				pack.on('error', err => {
+				pack.on('error', (err: any) => {
 					logError('Pack stream error:', err);
 					res.status(500).end('Internal Server Error');
 				});
