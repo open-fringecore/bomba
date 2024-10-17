@@ -9,12 +9,17 @@ import {RECEIVE_PATH, SEND_PATH} from '@/functions/variables.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
 import readlineSync from 'readline-sync';
 import {log, logError, logToFile} from '@/functions/log.js';
-import {fileExists, getDiskSpace} from '@/functions/helper.js';
+import {
+	checkAndCreateFolder,
+	fileExists,
+	getDiskSpace,
+} from '@/functions/helper.js';
 import {CurrTransferPeerInfo, FileTypes} from '@/types/storeTypes.js';
 import {pipeline, Readable} from 'stream';
 import {promisify} from 'util';
 import {ReadableStream} from 'stream/web';
-import tar from 'tar-fs';
+import {default as tarFs} from 'tar-fs';
+import {x as extract} from 'tar';
 
 const pipelineAsync = promisify(pipeline);
 
@@ -97,9 +102,9 @@ export const performSingleDownloadSteps = async (
 // 	const tarExtractOutputPath = path.join(RECEIVE_PATH, folderName);
 
 // 	try {
-// 		fs.createReadStream(tarPath).pipe(tar.extract(tarExtractOutputPath));
+// 		fs.createReadStream(tarPath).pipe(tarFs.extract(tarExtractOutputPath));
 // 	} catch (error) {
-// 		logError(`Error extracting tar: ${error}`);
+// 		logError(`Error extracting tarFs: ${error}`);
 // 		throw error;
 // 	}
 // };
@@ -107,28 +112,21 @@ export const performSingleDownloadSteps = async (
 const extractTar = async (tarFileName: string): Promise<void> => {
 	const tarPath = path.join(RECEIVE_PATH, tarFileName);
 	const folderName = tarFileName.replace('.tar', '');
-	const tarExtractOutputPath = path.join(RECEIVE_PATH, folderName);
+	const extractDir = path.join(RECEIVE_PATH, folderName);
 
-	return new Promise((resolve, reject) => {
-		const readStream = fs.createReadStream(tarPath);
-		const extractStream = tar.extract(tarExtractOutputPath);
+	try {
+		// await checkAndCreateFolder(extractDir);
+		await fs.promises.mkdir(extractDir, {recursive: true});
 
-		readStream.pipe(extractStream);
-
-		readStream.on('error', error => {
-			logError(`Error reading tar file: ${error}`);
-			// reject(error);
+		await extract({
+			file: tarPath,
+			C: extractDir,
 		});
 
-		extractStream.on('error', error => {
-			logError(`Error extracting tar: ${error}`);
-			// reject(error);
-		});
-
-		extractStream.on('finish', () => {
-			resolve();
-		});
-	});
+		console.log('Extraction complete');
+	} catch (err) {
+		console.error('Error extracting tar file:', err);
+	}
 };
 
 const deleteTar = async (tarFileName: string) => {

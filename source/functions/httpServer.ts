@@ -6,7 +6,7 @@ import {hashFile, hashFolder} from '@/functions/useHashCheck.js';
 import {log, logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {SendingFiles} from '@/types/storeTypes.js';
-import tar from 'tar-fs';
+import {default as tarFs} from 'tar-fs';
 import {getFolderSize} from '@/functions/helper.js';
 
 export const useHttpServer = (
@@ -98,7 +98,7 @@ export const useHttpServer = (
 					`attachment; filename=${foldername}.tar`,
 				);
 
-				const pack = tar.pack(folderPath);
+				const pack = tarFs.pack(folderPath);
 
 				pack.on('error', err => {
 					logError('Pack stream error:', err);
