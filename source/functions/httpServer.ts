@@ -112,9 +112,9 @@ export const useHttpServer = (
 					log('Response stream closed');
 				});
 
-				pack.on('data', chunk => {
-					// log('chunk.length', chunk.length);
-				});
+				// pack.on('data', chunk => {
+				// 	// log('chunk.length', chunk.length);
+				// });
 
 				pack.pipe(res);
 			} catch (error) {
