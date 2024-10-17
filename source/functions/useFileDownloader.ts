@@ -128,7 +128,6 @@ export const useFileDownloader = async (
 
 		// const totalLength = parseInt(res.headers.get('content-length') || '0', 10);
 		const totalLength = FILESIZE;
-		console.log('FILESIZE', FILESIZE);
 
 		let downloaded = 0;
 		let progress = 0;
@@ -138,7 +137,10 @@ export const useFileDownloader = async (
 
 		reader.on('data', chunk => {
 			downloaded += chunk.length;
-			progress = parseFloat(((downloaded / totalLength) * 100).toFixed(2));
+			const tempProgress = parseFloat(
+				((downloaded / totalLength) * 100).toFixed(2),
+			);
+			progress = tempProgress > 100 ? 100 : tempProgress;
 
 			updateTransferProgress(FILE_ID, progress);
 			updateTransferFileState(

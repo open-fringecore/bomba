@@ -97,7 +97,6 @@ export const useCommands = () => {
 										fileType == 'folder'
 											? getFolderSize(filePath)
 											: getFileSize(filePath);
-									console.log(fileType);
 									acc[uuidv4()] = {fileName, fileSize, fileType};
 									return acc;
 								},
