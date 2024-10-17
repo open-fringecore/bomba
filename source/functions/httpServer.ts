@@ -7,7 +7,7 @@ import {log, logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {SendingFiles} from '@/types/storeTypes.js';
 import tar from 'tar-fs';
-import {getFolderSize, isDirectory} from '@/functions/helper.js';
+import {getFolderSize} from '@/functions/helper.js';
 
 export const useHttpServer = (
 	MY_IP: string,

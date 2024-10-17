@@ -4,7 +4,7 @@ import {dirname, join} from 'path';
 import chalk from 'chalk';
 
 export const logError = (...args: any) => {
-	console.log(chalk.bgRed('ERROR:'));
+	console.log(chalk.bgRed(' MY ERROR:'));
 	console.log(...args);
 };
 

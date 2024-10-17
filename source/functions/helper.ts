@@ -46,19 +46,16 @@ export const getAllFiles = (
 };
 
 export const getFileType = (_path: string): FileTypes => {
-	if (isDirectory(_path)) {
-		return 'folder';
-	}
-
-	const extension = _path.substring(_path.lastIndexOf('.')).toLowerCase();
-
+	const stats = fs.statSync(_path);
+	if (stats.isDirectory()) return 'folder';
+	const extension = path.extname(_path);
+	if (!extension) return 'folder';
 	return fileTypeMapping[extension] || 'others';
 };
 
 export const getFileSize = (_path: string) => {
-	const fullPath = `${SEND_PATH}/${_path}`;
-	if (!fs.existsSync(fullPath)) return 0;
-	const stats = fs.statSync(fullPath);
+	if (!fs.existsSync(_path)) return 0;
+	const stats = fs.statSync(_path);
 	return stats.size;
 };
 

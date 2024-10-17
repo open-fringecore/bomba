@@ -16,6 +16,8 @@ import {promisify} from 'util';
 import {ReadableStream} from 'stream/web';
 import tar from 'tar-fs';
 
+const pipelineAsync = promisify(pipeline);
+
 export const checkDuplication = (
 	FILE_ID: string,
 	fileName: string,
@@ -89,19 +91,44 @@ export const performSingleDownloadSteps = async (
 	await useHashCheck(peer.peerIP, peer.peerHttpPort, fileID, fileName);
 };
 
-const pipelineAsync = promisify(pipeline);
+// const extractTar = async (tarFileName: string) => {
+// 	const tarPath = path.join(RECEIVE_PATH, tarFileName);
+// 	const folderName = tarFileName.replace('.tar', '');
+// 	const tarExtractOutputPath = path.join(RECEIVE_PATH, folderName);
 
-const extractTar = async (tarFileName: string) => {
+// 	try {
+// 		fs.createReadStream(tarPath).pipe(tar.extract(tarExtractOutputPath));
+// 	} catch (error) {
+// 		logError(`Error extracting tar: ${error}`);
+// 		throw error;
+// 	}
+// };
+
+const extractTar = async (tarFileName: string): Promise<void> => {
 	const tarPath = path.join(RECEIVE_PATH, tarFileName);
 	const folderName = tarFileName.replace('.tar', '');
 	const tarExtractOutputPath = path.join(RECEIVE_PATH, folderName);
 
-	try {
-		fs.createReadStream(tarPath).pipe(tar.extract(tarExtractOutputPath));
-	} catch (error) {
-		logError(`Error extracting tar: ${error}`);
-		throw error;
-	}
+	return new Promise((resolve, reject) => {
+		const readStream = fs.createReadStream(tarPath);
+		const extractStream = tar.extract(tarExtractOutputPath);
+
+		readStream.pipe(extractStream);
+
+		readStream.on('error', error => {
+			logError(`Error reading tar file: ${error}`);
+			// reject(error);
+		});
+
+		extractStream.on('error', error => {
+			logError(`Error extracting tar: ${error}`);
+			// reject(error);
+		});
+
+		extractStream.on('finish', () => {
+			resolve();
+		});
+	});
 };
 
 const deleteTar = async (tarFileName: string) => {

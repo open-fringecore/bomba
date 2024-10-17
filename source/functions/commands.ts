@@ -12,7 +12,7 @@ import {
 	getAllFiles,
 	getFileSize,
 	getFileType,
-	isDirectory,
+	getFolderSize,
 } from '@/functions/helper.js';
 import {v4 as uuidv4} from 'uuid';
 import {log, logError, logToFile} from '@/functions/log.js';
@@ -91,11 +91,14 @@ export const useCommands = () => {
 							const peerTransferInfo = files?.reduce(
 								(acc: SendingFiles, uncleanFileName: string, index: number) => {
 									const fileName = cleanFileName(uncleanFileName);
-									acc[uuidv4()] = {
-										fileName: fileName,
-										fileSize: getFileSize(fileName),
-										fileType: getFileType(fileName),
-									};
+									const filePath = path.join(SEND_PATH, fileName);
+									const fileType = getFileType(filePath);
+									const fileSize =
+										fileType == 'folder'
+											? getFolderSize(filePath)
+											: getFileSize(filePath);
+									console.log(fileType);
+									acc[uuidv4()] = {fileName, fileSize, fileType};
 									return acc;
 								},
 								{},
