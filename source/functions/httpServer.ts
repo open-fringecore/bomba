@@ -53,10 +53,10 @@ export const useHttpServer = (
 					return res.status(404).json({msg: 'File not found!', filePath});
 				}
 
-				const stat = fs.statSync(filePath);
-				const fileSize = stat.size;
+				// const stat = fs.statSync(filePath);
+				// const fileSize = stat.size;
 
-				res.setHeader('Content-Length', fileSize);
+				// res.setHeader('Content-Length', fileSize);
 				res.setHeader(
 					'Content-Disposition',
 					`attachment; filename=${filename}`,
@@ -90,7 +90,7 @@ export const useHttpServer = (
 					return res.status(404).json({msg: 'Folder not found!', folderPath});
 				}
 
-				const folderSize = getFolderSize(folderPath);
+				// const folderSize = getFolderSize(folderPath);
 
 				res.setHeader('Content-Type', 'application/x-tar');
 				// res.setHeader('Content-Length', folderSize);
@@ -121,7 +121,7 @@ export const useHttpServer = (
 				});
 
 				// pack.on('data', chunk => {
-				// 	// log('chunk.length', chunk.length);
+				// log('chunk.length', chunk.length);
 				// });
 
 				pack.pipe(res);
