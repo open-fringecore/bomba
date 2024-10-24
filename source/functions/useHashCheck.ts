@@ -79,8 +79,6 @@ export const useHashCheck = async (
 			? await hashFolder(outputPath)
 			: await hashFile(outputPath);
 
-		console.log('Local hash:', receivedFileHash);
-
 		if (sendFileHash === receivedFileHash) {
 			log('HASH MATCHED');
 			updateTransferFileState(FILE_ID, 'SUCCESS');

@@ -12,6 +12,7 @@ import {useActivePeers} from '@/functions/useActivePeers.js';
 import FileTransfer from '@/components/Misc/FileTransfer.js';
 import {$peersFiles, initTransferInfo} from '@/stores/fileHandlerStore.js';
 import {log, logError} from '@/functions/log.js';
+import {initSenderTransfer} from '@/functions/fetch.js';
 
 const Discover = () => {
 	const action = useStore($action);
@@ -52,11 +53,21 @@ const Discover = () => {
 		const selectedPeerFiles = peersFiles[peerID];
 
 		if (!selectedPeer) {
-			log('Selected Peer not found');
+			log('⭕ Selected Peer not found ⭕');
 			return;
 		}
 		if (!selectedPeerFiles) {
 			log('⭕ No sending files found ⭕');
+			return;
+		}
+
+		const isSenderInitSuccess = await initSenderTransfer(
+			`http://${selectedPeer.ip}:${selectedPeer.httpPort}`,
+			baseInfo.MY_ID,
+		);
+
+		if (!isSenderInitSuccess) {
+			log('⭕ Sender init transfer failed. ⭕');
 			return;
 		}
 

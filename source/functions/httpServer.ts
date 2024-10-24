@@ -1,14 +1,18 @@
 import express from 'express';
-import {useEffect} from 'react';
+import {useCallback, useEffect} from 'react';
 import fs from 'fs';
 import path from 'path';
 import {hashFile, hashFolder} from '@/functions/useHashCheck.js';
 import {log, logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
-import {SendingFiles} from '@/types/storeTypes.js';
+import {Files, SendingFiles} from '@/types/storeTypes.js';
 // import {default as tarFs} from 'tar-fs';
 import {c} from 'tar';
 import {getFolderSize} from '@/functions/helper.js';
+import {$sendingFiles} from '@/stores/baseStore.js';
+import {useStore} from '@nanostores/react';
+import {initTransferInfo} from '@/stores/fileHandlerStore.js';
+import {$connectedPeers} from '@/stores/peersStore.js';
 
 export const useHttpServer = (
 	MY_IP: string,
@@ -16,6 +20,55 @@ export const useHttpServer = (
 	isSending: boolean,
 	sendingFileNames: SendingFiles | null,
 ) => {
+	const sendingFiles = useStore($sendingFiles);
+	// const connectedPeers = useStore($connectedPeers);
+
+	const updateSenderProgress = useCallback(() => {
+		console.log($sendingFiles.get());
+	}, [sendingFiles]);
+
+	const initSenderTransfer = useCallback(
+		(peerID: string) => {
+			const connectedPeers = $connectedPeers.get();
+			console.log('connectedPeers', connectedPeers);
+			const selectedPeer = connectedPeers[peerID];
+
+			if (!selectedPeer) {
+				log('⭕ Selected Peer not found ⭕', peerID);
+				return;
+			}
+			if (!sendingFiles) {
+				log('⭕ No sending files found ⭕');
+				return;
+			}
+
+			const selectedPeerFiles = Object.fromEntries(
+				Object.entries(sendingFiles).map(([fileId, fileInfo]) => [
+					fileId,
+					{fileId, ...fileInfo},
+				]),
+			);
+
+			console.log('peerID', peerID);
+			console.log('selectedPeer', selectedPeer);
+			console.log('selectedPeerFiles', selectedPeerFiles);
+
+			const totalFiles = Object.entries(sendingFiles).length;
+
+			initTransferInfo(
+				{
+					peerID: peerID,
+					peerIP: selectedPeer.ip,
+					peerHttpPort: selectedPeer.httpPort,
+					senderName: selectedPeer.name,
+				},
+				totalFiles,
+				selectedPeerFiles,
+			);
+		},
+		[sendingFiles],
+	);
+
 	useEffect(() => {
 		const app = express();
 		app.use(express.json());
@@ -37,6 +90,24 @@ export const useHttpServer = (
 			setTimeout(() => {
 				res.json({active: true});
 			}, 10000);
+		});
+
+		app.get('/init-transfer/*', (req, res) => {
+			try {
+				const peerID = (req.params as any)['0'];
+
+				if (!peerID) {
+					return res.status(400).json({msg: 'filename required.'});
+				}
+
+				initSenderTransfer(peerID);
+
+				res.json({
+					msg: 'transfer initialized',
+				});
+			} catch (error) {
+				logError(error);
+			}
 		});
 
 		app.get('/download/*', (req, res) => {

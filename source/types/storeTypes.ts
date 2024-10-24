@@ -25,7 +25,7 @@ export type DiscoveredPeerType = {
 	httpPort: number;
 };
 export type DiscoveredPeersType = {
-	[key: string]: DiscoveredPeerType;
+	[peerID: string]: DiscoveredPeerType;
 };
 export type ConnectedPeerType = {
 	id: string;
@@ -35,7 +35,7 @@ export type ConnectedPeerType = {
 	httpPort: number;
 };
 export type ConnectedPeersType = {
-	[key: string]: ConnectedPeerType;
+	[peerID: string]: ConnectedPeerType;
 };
 
 // ! FileHandlerStore
