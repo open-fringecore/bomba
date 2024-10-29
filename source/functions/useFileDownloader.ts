@@ -153,7 +153,7 @@ export const useFileDownloader = async (
 
 		if (isFolder) {
 			await extractTar(saveFileAs);
-			// await deleteTar(saveFileAs);
+			await deleteTar(saveFileAs);
 		}
 
 		// writer.on('finish', () => {
