@@ -68,13 +68,13 @@ export const useUdpServer = (
 				log(
 					`${chalk.bgYellow('<-- Broadcasted From:')} ${chalk.underline(
 						data.name,
-					)}: ${data.id?.slice(-5)}`,
+					)}: ${data.id}`,
 				);
 			} else {
 				log(
 					`${chalk.bgCyan('<-- Received From:')} ${chalk.underline(
 						data.name,
-					)}: ${data.id?.slice(-5)}`,
+					)}: ${data.id}`,
 				);
 			}
 

@@ -5,7 +5,8 @@ export const initSenderTransfer = async (
 	senderPeerID: string,
 ): Promise<boolean> => {
 	try {
-		const response = await fetch(`${baseUrl}/init-transfer/${senderPeerID}`, {
+		const url = `${baseUrl}/init-transfer/${senderPeerID}`;
+		const response = await fetch(url, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

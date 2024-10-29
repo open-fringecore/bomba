@@ -49,11 +49,13 @@ export const useHttpServer = (
 				]),
 			);
 
-			console.log('peerID', peerID);
-			console.log('selectedPeer', selectedPeer);
-			console.log('selectedPeerFiles', selectedPeerFiles);
+			// console.log('peerID', peerID);
+			// console.log('selectedPeer', selectedPeer);
+			// console.log('selectedPeerFiles', selectedPeerFiles);
 
 			const totalFiles = Object.entries(sendingFiles).length;
+
+			console.log('totalFiles', totalFiles);
 
 			initTransferInfo(
 				{
