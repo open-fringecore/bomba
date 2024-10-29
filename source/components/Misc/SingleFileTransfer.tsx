@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useCallback, useRef} from 'react';
 import {Box, Text} from 'ink';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
-import CustomTask from '@/components/CustomTask.js';
+import CustomTask from '@/components/Misc/CustomTask.js';
 import {logError, logToFile} from '@/functions/log.js';
 import {
 	checkEnoughSpace,
