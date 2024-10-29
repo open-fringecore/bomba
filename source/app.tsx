@@ -9,7 +9,7 @@ import {$action, $baseInfo} from '@/stores/baseStore.js';
 import {hasNullValue} from '@/functions/helper.js';
 import {useCommands} from '@/functions/commands.js';
 import {$currTransfer} from '@/stores/fileHandlerStore.js';
-import FileTransfer from '@/components/Misc/FileTransfer.js';
+import FileTransfer from '@/components/FileTransfer.js';
 
 type TProps = {
 	name?: string;
