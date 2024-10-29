@@ -52,10 +52,6 @@ export const useCommands = () => {
 					});
 				},
 				(argv: DefaultArgvType) => {
-					// if (argv.version) {
-					// 	console.log('version: ' + argv.version);
-					// 	process.exit(0);
-					// }
 					if (argv.dev_mode) {
 						$isDev.set(true);
 					}
@@ -78,14 +74,15 @@ export const useCommands = () => {
 							// });
 							const files = argv.files;
 
+							// NOTE: // ! [-KEEP COMMENT-]
 							// ! Check if file exists | only for debugging
-							files.forEach((file: string) => {
-								log(
-									`${
-										fileExists(`${SEND_PATH}/${file}`) ? 'Exists' : 'Not Exists'
-									}: ${file}`,
-								);
-							});
+							// files.forEach((file: string) => {
+							// 	log(
+							// 		`${
+							// 			fileExists(`${SEND_PATH}/${file}`) ? 'Exists' : 'Not Exists'
+							// 		}: ${file}`,
+							// 	);
+							// });
 
 							// ! Create peer transfer info
 							const peerTransferInfo = files?.reduce(
@@ -112,11 +109,6 @@ export const useCommands = () => {
 					}
 				},
 			)
-			// .option('version', {
-			// 	alias: 'v',
-			// 	type: 'boolean',
-			// 	description: 'Get the current installed version.',
-			// })
 			.option('dev_mode', {
 				alias: 'dev',
 				type: 'boolean',

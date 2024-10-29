@@ -80,7 +80,7 @@ const extractTar = async (tarFileName: string): Promise<void> => {
 			C: extractDir,
 		});
 
-		console.log('Extraction complete');
+		log('Extraction complete');
 	} catch (err) {
 		console.error('Error extracting tar file:', err);
 	}

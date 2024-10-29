@@ -1,5 +1,5 @@
 import {fileTypeMapping, peoplesNames} from '@/functions/data.js';
-import {logError, logToFile} from '@/functions/log.js';
+import {log, logError, logToFile} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {FileTypes} from '@/types/storeTypes.js';
 import fs, {statfs} from 'fs';
@@ -15,7 +15,8 @@ export const hasNullValue = (obj: {[key: string]: any}): boolean => {
 };
 
 export const cleanFileName = (name: string) => {
-	return name;
+	return name.replace(/\/$/, ''); // ! Removes "/" at the end of the name
+	// return name;
 	// return name.replace(/[\\/]/g, '').replace(/^\./, '');
 };
 
@@ -91,8 +92,8 @@ export const getDiskSpace = async (): Promise<number> => {
 
 	return new Promise((resolve, reject) => {
 		statfs(drive, (err, stats) => {
-			// console.log('Total free space', stats.bsize * stats.bfree);
-			// console.log('Available for user', stats.bsize * stats.bavail);
+			// log('Total free space', stats.bsize * stats.bfree);
+			// log('Available for user', stats.bsize * stats.bavail);
 			if (err) {
 				reject(err);
 			} else {

@@ -23,14 +23,9 @@ export const useHttpServer = (
 	const sendingFiles = useStore($sendingFiles);
 	// const connectedPeers = useStore($connectedPeers);
 
-	const updateSenderProgress = useCallback(() => {
-		console.log($sendingFiles.get());
-	}, [sendingFiles]);
-
 	const initSenderTransfer = useCallback(
 		(peerID: string) => {
 			const connectedPeers = $connectedPeers.get();
-			console.log('connectedPeers', connectedPeers);
 			const selectedPeer = connectedPeers[peerID];
 
 			if (!selectedPeer) {
@@ -48,10 +43,6 @@ export const useHttpServer = (
 					{fileId, ...fileInfo},
 				]),
 			);
-
-			// console.log('peerID', peerID);
-			// console.log('selectedPeer', selectedPeer);
-			// console.log('selectedPeerFiles', selectedPeerFiles);
 
 			const totalFiles = Object.entries(sendingFiles).length;
 

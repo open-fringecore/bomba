@@ -32,7 +32,10 @@ const PeerList = ({peers, onSelect}: PropsType) => {
 					0,
 				);
 				const formattedSize = formatBytes(totalSize);
-				const label = `${value.name} - ${totalFiles} files | ${formattedSize}`;
+				const label =
+					totalFiles > 0
+						? `${value.name} - ${totalFiles} files | ${formattedSize}`
+						: `${value.name}`;
 
 				return {
 					label: label,
