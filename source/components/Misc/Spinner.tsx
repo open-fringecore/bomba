@@ -24,6 +24,7 @@ const leftRightBar = [
 	'▊',
 	'▉',
 ];
+const fish = ['𓆝 ', '𓆟', '𓆞', '𓆝', '𓆟'];
 const eye = ['◡◡', '⊙⊙', '◠◠'];
 export const spinners = {
 	dashSlash,
@@ -36,19 +37,21 @@ export const spinners = {
 	boxInBox,
 	leftRightBar,
 	eye,
+	fish,
 };
 
 type TProps = {
 	frames: string[];
 	color?: string;
+	speed?: number;
 };
-export const Spinner = ({frames, color = 'yellow'}: TProps) => {
+export const Spinner = ({frames, color = 'yellow', speed = 50}: TProps) => {
 	const [index, setIndex] = useState(0);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setIndex(currentIndex => (currentIndex + 1) % frames.length);
-		}, 50);
+		}, speed);
 
 		return () => clearInterval(timer);
 	}, []);

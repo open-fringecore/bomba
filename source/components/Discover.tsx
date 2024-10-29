@@ -13,6 +13,8 @@ import FileTransfer from '@/components/Misc/FileTransfer.js';
 import {$peersFiles, initTransferInfo} from '@/stores/fileHandlerStore.js';
 import {log, logError} from '@/functions/log.js';
 import {initSenderTransfer} from '@/functions/fetch.js';
+import WaveAnimation from '@/components/Misc/WaveAnimation.js';
+import SendArrowAnimation from '@/components/Misc/SendArrowAnimation.js';
 
 const Discover = () => {
 	const action = useStore($action);
@@ -61,14 +63,14 @@ const Discover = () => {
 			return;
 		}
 
-		// const isSenderInitSuccess = await initSenderTransfer(
-		// 	`http://${selectedPeer.ip}:${selectedPeer.httpPort}`,
-		// 	baseInfo.MY_ID,
-		// );
-		// if (!isSenderInitSuccess) {
-		// 	log('⭕ Sender init transfer failed. ⭕');
-		// 	return;
-		// }
+		const isSenderInitSuccess = await initSenderTransfer(
+			`http://${selectedPeer.ip}:${selectedPeer.httpPort}`,
+			baseInfo.MY_ID,
+		);
+		if (!isSenderInitSuccess) {
+			log('⭕ Sender init transfer failed. ⭕');
+			return;
+		}
 
 		const totalFiles = Object.entries(selectedPeerFiles).length;
 		initTransferInfo(
@@ -85,11 +87,14 @@ const Discover = () => {
 
 	return (
 		<Box flexDirection="column">
-			<Text>
+			{/* <Text>
 				<Spinner frames={spinners.dotsRound} color="magenta" />{' '}
 				{action == 'SEND' ? 'Sending' : 'Receiving'}
+			</Text> */}
+			<Text>
+				<WaveAnimation />
+				⠀DISCOVERING⠀
 			</Text>
-
 			<PeerList peers={connectedPeers} onSelect={onSelect} />
 		</Box>
 	);

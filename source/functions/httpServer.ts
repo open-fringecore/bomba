@@ -46,16 +46,16 @@ export const useHttpServer = (
 
 			const totalFiles = Object.entries(sendingFiles).length;
 
-			initTransferInfo(
-				{
-					peerID: peerID,
-					peerIP: selectedPeer.ip,
-					peerHttpPort: selectedPeer.httpPort,
-					senderName: selectedPeer.name,
-				},
-				totalFiles,
-				selectedPeerFiles,
-			);
+			// initTransferInfo(
+			// 	{
+			// 		peerID: peerID,
+			// 		peerIP: selectedPeer.ip,
+			// 		peerHttpPort: selectedPeer.httpPort,
+			// 		senderName: selectedPeer.name,
+			// 	},
+			// 	totalFiles,
+			// 	selectedPeerFiles,
+			// );
 		},
 		[sendingFiles],
 	);
@@ -83,7 +83,7 @@ export const useHttpServer = (
 			}, 10000);
 		});
 
-		app.get('/init-transfer/*', (req, res) => {
+		app.get('/init-sender-transfer/*', (req, res) => {
 			try {
 				const peerID = (req.params as any)['0'];
 
