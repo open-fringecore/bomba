@@ -55,8 +55,6 @@ export const useHttpServer = (
 
 			const totalFiles = Object.entries(sendingFiles).length;
 
-			console.log('totalFiles', totalFiles);
-
 			initTransferInfo(
 				{
 					peerID: peerID,
