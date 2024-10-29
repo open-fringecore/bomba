@@ -93,7 +93,7 @@ const deleteTar = async (tarFileName: string) => {
 		console.log(`File deleted successfully: ${tarPath}`);
 	} catch (error) {
 		logError(`Error deleting file: ${error}`);
-		throw error;
+		// throw error;
 	}
 };
 
