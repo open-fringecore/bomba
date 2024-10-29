@@ -10,6 +10,7 @@ import {hasNullValue} from '@/functions/helper.js';
 import {useCommands} from '@/functions/commands.js';
 import {$currTransfer} from '@/stores/fileHandlerStore.js';
 import FileTransfer from '@/components/FileTransfer.js';
+import FileTransferForSender from '@/components/FileTransferForSender.js';
 
 type TProps = {
 	name?: string;
@@ -37,6 +38,7 @@ export default function App({name = 'Stranger'}: TProps) {
 	if (['SEND', 'RECEIVE'].includes(action)) {
 		return (
 			<Box flexDirection="column">
+				<FileTransferForSender />
 				{currTransfer?.files ? <FileTransfer /> : <Discover />}
 			</Box>
 		);
