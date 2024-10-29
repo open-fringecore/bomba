@@ -15,7 +15,7 @@ export const initSenderTransfer = async (
 
 		if (!response.ok) {
 			const errorData = await response.json();
-			logError('Error:', errorData.msg);
+			logError(errorData);
 			return false;
 		}
 

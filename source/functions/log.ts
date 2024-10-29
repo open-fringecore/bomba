@@ -6,6 +6,28 @@ import chalk from 'chalk';
 export const logError = (...args: any) => {
 	console.log(chalk.bgRed(' MY ERROR:'));
 	console.log(...args);
+
+	// ! ------------------------------------- Error Tracing
+	const error = new Error();
+	const stackLines = error.stack?.split('\n');
+
+	if (!stackLines) {
+		console.log('No stackLines');
+		return;
+	}
+
+	// The third line in the stack trace usually has the caller info
+	const callerLine = stackLines[2] || stackLines[1];
+
+	// Regular expression to match file name and line number
+	const match = callerLine?.match(/at (.+):(\d+):\d+/);
+
+	if (match) {
+		console.log({
+			file: match[1],
+			line: parseInt(match[2]!, 10),
+		});
+	}
 };
 
 export const log = (...args: any) => {

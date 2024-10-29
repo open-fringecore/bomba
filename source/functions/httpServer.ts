@@ -46,16 +46,16 @@ export const useHttpServer = (
 
 			const totalFiles = Object.entries(sendingFiles).length;
 
-			// initTransferInfo(
-			// 	{
-			// 		peerID: peerID,
-			// 		peerIP: selectedPeer.ip,
-			// 		peerHttpPort: selectedPeer.httpPort,
-			// 		senderName: selectedPeer.name,
-			// 	},
-			// 	totalFiles,
-			// 	selectedPeerFiles,
-			// );
+			initTransferInfo(
+				{
+					peerID: peerID,
+					peerIP: selectedPeer.ip,
+					peerHttpPort: selectedPeer.httpPort,
+					senderName: selectedPeer.name,
+				},
+				totalFiles,
+				selectedPeerFiles,
+			);
 		},
 		[sendingFiles],
 	);

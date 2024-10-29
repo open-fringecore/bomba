@@ -1,11 +1,14 @@
 import React from 'react';
 import SendArrowAnimation from '@/components/Misc/SendArrowAnimation.js';
-import {Box} from 'ink';
+import {Box, Text} from 'ink';
 
 const FileTransferForSender = () => {
 	return (
 		<Box>
-			<SendArrowAnimation />
+			<Text>
+				SENDING⠀
+				<SendArrowAnimation />
+			</Text>
 		</Box>
 	);
 };

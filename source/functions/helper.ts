@@ -82,7 +82,7 @@ export const fileExists = (filePath: string) => {
 	try {
 		return fs.existsSync(filePath);
 	} catch (err) {
-		logError('Error checking file existence:', err);
+		logError(err);
 		return false;
 	}
 };
