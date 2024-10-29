@@ -1,4 +1,4 @@
-import {logError} from '@/functions/log.js';
+import {log, logError} from '@/functions/log.js';
 
 export const initSenderTransfer = async (
 	baseUrl: string,
@@ -20,11 +20,11 @@ export const initSenderTransfer = async (
 		}
 
 		const data = await response.json();
-		console.log(data.msg);
+		log(data.msg);
 
 		return true;
 	} catch (error) {
-		console.error('Fetch error:', error);
+		logError(error);
 		return false;
 	}
 };
