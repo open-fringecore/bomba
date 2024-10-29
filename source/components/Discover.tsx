@@ -61,15 +61,15 @@ const Discover = () => {
 			return;
 		}
 
-		const isSenderInitSuccess = await initSenderTransfer(
-			`http://${selectedPeer.ip}:${selectedPeer.httpPort}`,
-			baseInfo.MY_ID,
-		);
+		// const isSenderInitSuccess = await initSenderTransfer(
+		// 	`http://${selectedPeer.ip}:${selectedPeer.httpPort}`,
+		// 	baseInfo.MY_ID,
+		// );
 
-		if (!isSenderInitSuccess) {
-			log('⭕ Sender init transfer failed. ⭕');
-			return;
-		}
+		// if (!isSenderInitSuccess) {
+		// 	log('⭕ Sender init transfer failed. ⭕');
+		// 	return;
+		// }
 
 		const totalFiles = Object.entries(selectedPeerFiles).length;
 		initTransferInfo(
