@@ -32,22 +32,6 @@ const Discover = () => {
 		throw new Error('Base Info Data not set properly');
 	}
 
-	useUdpServer(
-		baseInfo.MY_ID,
-		baseInfo.MY_NAME,
-		baseInfo.BROADCAST_ADDR,
-		baseInfo.MY_IP,
-		baseInfo.UDP_PORT,
-		baseInfo.HTTP_PORT,
-	);
-
-	useHttpServer(
-		baseInfo.MY_IP,
-		baseInfo.HTTP_PORT,
-		action == 'SEND',
-		sendingFiles,
-	);
-
 	useActivePeers();
 
 	const onSelect = async (peerID: string) => {
