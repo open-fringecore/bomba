@@ -2,11 +2,12 @@ import React, {useEffect} from 'react';
 import SendArrowAnimation from '@/components/Misc/SendArrowAnimation.js';
 import {Box, Text} from 'ink';
 import {useStore} from '@nanostores/react';
-import {$currTransfer} from '@/stores/fileHandlerStore.js';
+import {$currTotalDownload, $currTransfer} from '@/stores/fileHandlerStore.js';
 import {formatBytes} from '@/functions/helper.js';
 
 const FileTransferForSender = () => {
 	const currTransfer = useStore($currTransfer);
+	const currTotalDownload = useStore($currTotalDownload);
 
 	// useEffect(() => {
 	// 	console.log('currTransfer', currTransfer);
@@ -36,7 +37,8 @@ const FileTransferForSender = () => {
 				</Box>
 
 				<Text dimColor={true}>
-					Sending Files...⠀({formatBytes(currTransfer.totalFileSize)})
+					⠀({formatBytes(currTotalDownload)}⠀/⠀
+					{formatBytes(currTransfer.totalFileSize)})
 				</Text>
 			</Box>
 		</Box>

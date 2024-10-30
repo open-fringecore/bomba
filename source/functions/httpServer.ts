@@ -11,7 +11,10 @@ import {c} from 'tar';
 import {getFolderSize} from '@/functions/helper.js';
 import {$sendingFiles} from '@/stores/baseStore.js';
 import {useStore} from '@nanostores/react';
-import {initTransferInfo} from '@/stores/fileHandlerStore.js';
+import {
+	initTransferInfo,
+	updateTotalDownloaded,
+} from '@/stores/fileHandlerStore.js';
 import {$connectedPeers} from '@/stores/peersStore.js';
 
 export const useHttpServer = (
@@ -125,6 +128,10 @@ export const useHttpServer = (
 				const fileStream = fs.createReadStream(filePath);
 				fileStream.pipe(res);
 
+				fileStream.on('data', chunk => {
+					updateTotalDownloaded(chunk.length);
+				});
+
 				// res.download(filePath, path.basename(filePath), err => {
 				// 	if (err) {
 				// 		logError('Error downloading file:', err);
@@ -180,9 +187,9 @@ export const useHttpServer = (
 					log('Response stream closed');
 				});
 
-				// pack.on('data', chunk => {
-				// log('chunk.length', chunk.length);
-				// });
+				pack.on('data', chunk => {
+					updateTotalDownloaded(chunk.length);
+				});
 
 				pack.pipe(res);
 			} catch (error) {
