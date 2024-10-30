@@ -44,20 +44,16 @@ export const useHttpServer = (
 
 			const totalFiles = Object.entries(sendingFiles).length;
 
-			try {
-				initTransferInfo(
-					{
-						peerID: peerID,
-						peerIP: selectedPeer.ip,
-						peerHttpPort: selectedPeer.httpPort,
-						senderName: selectedPeer.name,
-					},
-					totalFiles,
-					selectedPeerFiles,
-				);
-			} catch (error) {
-				console.log(error);
-			}
+			// initTransferInfo(
+			// 	{
+			// 		peerID: peerID,
+			// 		peerIP: selectedPeer.ip,
+			// 		peerHttpPort: selectedPeer.httpPort,
+			// 		senderName: selectedPeer.name,
+			// 	},
+			// 	totalFiles,
+			// 	selectedPeerFiles,
+			// );
 		},
 		[sendingFiles],
 	);
@@ -86,6 +82,7 @@ export const useHttpServer = (
 		});
 
 		app.get('/init-sender-transfer/*', (req, res) => {
+			console.log('Req To: /init-sender-transfer/');
 			try {
 				const peerID = (req.params as any)['0'];
 
@@ -104,6 +101,7 @@ export const useHttpServer = (
 		});
 
 		app.get('/download/*', (req, res) => {
+			console.log('Req To: /download/*');
 			try {
 				const filename = (req.params as any)['0'];
 
@@ -141,6 +139,7 @@ export const useHttpServer = (
 		});
 
 		app.get('/download-tar/*', (req, res) => {
+			console.log('Req To: /download-tar/*');
 			try {
 				const foldername = (req.params as any)['0'];
 
@@ -225,7 +224,7 @@ export const useHttpServer = (
 		});
 
 		const server = app.listen(TCP_PORT, MY_IP, () => {
-			log(`Server is running on http://${MY_IP}:${TCP_PORT}`);
+			console.log(`Server is running on http://${MY_IP}:${TCP_PORT}`);
 		});
 
 		return () => {

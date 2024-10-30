@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
 import {log, logToFile} from '@/functions/log.js';
-import SingleFileTransfer from '@/components/Misc/SingleFileTransfer.js';
+import SingleFileTransfer from '@/components/SingleFileTransfer.js';
 import {findLongestString} from '@/functions/helper.js';
 import {CurrTransfer} from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
