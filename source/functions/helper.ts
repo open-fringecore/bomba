@@ -1,5 +1,5 @@
 import {fileTypeMapping, peoplesNames} from '@/functions/data.js';
-import {log, logError, logToFile} from '@/functions/log.js';
+import {log, logError} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {FileTypes} from '@/types/storeTypes.js';
 import fs, {statfs} from 'fs';

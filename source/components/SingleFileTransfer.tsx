@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useCallback, useRef} from 'react';
 import {Box, Text} from 'ink';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 import CustomTask from '@/components/Misc/CustomTask.js';
-import {logError, logToFile} from '@/functions/log.js';
+import {logError} from '@/functions/log.js';
 import {
 	checkEnoughSpace,
 	useFileDownloader,
@@ -88,7 +88,6 @@ const SingleFileTransfer: React.FC<TProps> = ({
 
 	useEffect(() => {
 		if (downloadIndex === index && !downloadAttempted.current) {
-			logToFile('RERENDER RESTING');
 			startDownload();
 		}
 	}, [downloadIndex, index, startDownload]);

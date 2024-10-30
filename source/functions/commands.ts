@@ -15,7 +15,7 @@ import {
 	getFolderSize,
 } from '@/functions/helper.js';
 import {v4 as uuidv4} from 'uuid';
-import {log, logError, logToFile} from '@/functions/log.js';
+import {log, logError} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {SendingFiles} from '@/types/storeTypes.js';
 

@@ -3,7 +3,7 @@ import {useCallback, useEffect} from 'react';
 import fs from 'fs';
 import path from 'path';
 import {hashFile, hashFolder} from '@/functions/useHashCheck.js';
-import {log, logError, logToFile} from '@/functions/log.js';
+import {log, logError} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {Files, SendingFiles} from '@/types/storeTypes.js';
 // import {default as tarFs} from 'tar-fs';

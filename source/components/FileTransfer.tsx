@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Box, Text} from 'ink';
-import {log, logToFile} from '@/functions/log.js';
+import {Box, Text, useApp} from 'ink';
+import {log} from '@/functions/log.js';
 import SingleFileTransfer from '@/components/SingleFileTransfer.js';
 import {findLongestString, formatBytes} from '@/functions/helper.js';
 import {CurrTransfer} from '@/types/storeTypes.js';
@@ -9,6 +9,7 @@ import {$currTotalDownload, $currTransfer} from '@/stores/fileHandlerStore.js';
 
 type TProps = {};
 const FileTransfer = ({}: TProps) => {
+	const {exit} = useApp();
 	const currTransfer = useStore($currTransfer);
 	const currTotalDownload = useStore($currTotalDownload);
 
@@ -19,29 +20,11 @@ const FileTransfer = ({}: TProps) => {
 	const {files} = currTransfer;
 	const totalFiles = Object.keys(files)?.length;
 
-	// const totalDefault = useMemo(
-	// 	() =>
-	// 		Object.keys(files)?.reduce((acc, key) => {
-	// 			const state = files[key]?.state ?? 'DEFAULT';
-	// 			return ['DEFAULT'].includes(state) ? acc + 1 : acc;
-	// 		}, 0),
-	// 	[files],
-	// );
-	// const totalComplete = useMemo(
-	// 	() =>
-	// 		Object.keys(files)?.reduce((acc, key) => {
-	// 			const state = files[key]?.state ?? 'DEFAULT';
-	// 			return ['SUCCESS', 'ERROR'].includes(state) ? acc + 1 : acc;
-	// 		}, 0),
-	// 	[files],
-	// );
-	// const isStartedTransferring = totalDefault !== totalFiles;
-	// const isTransferComplete = totalComplete === totalFiles;
-
 	const onSingleDownloadComplete = useCallback(() => {
 		if (downloadIndex >= totalFiles - 1) {
 			setIsTransferComplete(true);
 			log('💯 Download Complete 💯');
+			process.exit(0);
 		} else {
 			setDownloadIndex(prevIndex => prevIndex + 1);
 		}

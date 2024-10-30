@@ -9,7 +9,7 @@ import {
 import {RECEIVE_PATH, SEND_PATH} from '@/functions/variables.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
 import readlineSync from 'readline-sync';
-import {log, logError, logToFile} from '@/functions/log.js';
+import {log, logError} from '@/functions/log.js';
 import {fileExists, getDiskSpace} from '@/functions/helper.js';
 import {CurrTransferPeerInfo, FileTypes} from '@/types/storeTypes.js';
 import {pipeline, Readable} from 'stream';
