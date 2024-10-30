@@ -1,7 +1,8 @@
 {
 	"name": "khamba",
-	"version": "0.0.10",
+	"version": "0.0.11",
 	"license": "MIT",
+	"description": "A cli tool for sharing files through local network.",
 	"bin": {
 		"khamba": "dist/cli.js"
 	},
@@ -21,6 +22,18 @@
 	},
 	"files": [
 		"dist"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/open-fringecore/bomba"
+	},
+	"keywords": [
+		"file-share",
+		"file-transfer",
+		"local-network",
+		"wifi-file-share",
+		"peer-to-peer",
+		"peer-to-peer-file-transfer"
 	],
 	"dependencies": {
 		"@nanostores/react": "^0.7.2",
