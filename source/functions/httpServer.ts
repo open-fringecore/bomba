@@ -82,7 +82,6 @@ export const useHttpServer = (
 		});
 
 		app.get('/init-sender-transfer/*', (req, res) => {
-			console.log('Req To: /init-sender-transfer/');
 			try {
 				const peerID = (req.params as any)['0'];
 
@@ -101,7 +100,6 @@ export const useHttpServer = (
 		});
 
 		app.get('/download/*', (req, res) => {
-			console.log('Req To: /download/*');
 			try {
 				const filename = (req.params as any)['0'];
 
@@ -139,7 +137,6 @@ export const useHttpServer = (
 		});
 
 		app.get('/download-tar/*', (req, res) => {
-			console.log('Req To: /download-tar/*');
 			try {
 				const foldername = (req.params as any)['0'];
 
