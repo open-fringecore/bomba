@@ -91,7 +91,7 @@ const deleteTar = async (tarFileName: string) => {
 	const tarPath = path.join(RECEIVE_PATH, tarFileName);
 	try {
 		await fs.unlinkSync(tarPath);
-		console.log(`File deleted successfully: ${tarPath}`);
+		log(`File deleted successfully: ${tarPath}`);
 	} catch (error) {
 		logError(`Error deleting file: ${error}`);
 		// throw error;
