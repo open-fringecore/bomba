@@ -9,8 +9,7 @@ import {$action, $baseInfo} from '@/stores/baseStore.js';
 import {hasNullValue} from '@/functions/helper.js';
 import {useCommands} from '@/functions/commands.js';
 import {$currTransfer} from '@/stores/fileHandlerStore.js';
-import FileTransfer from '@/components/FileTransfer.js';
-import FileTransferForSender from '@/components/FileTransferForSender.js';
+import MainApp from '@/components/MainApp.js';
 
 type TProps = {
 	name?: string;
@@ -25,31 +24,12 @@ export default function App({name = 'Stranger'}: TProps) {
 
 	const baseInfo = useStore($baseInfo);
 	const action = useStore($action);
-	const currTransfer = useStore($currTransfer);
 
-	if (hasNullValue(baseInfo)) {
-		return (
-			<Box flexDirection="column">
-				{action == 'NOTHING' ? <AsciiIntro /> : <Text>Setting up...</Text>}
-			</Box>
-		);
-	}
-
-	if (['SEND', 'RECEIVE'].includes(action)) {
-		return (
-			<Box flexDirection="column">
-				{currTransfer?.files ? (
-					action == 'SEND' ? (
-						<FileTransferForSender />
-					) : (
-						<FileTransfer />
-					)
-				) : (
-					<Discover />
-				)}
-			</Box>
-		);
-	}
-
-	return <></>;
+	return hasNullValue(baseInfo) ? (
+		<Box flexDirection="column">
+			{action == 'NOTHING' ? <AsciiIntro /> : <Text>Setting up...</Text>}
+		</Box>
+	) : (
+		<MainApp />
+	);
 }

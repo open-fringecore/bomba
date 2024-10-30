@@ -224,7 +224,7 @@ export const useHttpServer = (
 		});
 
 		const server = app.listen(TCP_PORT, MY_IP, () => {
-			console.log(`Server is running on http://${MY_IP}:${TCP_PORT}`);
+			log(`Server is running on http://${MY_IP}:${TCP_PORT}`);
 		});
 
 		return () => {
