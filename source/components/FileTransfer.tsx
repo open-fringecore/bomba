@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'ink';
 import {log, logToFile} from '@/functions/log.js';
 import SingleFileTransfer from '@/components/SingleFileTransfer.js';
-import {findLongestString} from '@/functions/helper.js';
+import {findLongestString, formatBytes} from '@/functions/helper.js';
 import {CurrTransfer} from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
 import {$currTransfer} from '@/stores/fileHandlerStore.js';
@@ -40,11 +40,11 @@ const FileTransfer = ({}: TProps) => {
 	const onSingleDownloadComplete = useCallback(() => {
 		if (downloadIndex >= totalFiles - 1) {
 			setIsTransferComplete(true);
-			log('💯 Download Complete 💯');
+			console.log('💯 Download Complete 💯');
 		} else {
 			setDownloadIndex(prevIndex => prevIndex + 1);
 		}
-	}, [totalFiles]);
+	}, [totalFiles, downloadIndex]);
 
 	const longestNameLength = useMemo(() => {
 		const longestLength =
@@ -81,6 +81,7 @@ const FileTransfer = ({}: TProps) => {
 					: isStartedTransferring
 					? 'Receiving Files...'
 					: 'Files'}
+				⠀({formatBytes(currTransfer.totalFileSize)})
 			</Text>
 			{Object.keys(files).map((key, index) => (
 				<SingleFileTransfer

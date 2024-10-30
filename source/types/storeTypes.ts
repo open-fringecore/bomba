@@ -69,7 +69,8 @@ export type CurrTransferPeerInfo = {
 export type CurrTransfer = {
 	peerInfo: CurrTransferPeerInfo;
 	totalFiles: number;
-	totalProgress: number;
+	totalFileSize: number;
+	totalDownloaded: number;
 	files: CurrTransferFiles;
 };
 

@@ -7,9 +7,9 @@ import {$currTransfer} from '@/stores/fileHandlerStore.js';
 const FileTransferForSender = () => {
 	const currTransfer = useStore($currTransfer);
 
-	useEffect(() => {
-		console.log('currTransfer', currTransfer);
-	}, [currTransfer]);
+	// useEffect(() => {
+	// 	console.log('currTransfer', currTransfer);
+	// }, [currTransfer]);
 
 	return (
 		<Box>

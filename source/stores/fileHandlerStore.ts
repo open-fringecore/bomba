@@ -33,10 +33,17 @@ export const initTransferInfo = (
 		},
 		{},
 	);
+
+	const totalFileSize = Object.values(sendingFiles).reduce(
+		(total, file) => total + file.fileSize,
+		0,
+	);
+
 	$currTransfer.set({
 		peerInfo: peerInfo,
 		totalFiles: totalFiles,
-		totalProgress: 0,
+		totalFileSize: totalFileSize,
+		totalDownloaded: 0,
 		files: files,
 	});
 };
