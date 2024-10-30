@@ -41,7 +41,7 @@ const FileTransfer = ({}: TProps) => {
 	const onSingleDownloadComplete = useCallback(() => {
 		if (downloadIndex >= totalFiles - 1) {
 			setIsTransferComplete(true);
-			console.log('💯 Download Complete 💯');
+			log('💯 Download Complete 💯');
 		} else {
 			setDownloadIndex(prevIndex => prevIndex + 1);
 		}

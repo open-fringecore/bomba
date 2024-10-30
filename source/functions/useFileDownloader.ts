@@ -138,10 +138,10 @@ export const useFileDownloader = async (
 
 		reader.on('data', chunk => {
 			downloaded += chunk.length;
-			const tempProgress = parseFloat(
-				((downloaded / totalLength) * 100).toFixed(2),
+			const progress = Math.min(
+				parseFloat(((downloaded / totalLength) * 100).toFixed(2)),
+				100,
 			);
-			progress = tempProgress > 100 ? 100 : tempProgress;
 
 			updateTotalDownloaded(chunk.length);
 			updateTransferProgress(FILE_ID, progress);
