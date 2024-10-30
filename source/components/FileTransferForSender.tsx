@@ -17,23 +17,28 @@ const FileTransferForSender = () => {
 		);
 	}, [currTotalDownload, currTransfer.totalFileSize]);
 
+	const isTransferComplete = useMemo(
+		() => totalProgress == 100,
+		[totalProgress],
+	);
+
 	return (
 		<Box flexDirection="column">
 			<Box flexDirection="column">
-				{totalProgress < 100 ? (
+				{isTransferComplete ? (
+					<Text dimColor={true}>Files Transfer Complete 🎉</Text>
+				) : (
 					<Text>
 						SENDING⠀
 						<SendArrowAnimation />
 					</Text>
-				) : (
-					<Text dimColor={true}>Files Transfer Complete 🎉</Text>
 				)}
 				<Box>
-					<Text dimColor={true}>
-						({formatBytes(currTotalDownload)}⠀/⠀
-						{formatBytes(currTransfer.totalFileSize)})⠀
-					</Text>
 					<ProgressBar left={0} percent={totalProgress ?? 0} />
+					<Text dimColor={true}>
+						⠀({formatBytes(currTotalDownload)}⠀/⠀
+						{formatBytes(currTransfer.totalFileSize)})
+					</Text>
 				</Box>
 			</Box>
 
