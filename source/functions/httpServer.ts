@@ -29,12 +29,10 @@ export const useHttpServer = (
 			const selectedPeer = connectedPeers[peerID];
 
 			if (!selectedPeer) {
-				log('⭕ Selected Peer not found ⭕', peerID);
-				return;
+				return log('⭕ Selected Peer not found ⭕', peerID);
 			}
 			if (!sendingFiles) {
-				log('⭕ No sending files found ⭕');
-				return;
+				return log('⭕ No sending files found ⭕');
 			}
 
 			const selectedPeerFiles = Object.fromEntries(
@@ -46,16 +44,20 @@ export const useHttpServer = (
 
 			const totalFiles = Object.entries(sendingFiles).length;
 
-			initTransferInfo(
-				{
-					peerID: peerID,
-					peerIP: selectedPeer.ip,
-					peerHttpPort: selectedPeer.httpPort,
-					senderName: selectedPeer.name,
-				},
-				totalFiles,
-				selectedPeerFiles,
-			);
+			try {
+				initTransferInfo(
+					{
+						peerID: peerID,
+						peerIP: selectedPeer.ip,
+						peerHttpPort: selectedPeer.httpPort,
+						senderName: selectedPeer.name,
+					},
+					totalFiles,
+					selectedPeerFiles,
+				);
+			} catch (error) {
+				console.log(error);
+			}
 		},
 		[sendingFiles],
 	);

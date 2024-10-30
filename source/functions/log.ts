@@ -5,29 +5,28 @@ import chalk from 'chalk';
 
 export const logError = (...args: any) => {
 	console.log(chalk.bgRed(' MY ERROR:'));
-	console.log(...args);
 
-	// ! ------------------------------------- Error Tracing
+	// ! ------------------------ Error Tracing -----------------------
 	const error = new Error();
 	const stackLines = error.stack?.split('\n');
 
-	if (!stackLines) {
+	if (stackLines) {
+		// The third line in the stack trace usually has the caller info
+		const callerLine = stackLines[2] || stackLines[1];
+
+		// Regular expression to match file name and line number
+		const match = callerLine?.match(/at (.+):(\d+):\d+/);
+
+		if (match) {
+			console.log(chalk.bgGreen(' FILE:'), match[1]);
+			console.log(chalk.bgYellow(' LINE:'), parseInt(match[2]!, 10));
+		}
+	} else {
 		console.log('No stackLines');
-		return;
 	}
+	// ! ------------------------ Error Tracing -----------------------
 
-	// The third line in the stack trace usually has the caller info
-	const callerLine = stackLines[2] || stackLines[1];
-
-	// Regular expression to match file name and line number
-	const match = callerLine?.match(/at (.+):(\d+):\d+/);
-
-	if (match) {
-		console.log({
-			file: match[1],
-			line: parseInt(match[2]!, 10),
-		});
-	}
+	console.log(...args);
 };
 
 export const log = (...args: any) => {
