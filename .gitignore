@@ -2,3 +2,4 @@ node_modules
 dist
 log.txt
 receive_files
+very-big-file*
