@@ -52,7 +52,6 @@ export type SingleTransferFileInfo = {
 	fileName: string;
 	fileType: FileTypes;
 	totalSize: number;
-	downloadedSize: number;
 };
 export type CurrTransferProgress = {
 	[fileID: string]: number;
@@ -64,13 +63,12 @@ export type CurrTransferPeerInfo = {
 	peerID: string;
 	peerIP: string;
 	peerHttpPort: number;
-	senderName: string;
+	peerName: string;
 };
 export type CurrTransfer = {
 	peerInfo: CurrTransferPeerInfo;
 	totalFiles: number;
 	totalFileSize: number;
-	totalDownloaded: number;
 	files: CurrTransferFiles;
 };
 

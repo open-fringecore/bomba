@@ -49,7 +49,7 @@ export const useHttpServer = (
 					peerID: peerID,
 					peerIP: selectedPeer.ip,
 					peerHttpPort: selectedPeer.httpPort,
-					senderName: selectedPeer.name,
+					peerName: selectedPeer.name,
 				},
 				totalFiles,
 				selectedPeerFiles,

@@ -3,6 +3,7 @@ import SendArrowAnimation from '@/components/Misc/SendArrowAnimation.js';
 import {Box, Text} from 'ink';
 import {useStore} from '@nanostores/react';
 import {$currTransfer} from '@/stores/fileHandlerStore.js';
+import {formatBytes} from '@/functions/helper.js';
 
 const FileTransferForSender = () => {
 	const currTransfer = useStore($currTransfer);
@@ -12,11 +13,32 @@ const FileTransferForSender = () => {
 	// }, [currTransfer]);
 
 	return (
-		<Box>
-			<Text>
-				SENDING⠀
-				<SendArrowAnimation />
-			</Text>
+		<Box flexDirection="column">
+			<Box flexDirection="row">
+				<Text>
+					SENDING⠀
+					<SendArrowAnimation />
+				</Text>
+			</Box>
+
+			<Box
+				borderColor="green"
+				borderStyle="bold"
+				paddingX={1}
+				flexDirection="column"
+				marginTop={1}
+			>
+				<Box flexDirection="column">
+					<Text backgroundColor="green" color="white" bold>
+						{' '}
+						{currTransfer.peerInfo.peerName}{' '}
+					</Text>
+				</Box>
+
+				<Text dimColor={true}>
+					Sending Files...⠀({formatBytes(currTransfer.totalFileSize)})
+				</Text>
+			</Box>
 		</Box>
 	);
 };

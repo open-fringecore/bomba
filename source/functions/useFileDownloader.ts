@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import {
+	updateTotalDownloaded,
 	updateTransferFileErrorMsg,
 	updateTransferFileState,
 	updateTransferProgress,
@@ -142,6 +143,7 @@ export const useFileDownloader = async (
 			);
 			progress = tempProgress > 100 ? 100 : tempProgress;
 
+			updateTotalDownloaded(chunk.length);
 			updateTransferProgress(FILE_ID, progress);
 			updateTransferFileState(
 				FILE_ID,

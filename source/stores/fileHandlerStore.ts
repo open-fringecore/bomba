@@ -12,6 +12,7 @@ import {atom, deepMap, map} from 'nanostores';
 
 export const $peersFiles = deepMap<PeersFiles>({});
 export const $currTransfer = deepMap<CurrTransfer>();
+export const $currTotalDownload = atom(0);
 export const $currTransferProgress = map<CurrTransferProgress>();
 // export const $currTransferWarning = map<CurrTransferWarningType>();
 
@@ -27,7 +28,6 @@ export const initTransferInfo = (
 				fileName: value.fileName,
 				fileType: value.fileType,
 				totalSize: value.fileSize,
-				downloadedSize: 0,
 			};
 			return acc;
 		},
@@ -43,26 +43,14 @@ export const initTransferInfo = (
 		peerInfo: peerInfo,
 		totalFiles: totalFiles,
 		totalFileSize: totalFileSize,
-		totalDownloaded: 0,
 		files: files,
 	});
 };
 
-// export const updateTransferProgress = (
-// 	fileID: string,
-// 	data: SingleTransferFileInfo & {
-// 		progress: number;
-// 	},
-// ) => {
-// 	$currTransfer.setKey(`files.${fileID}`, {
-// 		state: data.state,
-// 		fileName: data.fileName,
-// 		totalSize: data.totalSize,
-// 		downloadedSize: data.downloadedSize,
-// 	});
-
-// 	$currTransferProgress.setKey(fileID, data.progress);
-// };
+export const updateTotalDownloaded = (downloaded: number) => {
+	const prev = $currTotalDownload.get();
+	$currTotalDownload.set(prev + downloaded);
+};
 export const updateTransferProgress = (fileID: string, progress: number) => {
 	$currTransferProgress.setKey(fileID, progress);
 };
