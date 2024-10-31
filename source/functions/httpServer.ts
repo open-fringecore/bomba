@@ -81,8 +81,8 @@ export const useHttpServer = (
 
 				// const stat = fs.statSync(filePath);
 				// const fileSize = stat.size;
-
 				// res.setHeader('Content-Length', fileSize);
+
 				res.setHeader(
 					'Content-Disposition',
 					`attachment; filename=${filename}`,
@@ -95,12 +95,21 @@ export const useHttpServer = (
 					updateTransferredAmount(peerID, chunk.length);
 				});
 
-				// res.download(filePath, path.basename(filePath), err => {
-				// 	if (err) {
-				// 		logError('Error downloading file:', err);
-				// 		res.status(500).send('Error downloading file');
-				// 	}
-				// });
+				fileStream.on('close', () => {});
+				fileStream.on('end', () => {});
+
+				fileStream.on('error', (err: any) => {
+					logError('fileStream error:', err);
+					res.status(500).end('Internal Server Error');
+				});
+
+				res.on('error', err => {
+					logError('Response stream error:', err);
+				});
+
+				req.on('close', () => {
+					fileStream.destroy();
+				});
 			} catch (error) {
 				logError(error);
 			}
