@@ -2,20 +2,23 @@ import React, {useEffect, useMemo} from 'react';
 import SendArrowAnimation from '@/components/Misc/SendArrowAnimation.js';
 import {Box, Text} from 'ink';
 import {useStore} from '@nanostores/react';
-import {$currTotalDownload, $currTransfer} from '@/stores/fileHandlerStore.js';
+import {
+	$receiverTotalDownload,
+	$currTransfer,
+} from '@/stores/fileHandlerStore.js';
 import {formatBytes} from '@/functions/helper.js';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 
 const FileTransferForSender = () => {
 	const currTransfer = useStore($currTransfer);
-	const currTotalDownload = useStore($currTotalDownload);
+	const receiverTotalDownload = useStore($receiverTotalDownload);
 
 	const totalProgress = useMemo(() => {
 		return Math.min(
-			(currTotalDownload / currTransfer.totalFileSize) * 100,
+			(receiverTotalDownload / currTransfer.totalFileSize) * 100,
 			100,
 		);
-	}, [currTotalDownload, currTransfer.totalFileSize]);
+	}, [receiverTotalDownload, currTransfer.totalFileSize]);
 
 	const isTransferComplete = useMemo(
 		() => totalProgress == 100,
@@ -36,7 +39,7 @@ const FileTransferForSender = () => {
 				<Box>
 					<ProgressBar left={0} percent={totalProgress ?? 0} />
 					<Text dimColor={true}>
-						⠀({formatBytes(currTotalDownload)}⠀/⠀
+						⠀({formatBytes(receiverTotalDownload)}⠀/⠀
 						{formatBytes(currTransfer.totalFileSize)})
 					</Text>
 				</Box>
@@ -57,7 +60,7 @@ const FileTransferForSender = () => {
 				</Box>
 
 				<Text dimColor={true}>
-					⠀({formatBytes(currTotalDownload)}⠀/⠀
+					⠀({formatBytes(receiverTotalDownload)}⠀/⠀
 					{formatBytes(currTransfer.totalFileSize)})
 				</Text>
 			</Box> */}

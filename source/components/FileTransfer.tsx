@@ -5,13 +5,16 @@ import SingleFileTransfer from '@/components/SingleFileTransfer.js';
 import {findLongestString, formatBytes} from '@/functions/helper.js';
 import {CurrTransfer} from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
-import {$currTotalDownload, $currTransfer} from '@/stores/fileHandlerStore.js';
+import {
+	$receiverTotalDownload,
+	$currTransfer,
+} from '@/stores/fileHandlerStore.js';
 
 type TProps = {};
 const FileTransfer = ({}: TProps) => {
 	const {exit} = useApp();
 	const currTransfer = useStore($currTransfer);
-	const currTotalDownload = useStore($currTotalDownload);
+	const receiverTotalDownload = useStore($receiverTotalDownload);
 
 	const [downloadIndex, setDownloadIndex] = useState(-1);
 	const [isStartedTransferring, setIsStartedTransferring] = useState(false);
@@ -65,7 +68,7 @@ const FileTransfer = ({}: TProps) => {
 					: isStartedTransferring
 					? 'Receiving Files...'
 					: 'Files'}
-				⠀({formatBytes(currTotalDownload)}⠀/⠀
+				⠀({formatBytes(receiverTotalDownload)}⠀/⠀
 				{formatBytes(currTransfer.totalFileSize)})
 			</Text>
 			{Object.keys(files).map((key, index) => (

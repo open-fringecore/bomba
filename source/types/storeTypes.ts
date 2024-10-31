@@ -53,23 +53,23 @@ export type SingleTransferFileInfo = {
 	fileType: FileTypes;
 	totalSize: number;
 };
-export type CurrTransferProgress = {
+export type ReceiverTransferProgress = {
 	[fileID: string]: number;
 };
-export type CurrTransferFiles = {
+export type TransferFiles = {
 	[fileID: string]: SingleTransferFileInfo;
 };
-export type CurrTransferPeerInfo = {
+export type TransferPeerInfo = {
 	peerID: string;
 	peerIP: string;
 	peerHttpPort: number;
 	peerName: string;
 };
 export type CurrTransfer = {
-	peerInfo: CurrTransferPeerInfo;
+	peerInfo: TransferPeerInfo;
 	totalFiles: number;
 	totalFileSize: number;
-	files: CurrTransferFiles;
+	files: TransferFiles;
 };
 
 export type SingleFile = {
@@ -84,4 +84,12 @@ export type Files = {
 };
 export type PeersFiles = {
 	[peerID: string]: Files;
+};
+
+// ! SenderFileHandlerStore
+export type SenderTransferInfo = {
+	[peerID: string]: {
+		peerInfo: TransferPeerInfo;
+		totalFiles: number;
+	};
 };

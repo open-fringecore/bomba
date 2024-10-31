@@ -11,7 +11,7 @@ import {useHashCheck} from '@/functions/useHashCheck.js';
 import readlineSync from 'readline-sync';
 import {log, logError} from '@/functions/log.js';
 import {fileExists, getDiskSpace} from '@/functions/helper.js';
-import {CurrTransferPeerInfo, FileTypes} from '@/types/storeTypes.js';
+import {FileTypes} from '@/types/storeTypes.js';
 import {pipeline, Readable} from 'stream';
 import {promisify} from 'util';
 import {ReadableStream} from 'stream/web';

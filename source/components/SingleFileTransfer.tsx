@@ -10,12 +10,12 @@ import {
 import {useHashCheck} from '@/functions/useHashCheck.js';
 import {adjustStringLength, formatBytes} from '@/functions/helper.js';
 import {
-	CurrTransferPeerInfo,
+	TransferPeerInfo,
 	SingleFile,
 	TransferStates,
 } from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
-import {$currTransferProgress} from '@/stores/fileHandlerStore.js';
+import {$receiverTransferProgress} from '@/stores/fileHandlerStore.js';
 
 type TaskStatus = 'pending' | 'success' | 'error' | 'loading';
 export type TaskStates = Record<TransferStates, TaskStatus>;
@@ -26,7 +26,7 @@ type TProps = {
 	state: TransferStates;
 	error?: string;
 	fileInfo: SingleFile;
-	peerInfo: CurrTransferPeerInfo;
+	peerInfo: TransferPeerInfo;
 	isStartedTransferring: boolean;
 	isTransferComplete: boolean;
 	onSingleDownloadComplete: () => void;
@@ -45,7 +45,7 @@ const SingleFileTransfer: React.FC<TProps> = ({
 	onSingleDownloadComplete,
 	longestNameLength,
 }) => {
-	const currTransferProgress = useStore($currTransferProgress);
+	const receiverTransferProgress = useStore($receiverTransferProgress);
 
 	const downloadAttempted = useRef(false);
 
@@ -103,7 +103,7 @@ const SingleFileTransfer: React.FC<TProps> = ({
 			{isStartedTransferring && !isTransferComplete && (
 				<ProgressBar
 					left={0}
-					percent={currTransferProgress[fileInfo.fileId] ?? 0}
+					percent={receiverTransferProgress[fileInfo.fileId] ?? 0}
 				/>
 			)}
 			<CustomTask label={label} state={taskState[state]} />
