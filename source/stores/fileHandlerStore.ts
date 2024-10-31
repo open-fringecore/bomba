@@ -14,7 +14,6 @@ export const $peersFiles = deepMap<PeersFiles>({});
 export const $currTransfer = deepMap<CurrTransfer>();
 export const $currTotalDownload = atom(0);
 export const $currTransferProgress = map<CurrTransferProgress>();
-// export const $currTransferWarning = map<CurrTransferWarningType>();
 
 export const initTransferInfo = (
 	peerInfo: CurrTransferPeerInfo,
