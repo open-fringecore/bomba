@@ -127,3 +127,7 @@ export const adjustStringLength = (str: string, length: number): string => {
 		return str;
 	}
 };
+
+export const isObjectEmpty = (obj: {[key: string]: any}) => {
+	return Object.keys(obj).length === 0;
+};

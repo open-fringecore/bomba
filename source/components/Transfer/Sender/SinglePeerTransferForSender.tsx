@@ -2,23 +2,21 @@ import React, {useEffect, useMemo} from 'react';
 import SendArrowAnimation from '@/components/Misc/SendArrowAnimation.js';
 import {Box, Text} from 'ink';
 import {useStore} from '@nanostores/react';
-import {
-	$receiverTotalDownload,
-	$currTransfer,
-} from '@/stores/fileHandlerStore.js';
 import {formatBytes} from '@/functions/helper.js';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
+import {SenderSinglePeerTransferInfo} from '@/types/storeTypes.js';
 
-const FileTransferForSender = () => {
-	const currTransfer = useStore($currTransfer);
-	const receiverTotalDownload = useStore($receiverTotalDownload);
-
+type PropType = {
+	peerTransferInfo: SenderSinglePeerTransferInfo;
+};
+const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 	const totalProgress = useMemo(() => {
 		return Math.min(
-			(receiverTotalDownload / currTransfer.totalFileSize) * 100,
+			(peerTransferInfo.totalTransferred / peerTransferInfo.totalFileSize) *
+				100,
 			100,
 		);
-	}, [receiverTotalDownload, currTransfer.totalFileSize]);
+	}, [peerTransferInfo.totalTransferred, peerTransferInfo.totalFileSize]);
 
 	const isTransferComplete = useMemo(
 		() => totalProgress == 100,
@@ -39,8 +37,8 @@ const FileTransferForSender = () => {
 				<Box>
 					<ProgressBar left={0} percent={totalProgress ?? 0} />
 					<Text dimColor={true}>
-						⠀({formatBytes(receiverTotalDownload)}⠀/⠀
-						{formatBytes(currTransfer.totalFileSize)})
+						⠀({formatBytes(peerTransferInfo.totalTransferred)}⠀/⠀
+						{formatBytes(peerTransferInfo.totalFileSize)})
 					</Text>
 				</Box>
 			</Box>
@@ -68,4 +66,4 @@ const FileTransferForSender = () => {
 	);
 };
 
-export default FileTransferForSender;
+export default SinglePeerTransferForSender;

@@ -87,9 +87,13 @@ export type PeersFiles = {
 };
 
 // ! SenderFileHandlerStore
+export type SenderSinglePeerTransferInfo = {
+	state: TransferStates;
+	peerInfo: TransferPeerInfo;
+	totalFiles: number;
+	totalFileSize: number;
+	totalTransferred: number;
+};
 export type SenderTransferInfo = {
-	[peerID: string]: {
-		peerInfo: TransferPeerInfo;
-		totalFiles: number;
-	};
+	[peerID: string]: SenderSinglePeerTransferInfo;
 };

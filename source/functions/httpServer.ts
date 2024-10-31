@@ -1,5 +1,5 @@
 import express from 'express';
-import {useCallback, useEffect} from 'react';
+import {useEffect} from 'react';
 import fs from 'fs';
 import path from 'path';
 import {hashFile, hashFolder} from '@/functions/useHashCheck.js';
@@ -8,14 +8,8 @@ import {SEND_PATH} from '@/functions/variables.js';
 import {Files, SendingFiles} from '@/types/storeTypes.js';
 // import {default as tarFs} from 'tar-fs';
 import {c} from 'tar';
-import {getFolderSize} from '@/functions/helper.js';
-import {$sendingFiles} from '@/stores/baseStore.js';
-import {useStore} from '@nanostores/react';
-import {
-	initTransferInfo,
-	updateTotalDownloaded,
-} from '@/stores/fileHandlerStore.js';
-import {$connectedPeers} from '@/stores/peersStore.js';
+import {updateTotalDownloaded} from '@/stores/fileHandlerStore.js';
+import {initSenderTransfer} from '@/stores/senderFileHandlerStore.js';
 
 export const useHttpServer = (
 	MY_IP: string,
@@ -23,44 +17,6 @@ export const useHttpServer = (
 	isSending: boolean,
 	sendingFileNames: SendingFiles | null,
 ) => {
-	const sendingFiles = useStore($sendingFiles);
-	// const connectedPeers = useStore($connectedPeers);
-
-	const initSenderTransfer = useCallback(
-		(peerID: string) => {
-			const connectedPeers = $connectedPeers.get();
-			const selectedPeer = connectedPeers[peerID];
-
-			if (!selectedPeer) {
-				return log('⭕ Selected Peer not found ⭕', peerID);
-			}
-			if (!sendingFiles) {
-				return log('⭕ No sending files found ⭕');
-			}
-
-			const selectedPeerFiles = Object.fromEntries(
-				Object.entries(sendingFiles).map(([fileId, fileInfo]) => [
-					fileId,
-					{fileId, ...fileInfo},
-				]),
-			);
-
-			const totalFiles = Object.entries(sendingFiles).length;
-
-			initTransferInfo(
-				{
-					peerID: peerID,
-					peerIP: selectedPeer.ip,
-					peerHttpPort: selectedPeer.httpPort,
-					peerName: selectedPeer.name,
-				},
-				totalFiles,
-				selectedPeerFiles,
-			);
-		},
-		[sendingFiles],
-	);
-
 	useEffect(() => {
 		const app = express();
 		app.use(express.json());

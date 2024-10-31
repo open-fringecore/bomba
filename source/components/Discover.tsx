@@ -9,7 +9,7 @@ import {hasNullValue} from '@/functions/helper.js';
 import PeerList from '@/components/PeerList.js';
 import {useHttpServer} from '@/functions/httpServer.js';
 import {useActivePeers} from '@/functions/useActivePeers.js';
-import FileTransfer from '@/components/FileTransfer.js';
+import FileTransfer from '@/components/Transfer/Receiver/FileTransfer.js';
 import {$peersFiles, initTransferInfo} from '@/stores/fileHandlerStore.js';
 import {log, logError} from '@/functions/log.js';
 import {initSenderTransfer} from '@/functions/fetch.js';

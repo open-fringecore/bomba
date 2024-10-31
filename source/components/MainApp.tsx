@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Box, Text} from 'ink';
 import Discover from '@/components/Discover.js';
 import {useStore} from '@nanostores/react';
 import {$action, $baseInfo, $sendingFiles} from '@/stores/baseStore.js';
 import {$currTransfer} from '@/stores/fileHandlerStore.js';
-import FileTransfer from '@/components/FileTransfer.js';
-import FileTransferForSender from '@/components/FileTransferForSender.js';
+import FileTransfer from '@/components/Transfer/Receiver/FileTransfer.js';
+import FileTransferForSender from '@/components/Transfer/Sender/FileTransferForSender.js';
 import {useUdpServer} from '@/functions/udpServer.js';
 import {useHttpServer} from '@/functions/httpServer.js';
+import {isObjectEmpty} from '@/functions/helper.js';
+import {$senderTransferInfo} from '@/stores/senderFileHandlerStore.js';
 
 type TProps = {};
 
@@ -15,6 +17,7 @@ export default function MainApp({}: TProps) {
 	const baseInfo = useStore($baseInfo);
 	const action = useStore($action);
 	const currTransfer = useStore($currTransfer);
+	const senderTransferInfo = useStore($senderTransferInfo);
 	const sendingFiles = useStore($sendingFiles);
 
 	if (
@@ -42,9 +45,12 @@ export default function MainApp({}: TProps) {
 		sendingFiles,
 	);
 
+	const isTransferring =
+		!isObjectEmpty(currTransfer) || !isObjectEmpty(senderTransferInfo);
+
 	return (
 		<Box flexDirection="column">
-			{currTransfer?.files ? (
+			{isTransferring ? (
 				action == 'SEND' ? (
 					<FileTransferForSender />
 				) : (

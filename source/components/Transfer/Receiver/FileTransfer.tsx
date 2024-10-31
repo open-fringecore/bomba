@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Box, Text, useApp} from 'ink';
 import {log} from '@/functions/log.js';
-import SingleFileTransfer from '@/components/SingleFileTransfer.js';
+import SingleFileTransfer from '@/components/Transfer/Receiver/SingleFileTransfer.js';
 import {findLongestString, formatBytes} from '@/functions/helper.js';
 import {CurrTransfer} from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
@@ -12,7 +12,6 @@ import {
 
 type TProps = {};
 const FileTransfer = ({}: TProps) => {
-	const {exit} = useApp();
 	const currTransfer = useStore($currTransfer);
 	const receiverTotalDownload = useStore($receiverTotalDownload);
 
