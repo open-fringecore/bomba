@@ -10,6 +10,7 @@ import {useUdpServer} from '@/functions/udpServer.js';
 import {useHttpServer} from '@/functions/httpServer.js';
 import {isObjectEmpty} from '@/functions/helper.js';
 import {$senderTransferInfo} from '@/stores/senderFileHandlerStore.js';
+import {useActivePeers} from '@/functions/useActivePeers.js';
 
 type TProps = {};
 
@@ -44,6 +45,8 @@ export default function MainApp({}: TProps) {
 		action == 'SEND',
 		sendingFiles,
 	);
+
+	useActivePeers();
 
 	const isTransferring =
 		!isObjectEmpty(currTransfer) || !isObjectEmpty(senderTransferInfo);

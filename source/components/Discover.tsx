@@ -1,26 +1,17 @@
 import React from 'react';
-import {Box, Spacer, Text} from 'ink';
-import {Spinner, spinners} from '@/components/Misc/Spinner.js';
+import {Box, Text} from 'ink';
 import {useStore} from '@nanostores/react';
-import {$action, $baseInfo, $sendingFiles} from '@/stores/baseStore.js';
+import {$baseInfo} from '@/stores/baseStore.js';
 import {$connectedPeers} from '@/stores/peersStore.js';
-import {useUdpServer} from '@/functions/udpServer.js';
-import {hasNullValue} from '@/functions/helper.js';
 import PeerList from '@/components/PeerList.js';
-import {useHttpServer} from '@/functions/httpServer.js';
-import {useActivePeers} from '@/functions/useActivePeers.js';
-import FileTransfer from '@/components/Transfer/Receiver/FileTransfer.js';
 import {$peersFiles, initTransferInfo} from '@/stores/fileHandlerStore.js';
-import {log, logError} from '@/functions/log.js';
+import {log} from '@/functions/log.js';
 import {initSenderTransfer} from '@/functions/fetch.js';
 import WaveAnimation from '@/components/Misc/WaveAnimation.js';
-import SendArrowAnimation from '@/components/Misc/SendArrowAnimation.js';
 
 const Discover = () => {
-	const action = useStore($action);
 	const baseInfo = useStore($baseInfo);
 	const connectedPeers = useStore($connectedPeers);
-	const sendingFiles = useStore($sendingFiles);
 	const peersFiles = useStore($peersFiles);
 
 	if (
@@ -31,8 +22,6 @@ const Discover = () => {
 	) {
 		throw new Error('Base Info Data not set properly');
 	}
-
-	useActivePeers();
 
 	const onSelect = async (peerID: string) => {
 		const selectedPeer = connectedPeers[peerID];
