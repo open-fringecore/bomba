@@ -36,6 +36,7 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 					{' '}
 					{peerTransferInfo.peerInfo.peerName}{' '}
 				</Text>
+				<Text>{peerTransferInfo.state}</Text>
 			</Box>
 			{isTransferComplete ? (
 				<Text dimColor={true}>Files Transfer Complete 🎉</Text>

@@ -12,6 +12,7 @@ import {updateTotalDownloaded} from '@/stores/fileHandlerStore.js';
 import {
 	initSenderTransfer,
 	updateTransferredAmount,
+	updateTransferredState,
 } from '@/stores/senderFileHandlerStore.js';
 
 export const useHttpServer = (
@@ -79,6 +80,8 @@ export const useHttpServer = (
 					return res.status(404).json({msg: 'File not found!', filePath});
 				}
 
+				updateTransferredState(peerID, 'TRANSFERRING');
+
 				// const stat = fs.statSync(filePath);
 				// const fileSize = stat.size;
 				// res.setHeader('Content-Length', fileSize);
@@ -133,6 +136,8 @@ export const useHttpServer = (
 					return res.status(404).json({msg: 'Folder not found!', folderPath});
 				}
 
+				updateTransferredState(peerID, 'TRANSFERRING');
+
 				// const folderSize = getFolderSize(folderPath);
 
 				res.setHeader('Content-Type', 'application/x-tar');
@@ -159,9 +164,7 @@ export const useHttpServer = (
 					logError('Response stream error:', err);
 				});
 
-				res.on('close', () => {
-					log('Response stream closed');
-				});
+				res.on('close', () => {});
 
 				pack.on('data', chunk => {
 					updateTransferredAmount(peerID, chunk.length);

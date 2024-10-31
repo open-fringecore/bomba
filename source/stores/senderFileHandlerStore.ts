@@ -4,6 +4,7 @@ import {$connectedPeers} from '@/stores/peersStore.js';
 import {
 	SenderSinglePeerTransferInfo,
 	SenderTransferInfo,
+	TransferStates,
 } from '@/types/storeTypes.js';
 import {deepMap} from 'nanostores';
 
@@ -19,6 +20,12 @@ export const updateTransferredAmount = (
 		`${peerID}.totalTransferred`,
 		prevTransferred + transferSize,
 	);
+};
+export const updateTransferredState = (
+	peerID: string,
+	state: TransferStates,
+) => {
+	$senderTransferInfo.setKey(`${peerID}.state`, state);
 };
 
 export const addToSenderTransferInfo = (
