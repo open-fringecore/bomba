@@ -9,7 +9,10 @@ import {Files, SendingFiles} from '@/types/storeTypes.js';
 // import {default as tarFs} from 'tar-fs';
 import {c} from 'tar';
 import {updateTotalDownloaded} from '@/stores/fileHandlerStore.js';
-import {initSenderTransfer} from '@/stores/senderFileHandlerStore.js';
+import {
+	initSenderTransfer,
+	updateTransferredAmount,
+} from '@/stores/senderFileHandlerStore.js';
 
 export const useHttpServer = (
 	MY_IP: string,
@@ -58,10 +61,14 @@ export const useHttpServer = (
 			}
 		});
 
-		app.get('/download/*', (req, res) => {
+		app.get('/download/*/*', (req, res) => {
 			try {
-				const filename = (req.params as any)['0'];
+				const peerID = (req.params as any)['0'];
+				const filename = (req.params as any)['1'];
 
+				if (!peerID) {
+					return res.status(400).json({msg: 'receiver peerID required.'});
+				}
 				if (!filename) {
 					return res.status(400).json({msg: 'filename required.'});
 				}
@@ -85,7 +92,7 @@ export const useHttpServer = (
 				fileStream.pipe(res);
 
 				fileStream.on('data', chunk => {
-					updateTotalDownloaded(chunk.length);
+					updateTransferredAmount(peerID, chunk.length);
 				});
 
 				// res.download(filePath, path.basename(filePath), err => {
@@ -99,10 +106,14 @@ export const useHttpServer = (
 			}
 		});
 
-		app.get('/download-tar/*', (req, res) => {
+		app.get('/download-tar/*/*', (req, res) => {
 			try {
-				const foldername = (req.params as any)['0'];
+				const peerID = (req.params as any)['0'];
+				const foldername = (req.params as any)['1'];
 
+				if (!peerID) {
+					return res.status(400).json({msg: 'receiver peerID required.'});
+				}
 				if (!foldername) {
 					return res.status(400).json({msg: 'foldername required.'});
 				}
@@ -144,7 +155,7 @@ export const useHttpServer = (
 				});
 
 				pack.on('data', chunk => {
-					updateTotalDownloaded(chunk.length);
+					updateTransferredAmount(peerID, chunk.length);
 				});
 
 				pack.pipe(res);
@@ -184,7 +195,7 @@ export const useHttpServer = (
 		});
 
 		const server = app.listen(TCP_PORT, MY_IP, () => {
-			log(`Server is running on http://${MY_IP}:${TCP_PORT}`);
+			console.log(`Server is running on http://${MY_IP}:${TCP_PORT}`);
 		});
 
 		return () => {

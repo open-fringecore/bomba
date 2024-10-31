@@ -99,6 +99,7 @@ const deleteTar = async (tarFileName: string) => {
 };
 
 export const useFileDownloader = async (
+	MY_ID: string,
 	PEER_IP: string,
 	PEER_TCP_PORT: number,
 	FILE_ID: string,
@@ -106,8 +107,8 @@ export const useFileDownloader = async (
 	FILETYPE: FileTypes,
 	FILESIZE: number,
 ): Promise<void> => {
-	const downloadUrlForNormalFile = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${FILENAME}`;
-	const downloadUrlForTar = `http://${PEER_IP}:${PEER_TCP_PORT}/download-tar/${FILENAME}`;
+	const downloadUrlForNormalFile = `http://${PEER_IP}:${PEER_TCP_PORT}/download/${MY_ID}/${FILENAME}`;
+	const downloadUrlForTar = `http://${PEER_IP}:${PEER_TCP_PORT}/download-tar/${MY_ID}/${FILENAME}`;
 
 	const isFolder = FILETYPE == 'folder';
 	const saveFileAs = isFolder ? `${FILENAME}.tar` : FILENAME;

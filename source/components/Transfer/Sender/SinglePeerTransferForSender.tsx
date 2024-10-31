@@ -24,23 +24,33 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 	);
 
 	return (
-		<Box flexDirection="column">
+		<Box
+			borderColor="green"
+			borderStyle="bold"
+			paddingX={1}
+			flexDirection="column"
+			marginTop={1}
+		>
 			<Box flexDirection="column">
-				{isTransferComplete ? (
-					<Text dimColor={true}>Files Transfer Complete 🎉</Text>
-				) : (
-					<Text>
-						SENDING⠀
-						<SendArrowAnimation />
-					</Text>
-				)}
-				<Box>
-					<ProgressBar left={0} percent={totalProgress ?? 0} />
-					<Text dimColor={true}>
-						⠀({formatBytes(peerTransferInfo.totalTransferred)}⠀/⠀
-						{formatBytes(peerTransferInfo.totalFileSize)})
-					</Text>
-				</Box>
+				<Text backgroundColor="green" color="white" bold>
+					{' '}
+					{peerTransferInfo.peerInfo.peerName}{' '}
+				</Text>
+			</Box>
+			{isTransferComplete ? (
+				<Text dimColor={true}>Files Transfer Complete 🎉</Text>
+			) : (
+				<Text>
+					SENDING⠀
+					<SendArrowAnimation />
+				</Text>
+			)}
+			<Box>
+				<ProgressBar left={0} percent={totalProgress ?? 0} />
+				<Text dimColor={true}>
+					⠀({formatBytes(peerTransferInfo.totalTransferred)}⠀/⠀
+					{formatBytes(peerTransferInfo.totalFileSize)})
+				</Text>
 			</Box>
 
 			{/* <Box

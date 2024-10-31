@@ -16,6 +16,7 @@ import {
 } from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
 import {$receiverTransferProgress} from '@/stores/fileHandlerStore.js';
+import {$baseInfo} from '@/stores/baseStore.js';
 
 type TaskStatus = 'pending' | 'success' | 'error' | 'loading';
 export type TaskStates = Record<TransferStates, TaskStatus>;
@@ -46,6 +47,7 @@ const SingleFileTransfer: React.FC<TProps> = ({
 	longestNameLength,
 }) => {
 	const receiverTransferProgress = useStore($receiverTransferProgress);
+	const baseInfo = useStore($baseInfo);
 
 	const downloadAttempted = useRef(false);
 
@@ -72,6 +74,7 @@ const SingleFileTransfer: React.FC<TProps> = ({
 			if (!isNoSpaceIssue) return;
 
 			await useFileDownloader(
+				baseInfo.MY_ID,
 				peerIP,
 				peerHttpPort,
 				fileId,

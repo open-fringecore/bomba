@@ -9,6 +9,18 @@ import {deepMap} from 'nanostores';
 
 export const $senderTransferInfo = deepMap<SenderTransferInfo>();
 
+export const updateTransferredAmount = (
+	peerID: string,
+	transferSize: number,
+) => {
+	const prevTransferred =
+		$senderTransferInfo.get()[peerID]?.totalTransferred ?? 0;
+	$senderTransferInfo.setKey(
+		`${peerID}.totalTransferred`,
+		prevTransferred + transferSize,
+	);
+};
+
 export const addToSenderTransferInfo = (
 	peerID: string,
 	newTransferInfo: SenderSinglePeerTransferInfo,
