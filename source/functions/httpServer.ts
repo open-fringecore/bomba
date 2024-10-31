@@ -49,13 +49,31 @@ export const useHttpServer = (
 				const peerID = (req.params as any)['0'];
 
 				if (!peerID) {
-					return res.status(400).json({msg: 'filename required.'});
+					return res.status(400).json({msg: 'receiver peerID required.'});
 				}
 
 				initSenderTransfer(peerID);
 
 				res.json({
 					msg: 'transfer initialized',
+				});
+			} catch (error) {
+				logError(error);
+			}
+		});
+
+		app.get('/on-transfer-complete/*', (req, res) => {
+			try {
+				const peerID = (req.params as any)['0'];
+
+				if (!peerID) {
+					return res.status(400).json({msg: 'receiver peerID required.'});
+				}
+
+				updateTransferredState(peerID, 'SUCCESS');
+
+				res.json({
+					msg: 'transfer completion acknowledged.',
 				});
 			} catch (error) {
 				logError(error);

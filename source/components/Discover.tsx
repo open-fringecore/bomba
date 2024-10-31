@@ -6,7 +6,7 @@ import {$connectedPeers} from '@/stores/peersStore.js';
 import PeerList from '@/components/PeerList.js';
 import {$peersFiles, initTransferInfo} from '@/stores/fileHandlerStore.js';
 import {log} from '@/functions/log.js';
-import {initSenderTransfer} from '@/functions/fetch.js';
+import {fetchInitSenderTransfer} from '@/functions/fetch.js';
 import WaveAnimation from '@/components/Misc/WaveAnimation.js';
 
 const Discover = () => {
@@ -28,15 +28,16 @@ const Discover = () => {
 		const selectedPeerFiles = peersFiles[peerID];
 
 		if (!selectedPeer) {
-			log('⭕ Selected Peer not found ⭕');
+			log('Selected Peer not found');
 			return;
 		}
 		if (!selectedPeerFiles) {
-			log('⭕ No sending files found ⭕');
+			log('No sending files found');
 			return;
 		}
 
-		const isSenderInitSuccess = await initSenderTransfer(
+		// ! Notifying Sender that I have started receiving
+		const isSenderInitSuccess = await fetchInitSenderTransfer(
 			`http://${selectedPeer.ip}:${selectedPeer.httpPort}`,
 			baseInfo.MY_ID,
 		);

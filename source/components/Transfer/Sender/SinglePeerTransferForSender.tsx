@@ -19,8 +19,8 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 	}, [peerTransferInfo.totalTransferred, peerTransferInfo.totalFileSize]);
 
 	const isTransferComplete = useMemo(
-		() => totalProgress == 100,
-		[totalProgress],
+		() => ['SUCCESS', 'ERROR'].includes(peerTransferInfo.state),
+		[peerTransferInfo],
 	);
 
 	return (
@@ -36,7 +36,6 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 					{' '}
 					{peerTransferInfo.peerInfo.peerName}{' '}
 				</Text>
-				<Text>{peerTransferInfo.state}</Text>
 			</Box>
 			{isTransferComplete ? (
 				<Text dimColor={true}>Files Transfer Complete 🎉</Text>

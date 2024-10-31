@@ -9,10 +9,13 @@ import {
 	$receiverTotalDownload,
 	$currTransfer,
 } from '@/stores/fileHandlerStore.js';
+import {$baseInfo} from '@/stores/baseStore.js';
+import {fetchOnTransferComplete} from '@/functions/fetch.js';
 
 type TProps = {};
 const FileTransfer = ({}: TProps) => {
 	const currTransfer = useStore($currTransfer);
+	const baseInfo = useStore($baseInfo);
 	const receiverTotalDownload = useStore($receiverTotalDownload);
 
 	const [downloadIndex, setDownloadIndex] = useState(-1);
@@ -22,11 +25,25 @@ const FileTransfer = ({}: TProps) => {
 	const {files} = currTransfer;
 	const totalFiles = Object.keys(files)?.length;
 
+	const endTransfer = async () => {
+		// ! Notifying Sender: All files have been successfully transferred.
+		const isTransferCompletionAcknowledged = await fetchOnTransferComplete(
+			`http://${currTransfer.peerInfo.peerIP}:${currTransfer.peerInfo.peerHttpPort}`,
+			baseInfo.MY_ID,
+		);
+		if (!isTransferCompletionAcknowledged) {
+			log("Sender haven't acknowledged transfer completion.");
+			return;
+		}
+
+		setIsTransferComplete(true);
+		log('💯 Download Complete 💯');
+		process.exit(0);
+	};
+
 	const onSingleDownloadComplete = useCallback(() => {
 		if (downloadIndex >= totalFiles - 1) {
-			setIsTransferComplete(true);
-			log('💯 Download Complete 💯');
-			process.exit(0);
+			endTransfer();
 		} else {
 			setDownloadIndex(prevIndex => prevIndex + 1);
 		}
