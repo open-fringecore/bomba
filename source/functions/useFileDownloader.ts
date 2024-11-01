@@ -17,6 +17,7 @@ import {promisify} from 'util';
 import {ReadableStream} from 'stream/web';
 // import {default as tarFs} from 'tar-fs';
 import {x as extract} from 'tar';
+import {fetchUpdateSenderTransferState} from '@/functions/fetch.js';
 
 const pipelineAsync = promisify(pipeline);
 
@@ -168,6 +169,14 @@ export const useFileDownloader = async (
 		const errMsg = error instanceof Error ? error.message : 'Unknown error';
 		updateTransferFileState(FILE_ID, 'ERROR');
 		updateTransferFileErrorMsg(FILE_ID, errMsg);
+
+		await fetchUpdateSenderTransferState(
+			PEER_IP,
+			PEER_TCP_PORT,
+			'ERROR',
+			errMsg,
+		);
+
 		throw error;
 	}
 };

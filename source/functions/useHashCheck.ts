@@ -7,6 +7,7 @@ import {
 } from '@/stores/fileHandlerStore.js';
 import {RECEIVE_PATH} from '@/functions/variables.js';
 import {log, logError} from '@/functions/log.js';
+import {fetchUpdateSenderTransferState} from '@/functions/fetch.js';
 
 export const hashFile = async (filePath: string) => {
 	return new Promise((resolve, reject) => {
@@ -93,6 +94,14 @@ export const useHashCheck = async (
 		}
 		updateTransferFileState(FILE_ID, 'ERROR');
 		updateTransferFileErrorMsg(FILE_ID, errMsg);
+
+		await fetchUpdateSenderTransferState(
+			PEER_IP,
+			PEER_TCP_PORT,
+			'ERROR',
+			'HASH MATCHED',
+		);
+
 		logError('Error during hash check:', error);
 		throw error;
 	}

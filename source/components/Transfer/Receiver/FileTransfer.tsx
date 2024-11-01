@@ -15,7 +15,6 @@ import {fetchUpdateSenderTransferState} from '@/functions/fetch.js';
 type TProps = {};
 const FileTransfer = ({}: TProps) => {
 	const currTransfer = useStore($currTransfer);
-	const baseInfo = useStore($baseInfo);
 	const receiverTotalDownload = useStore($receiverTotalDownload);
 
 	const [downloadIndex, setDownloadIndex] = useState(-1);
@@ -30,7 +29,6 @@ const FileTransfer = ({}: TProps) => {
 		const isUpdatedSenderState = await fetchUpdateSenderTransferState(
 			currTransfer.peerInfo.peerIP,
 			currTransfer.peerInfo.peerHttpPort,
-			baseInfo.MY_ID,
 			'SUCCESS',
 		);
 		if (!isUpdatedSenderState) {

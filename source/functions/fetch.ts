@@ -1,4 +1,5 @@
 import {log, logError} from '@/functions/log.js';
+import {$baseInfo} from '@/stores/baseStore.js';
 import {TransferStates} from '@/types/storeTypes.js';
 
 export const fetchInitSenderTransfer = async (
@@ -35,11 +36,15 @@ export const fetchInitSenderTransfer = async (
 export const fetchUpdateSenderTransferState = async (
 	peerIP: string,
 	peerHttpPort: number,
-	MY_ID: string,
 	state: TransferStates,
+	error?: string,
 ): Promise<boolean> => {
+	const MY_ID = $baseInfo.get().MY_ID;
+
 	try {
-		const url = `http://${peerIP}:${peerHttpPort}/update-sender-transfer-state/${MY_ID}/${state}`;
+		const url = `http://${peerIP}:${peerHttpPort}/update-sender-transfer-state/${MY_ID}/${state}?error=${
+			error ?? undefined
+		}`;
 		const response = await fetch(url, {
 			method: 'GET',
 			headers: {

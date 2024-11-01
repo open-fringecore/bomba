@@ -18,10 +18,23 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 		);
 	}, [peerTransferInfo.totalTransferred, peerTransferInfo.totalFileSize]);
 
-	const isTransferComplete = useMemo(
-		() => ['SUCCESS', 'ERROR'].includes(peerTransferInfo.state),
-		[peerTransferInfo],
+	const defaultComponent = (
+		<Text>
+			SENDING⠀
+			<SendArrowAnimation />
+		</Text>
 	);
+	const stateWiseComponent = {
+		DEFAULT: defaultComponent,
+		TRANSFERRING: defaultComponent,
+		TRANSFERRED: defaultComponent,
+		SUCCESS: <Text dimColor={true}>Files Transfer Complete 🎉</Text>,
+		ERROR: (
+			<Text color={'red'}>
+				{peerTransferInfo.errorMsg ?? 'Transfer Failed'} ✘
+			</Text>
+		),
+	};
 
 	return (
 		<Box
@@ -37,14 +50,8 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 					{peerTransferInfo.peerInfo.peerName}{' '}
 				</Text>
 			</Box>
-			{isTransferComplete ? (
-				<Text dimColor={true}>Files Transfer Complete 🎉</Text>
-			) : (
-				<Text>
-					SENDING⠀
-					<SendArrowAnimation />
-				</Text>
-			)}
+
+			{stateWiseComponent[peerTransferInfo.state]}
 			<Box>
 				<ProgressBar left={0} percent={totalProgress ?? 0} />
 				<Text dimColor={true}>
@@ -52,26 +59,6 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 					{formatBytes(peerTransferInfo.totalFileSize)})
 				</Text>
 			</Box>
-
-			{/* <Box
-				borderColor="green"
-				borderStyle="bold"
-				paddingX={1}
-				flexDirection="column"
-				marginTop={1}
-			>
-				<Box flexDirection="column">
-					<Text backgroundColor="green" color="white" bold>
-						{' '}
-						{currTransfer.peerInfo.peerName}{' '}
-					</Text>
-				</Box>
-
-				<Text dimColor={true}>
-					⠀({formatBytes(receiverTotalDownload)}⠀/⠀
-					{formatBytes(currTransfer.totalFileSize)})
-				</Text>
-			</Box> */}
 		</Box>
 	);
 };

@@ -21,11 +21,17 @@ export const updateTransferredAmount = (
 		prevTransferred + transferSize,
 	);
 };
+
+// TODO:: IN FUTURE MAKE STATE FOR INDIVIDUAL FILE
 export const updateTransferredState = (
 	peerID: string,
 	state: TransferStates,
 ) => {
 	$senderTransferInfo.setKey(`${peerID}.state`, state);
+};
+// TODO:: IN FUTURE MAKE ERROR MESSAGE FOR INDIVIDUAL FILE
+export const updateTransferErrorMsg = (peerID: string, error: string) => {
+	$senderTransferInfo.setKey(`${peerID}.errorMsg`, error);
 };
 
 export const addToSenderTransferInfo = (

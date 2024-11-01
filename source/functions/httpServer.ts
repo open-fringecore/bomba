@@ -11,6 +11,7 @@ import {c} from 'tar';
 import {updateTotalDownloaded} from '@/stores/fileHandlerStore.js';
 import {
 	initSenderTransfer,
+	updateTransferErrorMsg,
 	updateTransferredAmount,
 	updateTransferredState,
 } from '@/stores/senderFileHandlerStore.js';
@@ -66,6 +67,7 @@ export const useHttpServer = (
 			try {
 				const peerID = (req.params as any)['0'];
 				const state: TransferStates = (req.params as any)['1'];
+				const error = req.query['error'] as string;
 
 				if (!peerID) {
 					return res.status(400).json({msg: 'receiver peerID required.'});
@@ -75,6 +77,9 @@ export const useHttpServer = (
 				}
 
 				updateTransferredState(peerID, state);
+				if (error) {
+					updateTransferErrorMsg(peerID, error);
+				}
 
 				res.json({
 					msg: 'transfer state change acknowledged.',
