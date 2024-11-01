@@ -95,8 +95,6 @@ export const useHttpServer = (
 				const peerID = (req.params as any)['0'];
 				const fileID = (req.params as any)['1'];
 
-				console.log(peerID, fileID);
-
 				if (!peerID) {
 					return res.status(400).json({msg: 'receiver peerID required.'});
 				}
@@ -130,7 +128,7 @@ export const useHttpServer = (
 				fileStream.pipe(res);
 
 				fileStream.on('data', chunk => {
-					updateTransferredAmount(peerID, chunk.length);
+					updateTransferredAmount(peerID, fileID, chunk.length);
 				});
 
 				fileStream.on('close', () => {});
@@ -157,7 +155,6 @@ export const useHttpServer = (
 			try {
 				const peerID = (req.params as any)['0'];
 				const fileID = (req.params as any)['1'];
-				console.log(peerID, fileID);
 
 				if (!peerID) {
 					return res.status(400).json({msg: 'receiver peerID required.'});
@@ -208,7 +205,7 @@ export const useHttpServer = (
 				res.on('close', () => {});
 
 				pack.on('data', chunk => {
-					updateTransferredAmount(peerID, chunk.length);
+					updateTransferredAmount(peerID, fileID, chunk.length);
 				});
 
 				pack.pipe(res);

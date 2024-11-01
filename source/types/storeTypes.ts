@@ -52,6 +52,7 @@ export type SingleTransferFileInfo = {
 	fileName: string;
 	fileType: FileTypes;
 	totalSize: number;
+	totalTransferred: number;
 };
 export type ReceiverTransferProgress = {
 	[fileID: string]: number;

@@ -13,13 +13,23 @@ export const $senderTransferInfo = deepMap<SenderTransferInfo>();
 
 export const updateTransferredAmount = (
 	peerID: string,
+	fileID: string,
 	transferSize: number,
 ) => {
-	const prevTransferred =
+	// ! Update Full transfer progress
+	const prevOverallTransferred =
 		$senderTransferInfo.get()[peerID]?.totalTransferred ?? 0;
 	$senderTransferInfo.setKey(
 		`${peerID}.totalTransferred`,
-		prevTransferred + transferSize,
+		prevOverallTransferred + transferSize,
+	);
+
+	// ! Update Progress for single file
+	const prevSingleFileTransferred =
+		$senderTransferInfo.get()[peerID]?.files[fileID]?.totalTransferred ?? 0;
+	$senderTransferInfo.setKey(
+		`${peerID}.files.${fileID}.totalTransferred`,
+		prevSingleFileTransferred + transferSize,
 	);
 };
 
@@ -62,6 +72,7 @@ export const initSenderTransfer = (peerID: string) => {
 				fileName: value.fileName,
 				fileType: value.fileType,
 				totalSize: value.fileSize,
+				totalTransferred: 0,
 			};
 			return acc;
 		},

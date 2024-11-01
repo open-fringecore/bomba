@@ -27,6 +27,7 @@ export const initTransferInfo = (
 				fileName: value.fileName,
 				fileType: value.fileType,
 				totalSize: value.fileSize,
+				totalTransferred: 0,
 			};
 			return acc;
 		},

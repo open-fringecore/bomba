@@ -102,7 +102,7 @@ const SingleFileTransferForReceiver: React.FC<TProps> = ({
 	return (
 		<Box>
 			{isStartedTransferring && !isTransferComplete && (
-				<ProgressBar left={0} percent={receiverTransferProgress[fileId] ?? 0} />
+				<ProgressBar percent={receiverTransferProgress[fileId] ?? 0} />
 			)}
 			<CustomTask label={label} state={taskState[file.state]} />
 			{file.errorMsg && <Text color="red">⠀{file.errorMsg}</Text>}

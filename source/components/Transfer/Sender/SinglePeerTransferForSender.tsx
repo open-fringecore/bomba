@@ -20,12 +20,7 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 		);
 	}, [peerTransferInfo.totalTransferred, peerTransferInfo.totalFileSize]);
 
-	const defaultComponent = (
-		<Text>
-			SENDING⠀
-			<SendArrowAnimation />
-		</Text>
-	);
+	const defaultComponent = <Text dimColor={true}>Sending Files...⠀</Text>;
 	const stateWiseComponent = {
 		DEFAULT: defaultComponent,
 		TRANSFERRING: defaultComponent,
@@ -54,17 +49,18 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 			flexDirection="column"
 			marginTop={1}
 		>
-			<Box flexDirection="column">
+			<Box>
 				<Text backgroundColor="green" color="white" bold>
 					{' '}
 					{peerTransferInfo.peerInfo.peerName}{' '}
 				</Text>
+				{['TRANSFERRING', 'TRANSFERRED'].includes(peerTransferInfo.state) && (
+					<SendArrowAnimation />
+				)}
 			</Box>
 
-			{stateWiseComponent[peerTransferInfo.state]}
-
 			<Box>
-				<ProgressBar left={0} percent={totalProgress ?? 0} />
+				{stateWiseComponent[peerTransferInfo.state]}
 				<Text dimColor={true}>
 					⠀({formatBytes(peerTransferInfo.totalTransferred)}⠀/⠀
 					{formatBytes(peerTransferInfo.totalFileSize)})

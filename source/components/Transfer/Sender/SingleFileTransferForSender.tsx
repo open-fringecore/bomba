@@ -4,6 +4,7 @@ import {SingleTransferFileInfo} from '@/types/storeTypes.js';
 import CustomTask from '@/components/Misc/CustomTask.js';
 import {adjustStringLength, formatBytes} from '@/functions/helper.js';
 import {TaskStates} from '@/components/Transfer/Receiver/SingleFileTransferForReceiver.js';
+import ProgressBar from '@/components/Misc/ProgressBar.js';
 
 type PropType = {
 	file: SingleTransferFileInfo;
@@ -25,8 +26,14 @@ const SingleFileTransferForSender = ({file, longestNameLength}: PropType) => {
 		return `⠀${fileName} - ${formattedSize}`;
 	}, [file, longestNameLength]);
 
+	const progress = useMemo(
+		() => Math.min((file.totalTransferred / file.totalSize) * 100, 100),
+		[file.totalTransferred, file.totalSize],
+	);
+
 	return (
 		<Box>
+			<ProgressBar percent={progress} />
 			<CustomTask label={label} state={taskState[file.state]} />
 			{file.errorMsg && <Text color="red">⠀{file.errorMsg}</Text>}
 		</Box>
