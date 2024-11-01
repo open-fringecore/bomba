@@ -122,7 +122,7 @@ export const adjustStringLength = (str: string, length: number): string => {
 	if (str.length < length) {
 		return str.padEnd(length, ' ');
 	} else if (str.length > length) {
-		return str.slice(-length);
+		return '...' + str.slice(-length + 3);
 	} else {
 		return str;
 	}

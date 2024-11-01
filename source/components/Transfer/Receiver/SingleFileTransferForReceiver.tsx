@@ -34,6 +34,14 @@ type TProps = {
 	longestNameLength: number;
 };
 
+const taskState: TaskStates = {
+	DEFAULT: 'pending',
+	TRANSFERRING: 'loading',
+	TRANSFERRED: 'loading',
+	ERROR: 'error',
+	SUCCESS: 'success',
+};
+
 const SingleFileTransferForReceiver: React.FC<TProps> = ({
 	index,
 	downloadIndex,
@@ -49,14 +57,6 @@ const SingleFileTransferForReceiver: React.FC<TProps> = ({
 	const baseInfo = useStore($baseInfo);
 
 	const downloadAttempted = useRef(false);
-
-	const taskState: TaskStates = {
-		DEFAULT: 'pending',
-		TRANSFERRING: 'loading',
-		TRANSFERRED: 'loading',
-		ERROR: 'error',
-		SUCCESS: 'success',
-	};
 
 	const startDownload = useCallback(async () => {
 		try {

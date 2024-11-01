@@ -21,8 +21,7 @@ const FileTransferForReceiver = ({}: TProps) => {
 	const [isStartedTransferring, setIsStartedTransferring] = useState(false);
 	const [isTransferComplete, setIsTransferComplete] = useState(false);
 
-	const {files} = currTransfer;
-	const totalFiles = Object.keys(files)?.length;
+	const totalFiles = Object.keys(currTransfer.files)?.length;
 
 	const endTransfer = async () => {
 		// ! Notifying Sender: All files have been successfully transferred.
@@ -51,10 +50,11 @@ const FileTransferForReceiver = ({}: TProps) => {
 
 	const longestNameLength = useMemo(() => {
 		const longestLength =
-			findLongestString(Object.values(files).map(file => file.fileName))
-				?.length ?? Infinity;
+			findLongestString(
+				Object.values(currTransfer.files).map(file => file.fileName),
+			)?.length ?? Infinity;
 		return Math.min(longestLength, 30);
-	}, [files]);
+	}, [currTransfer.files]);
 
 	useEffect(() => {
 		if (!isStartedTransferring && !isTransferComplete) {
@@ -88,7 +88,7 @@ const FileTransferForReceiver = ({}: TProps) => {
 				{formatBytes(currTransfer.totalFileSize)})
 			</Text>
 
-			{Object.entries(files).map(([key, value], index) => (
+			{Object.entries(currTransfer.files).map(([key, value], index) => (
 				<SingleFileTransferForReceiver
 					key={key}
 					index={index}

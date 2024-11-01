@@ -2,7 +2,7 @@ import React, {useEffect, useMemo} from 'react';
 import SendArrowAnimation from '@/components/Misc/SendArrowAnimation.js';
 import {Box, Text} from 'ink';
 import {useStore} from '@nanostores/react';
-import {formatBytes} from '@/functions/helper.js';
+import {findLongestString, formatBytes} from '@/functions/helper.js';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 import {SenderSinglePeerTransferInfo} from '@/types/storeTypes.js';
 import SingleFileTransferForSender from '@/components/Transfer/Sender/SingleFileTransferForSender.js';
@@ -10,6 +10,7 @@ import SingleFileTransferForSender from '@/components/Transfer/Sender/SingleFile
 type PropType = {
 	peerTransferInfo: SenderSinglePeerTransferInfo;
 };
+
 const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 	const totalProgress = useMemo(() => {
 		return Math.min(
@@ -37,6 +38,14 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 		),
 	};
 
+	const longestNameLength = useMemo(() => {
+		const longestLength =
+			findLongestString(
+				Object.values(peerTransferInfo.files).map(file => file.fileName),
+			)?.length ?? Infinity;
+		return Math.min(longestLength, 30);
+	}, [peerTransferInfo.files]);
+
 	return (
 		<Box
 			borderColor="green"
@@ -63,7 +72,11 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 			</Box>
 
 			{Object.entries(peerTransferInfo.files).map(([key, value]) => (
-				<SingleFileTransferForSender key={key} file={value} />
+				<SingleFileTransferForSender
+					key={key}
+					file={value}
+					longestNameLength={longestNameLength}
+				/>
 			))}
 		</Box>
 	);
