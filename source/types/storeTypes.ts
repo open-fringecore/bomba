@@ -94,6 +94,7 @@ export type SenderSinglePeerTransferInfo = {
 	totalFiles: number;
 	totalFileSize: number;
 	totalTransferred: number;
+	files: TransferFiles;
 };
 export type SenderTransferInfo = {
 	[peerID: string]: SenderSinglePeerTransferInfo;

@@ -34,7 +34,7 @@ type TProps = {
 	longestNameLength: number;
 };
 
-const SingleFileTransfer: React.FC<TProps> = ({
+const SingleFileTransferForReceiver: React.FC<TProps> = ({
 	index,
 	downloadIndex,
 	state,
@@ -115,4 +115,4 @@ const SingleFileTransfer: React.FC<TProps> = ({
 	);
 };
 
-export default SingleFileTransfer;
+export default SingleFileTransferForReceiver;

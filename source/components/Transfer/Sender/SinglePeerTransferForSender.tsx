@@ -5,6 +5,7 @@ import {useStore} from '@nanostores/react';
 import {formatBytes} from '@/functions/helper.js';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 import {SenderSinglePeerTransferInfo} from '@/types/storeTypes.js';
+import SingleFileTransferForSender from '@/components/Transfer/Sender/SingleFileTransferForSender.js';
 
 type PropType = {
 	peerTransferInfo: SenderSinglePeerTransferInfo;
@@ -52,6 +53,7 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 			</Box>
 
 			{stateWiseComponent[peerTransferInfo.state]}
+
 			<Box>
 				<ProgressBar left={0} percent={totalProgress ?? 0} />
 				<Text dimColor={true}>
@@ -59,6 +61,10 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 					{formatBytes(peerTransferInfo.totalFileSize)})
 				</Text>
 			</Box>
+
+			{Object.entries(peerTransferInfo.files).map(([key, value], index) => (
+				<SingleFileTransferForSender key={key} file={value} />
+			))}
 		</Box>
 	);
 };

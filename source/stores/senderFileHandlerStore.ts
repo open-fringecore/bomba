@@ -4,6 +4,7 @@ import {$connectedPeers} from '@/stores/peersStore.js';
 import {
 	SenderSinglePeerTransferInfo,
 	SenderTransferInfo,
+	TransferFiles,
 	TransferStates,
 } from '@/types/storeTypes.js';
 import {deepMap} from 'nanostores';
@@ -22,14 +23,13 @@ export const updateTransferredAmount = (
 	);
 };
 
-// TODO:: IN FUTURE MAKE STATE FOR INDIVIDUAL FILE
 export const updateTransferredState = (
 	peerID: string,
 	state: TransferStates,
 ) => {
 	$senderTransferInfo.setKey(`${peerID}.state`, state);
 };
-// TODO:: IN FUTURE MAKE ERROR MESSAGE FOR INDIVIDUAL FILE
+
 export const updateTransferErrorMsg = (peerID: string, error: string) => {
 	$senderTransferInfo.setKey(`${peerID}.errorMsg`, error);
 };
@@ -55,12 +55,18 @@ export const initSenderTransfer = (peerID: string) => {
 		return log('⭕ No sending files found ⭕');
 	}
 
-	// const selectedPeerFiles = Object.fromEntries(
-	// 	Object.entries(sendingFiles).map(([fileId, fileInfo]) => [
-	// 		fileId,
-	// 		{fileId, ...fileInfo},
-	// 	]),
-	// );
+	const files = Object.entries(sendingFiles)?.reduce(
+		(acc: TransferFiles, [key, value]) => {
+			acc[key] = {
+				state: 'DEFAULT',
+				fileName: value.fileName,
+				fileType: value.fileType,
+				totalSize: value.fileSize,
+			};
+			return acc;
+		},
+		{},
+	);
 
 	const totalFiles = Object.entries(sendingFiles).length;
 
@@ -69,6 +75,7 @@ export const initSenderTransfer = (peerID: string) => {
 		0,
 	);
 
+	// TODO:: Return
 	const newTransferInfo: SenderSinglePeerTransferInfo = {
 		state: 'DEFAULT',
 		peerInfo: {
@@ -80,6 +87,7 @@ export const initSenderTransfer = (peerID: string) => {
 		totalFiles: totalFiles,
 		totalFileSize: totalFileSize,
 		totalTransferred: 0,
+		files: files,
 	};
 
 	addToSenderTransferInfo(peerID, newTransferInfo);

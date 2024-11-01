@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Box, Text, useApp} from 'ink';
 import {log} from '@/functions/log.js';
-import SingleFileTransfer from '@/components/Transfer/Receiver/SingleFileTransfer.js';
+import SingleFileTransferForReceiver from '@/components/Transfer/Receiver/SingleFileTransferForReceiver.js';
 import {findLongestString, formatBytes} from '@/functions/helper.js';
 import {CurrTransfer} from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
@@ -13,7 +13,7 @@ import {$baseInfo} from '@/stores/baseStore.js';
 import {fetchUpdateSenderTransferState} from '@/functions/fetch.js';
 
 type TProps = {};
-const FileTransfer = ({}: TProps) => {
+const FileTransferForReceiver = ({}: TProps) => {
 	const currTransfer = useStore($currTransfer);
 	const receiverTotalDownload = useStore($receiverTotalDownload);
 
@@ -87,18 +87,20 @@ const FileTransfer = ({}: TProps) => {
 				⠀({formatBytes(receiverTotalDownload)}⠀/⠀
 				{formatBytes(currTransfer.totalFileSize)})
 			</Text>
-			{Object.keys(files).map((key, index) => (
-				<SingleFileTransfer
+
+			{/* TODO:: Reduce props | Just send the main value */}
+			{Object.entries(files).map(([key, value], index) => (
+				<SingleFileTransferForReceiver
 					key={key}
 					index={index}
 					downloadIndex={downloadIndex}
-					state={files[key]?.state!}
-					error={files[key]?.errorMsg}
+					state={value.state!}
+					error={value.errorMsg}
 					fileInfo={{
 						fileId: key,
-						fileName: files[key]?.fileName!,
-						fileType: files[key]?.fileType!,
-						fileSize: files[key]?.totalSize!,
+						fileName: value.fileName,
+						fileType: value.fileType,
+						fileSize: value.totalSize,
 					}}
 					peerInfo={currTransfer.peerInfo}
 					isStartedTransferring={isStartedTransferring}
@@ -111,4 +113,4 @@ const FileTransfer = ({}: TProps) => {
 	);
 };
 
-export default FileTransfer;
+export default FileTransferForReceiver;

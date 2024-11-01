@@ -38,6 +38,7 @@ export const initTransferInfo = (
 		0,
 	);
 
+	// TODO:: Return
 	$currTransfer.set({
 		peerInfo: peerInfo,
 		totalFiles: totalFiles,

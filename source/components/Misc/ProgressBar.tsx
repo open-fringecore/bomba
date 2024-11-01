@@ -10,8 +10,12 @@ const emptyCharacter = '⠀';
 const fillCharacter = '█';
 const remainCharacter = '░';
 const ProgressBar = ({left = 0, percent, title}: TProps) => {
-	const fill = useMemo(() => Math.floor(percent / 5), [percent]);
-	const remain = useMemo(() => Math.ceil((100 - percent) / 5), [percent]);
+	const unitSize = 5;
+	const fill = useMemo(() => Math.floor(percent / unitSize), [percent]);
+	const remain = useMemo(
+		() => Math.ceil((100 - percent) / unitSize),
+		[percent],
+	);
 
 	return (
 		<Text>
