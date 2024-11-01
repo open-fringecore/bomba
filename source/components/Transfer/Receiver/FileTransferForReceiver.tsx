@@ -10,7 +10,7 @@ import {
 	$currTransfer,
 } from '@/stores/fileHandlerStore.js';
 import {$baseInfo} from '@/stores/baseStore.js';
-import {fetchUpdateSenderTransferState} from '@/functions/fetch.js';
+import {fetchUpdateOverallSenderTransferState} from '@/functions/fetch.js';
 
 type TProps = {};
 const FileTransferForReceiver = ({}: TProps) => {
@@ -25,7 +25,7 @@ const FileTransferForReceiver = ({}: TProps) => {
 
 	const endTransfer = async () => {
 		// ! Notifying Sender: All files have been successfully transferred.
-		const isUpdatedSenderState = await fetchUpdateSenderTransferState(
+		const isUpdatedSenderState = await fetchUpdateOverallSenderTransferState(
 			currTransfer.peerInfo.peerIP,
 			currTransfer.peerInfo.peerHttpPort,
 			'SUCCESS',

@@ -4,7 +4,9 @@ import {Spinner, spinners} from '@/components/Misc/Spinner.js';
 
 export const icon = {
 	pending: <Text color={'gray'}>◼</Text>,
-	loading: <Spinner frames={spinners.dots} color={'yellow'} />,
+	loading: (frames: string[], color: string) => (
+		<Spinner frames={frames} color={color} />
+	),
 	success: <Text color={'green'}>✔</Text>,
 	warning: <Text color={'yellow'}>⚠</Text>,
 	error: <Text color={'red'}>✘</Text>,
@@ -13,12 +15,22 @@ export const icon = {
 type TProps = {
 	label: string;
 	state?: 'pending' | 'success' | 'warning' | 'error' | 'loading';
+	frames?: string[];
+	color?: string;
 };
-const CustomTask = ({label, state = 'pending'}: TProps) => {
+
+const CustomTask = ({
+	label,
+	state = 'pending',
+	frames = spinners.dots,
+	color = 'yellow',
+}: TProps) => {
 	return (
 		<Text>
-			<Text>{icon[state]}</Text>
-			<Text>{label}</Text>
+			<Text>
+				{state === 'loading' ? icon.loading(frames, color) : icon[state]}
+			</Text>
+			<Text> {label}</Text>
 		</Text>
 	);
 };

@@ -18,6 +18,7 @@ import {
 import {useStore} from '@nanostores/react';
 import {$receiverTransferProgress} from '@/stores/fileHandlerStore.js';
 import {$baseInfo} from '@/stores/baseStore.js';
+import {spinners} from '@/components/Misc/Spinner.js';
 
 type TaskStatus = 'pending' | 'success' | 'error' | 'loading';
 export type TaskStates = Record<TransferStates, TaskStatus>;
@@ -38,6 +39,7 @@ const taskState: TaskStates = {
 	DEFAULT: 'pending',
 	TRANSFERRING: 'loading',
 	TRANSFERRED: 'loading',
+	HASH_CHECKING: 'loading',
 	ERROR: 'error',
 	SUCCESS: 'success',
 };
@@ -104,7 +106,14 @@ const SingleFileTransferForReceiver: React.FC<TProps> = ({
 			{isStartedTransferring && !isTransferComplete && (
 				<ProgressBar percent={receiverTransferProgress[fileId] ?? 0} />
 			)}
-			<CustomTask label={label} state={taskState[file.state]} />
+			<CustomTask
+				frames={
+					file.state == 'HASH_CHECKING' ? spinners.dotsMore : spinners.dots
+				}
+				color={file.state == 'HASH_CHECKING' ? 'blue' : undefined}
+				label={label}
+				state={taskState[file.state]}
+			/>
 			{file.errorMsg && <Text color="red">⠀{file.errorMsg}</Text>}
 		</Box>
 	);

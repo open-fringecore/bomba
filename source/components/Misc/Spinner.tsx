@@ -1,6 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {render, Text} from 'ink';
 
+// ! Lots of spinners in this url
+// ! https://raw.githubusercontent.com/sindresorhus/cli-spinners/master/spinners.json
+// ! https://codepen.io/moritzjacobs/pen/WXBPxO
+
 const dashSlash = ['-', '\\', '|', '/'];
 const dotsRound = ['⢎⡰', '⢎⡡', '⢎⡑', '⢎⠱', '⠎⡱', '⢊⡱', '⢌⡱', '⢆⡱'];
 const dots = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
@@ -26,6 +30,7 @@ const leftRightBar = [
 ];
 const fish = ['𓆝 ', '𓆟', '𓆞', '𓆝', '𓆟'];
 const eye = ['◡◡', '⊙⊙', '◠◠'];
+const hash = ['✶', '✸', '✹', '✺', '✹', '✷'];
 export const spinners = {
 	dashSlash,
 	dotsRound,
@@ -38,6 +43,7 @@ export const spinners = {
 	leftRightBar,
 	eye,
 	fish,
+	hash,
 };
 
 type TProps = {
@@ -54,7 +60,7 @@ export const Spinner = ({frames, color = 'yellow', speed = 50}: TProps) => {
 		}, speed);
 
 		return () => clearInterval(timer);
-	}, []);
+	}, [frames]);
 
 	return <Text color={color}>{frames[index]}</Text>;
 };

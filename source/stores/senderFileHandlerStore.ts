@@ -33,14 +33,31 @@ export const updateTransferredAmount = (
 	);
 };
 
-export const updateTransferredState = (
+export const updateSingleFileTransferredState = (
+	peerID: string,
+	fileID: string,
+	state: TransferStates,
+) => {
+	$senderTransferInfo.setKey(`${peerID}.files.${fileID}.state`, state);
+};
+export const updateOverallTransferredState = (
 	peerID: string,
 	state: TransferStates,
 ) => {
 	$senderTransferInfo.setKey(`${peerID}.state`, state);
 };
 
-export const updateTransferErrorMsg = (peerID: string, error: string) => {
+export const updateSingleFileTransferErrorMsg = (
+	peerID: string,
+	fileID: string,
+	error: string,
+) => {
+	$senderTransferInfo.setKey(`${peerID}.files.${fileID}.errorMsg`, error);
+};
+export const updateOverallTransferErrorMsg = (
+	peerID: string,
+	error: string,
+) => {
 	$senderTransferInfo.setKey(`${peerID}.errorMsg`, error);
 };
 

@@ -17,7 +17,10 @@ import {promisify} from 'util';
 import {ReadableStream} from 'stream/web';
 // import {default as tarFs} from 'tar-fs';
 import {x as extract} from 'tar';
-import {fetchUpdateSenderTransferState} from '@/functions/fetch.js';
+import {
+	fetchUpdateOverallSenderTransferState,
+	fetchUpdateSingleFileSenderTransferState,
+} from '@/functions/fetch.js';
 
 const pipelineAsync = promisify(pipeline);
 
@@ -147,10 +150,13 @@ export const useFileDownloader = async (
 
 			updateTotalDownloaded(chunk.length);
 			updateTransferProgress(FILE_ID, progress);
-			updateTransferFileState(
-				FILE_ID,
-				progress < 100 ? 'TRANSFERRING' : 'TRANSFERRED',
-			);
+
+			updateTransferFileState(FILE_ID, 'TRANSFERRING');
+		});
+
+		reader.on('end', () => {
+			log('File writing completed.');
+			updateTransferFileState(FILE_ID, 'TRANSFERRED');
 		});
 
 		await pipelineAsync(reader, writer);
@@ -166,11 +172,17 @@ export const useFileDownloader = async (
 		// });
 	} catch (error) {
 		logError(error);
-		const errMsg = error instanceof Error ? error.message : 'Unknown error';
+		const errMsg = error instanceof Error ? error.message : 'Unknown Error';
 		updateTransferFileState(FILE_ID, 'ERROR');
 		updateTransferFileErrorMsg(FILE_ID, errMsg);
-
-		await fetchUpdateSenderTransferState(
+		await fetchUpdateSingleFileSenderTransferState(
+			PEER_IP,
+			PEER_TCP_PORT,
+			FILE_ID,
+			'ERROR',
+			errMsg,
+		);
+		await fetchUpdateOverallSenderTransferState(
 			PEER_IP,
 			PEER_TCP_PORT,
 			'ERROR',

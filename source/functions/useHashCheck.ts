@@ -7,7 +7,10 @@ import {
 } from '@/stores/fileHandlerStore.js';
 import {RECEIVE_PATH} from '@/functions/variables.js';
 import {log, logError} from '@/functions/log.js';
-import {fetchUpdateSenderTransferState} from '@/functions/fetch.js';
+import {
+	fetchUpdateOverallSenderTransferState,
+	fetchUpdateSingleFileSenderTransferState,
+} from '@/functions/fetch.js';
 
 export const hashFile = async (filePath: string) => {
 	return new Promise((resolve, reject) => {
@@ -64,6 +67,14 @@ export const useHashCheck = async (
 		const url = `http://${PEER_IP}:${PEER_TCP_PORT}/get-hash/${FILE_ID}`;
 		const outputPath = path.join(RECEIVE_PATH, FILENAME);
 
+		updateTransferFileState(FILE_ID, 'HASH_CHECKING');
+		await fetchUpdateSingleFileSenderTransferState(
+			PEER_IP,
+			PEER_TCP_PORT,
+			FILE_ID,
+			'HASH_CHECKING',
+		);
+
 		const response = await fetch(url);
 		if (!response.ok) {
 			const errorText = await response.text();
@@ -83,6 +94,12 @@ export const useHashCheck = async (
 		if (sendFileHash === receivedFileHash) {
 			log('HASH MATCHED');
 			updateTransferFileState(FILE_ID, 'SUCCESS');
+			await fetchUpdateSingleFileSenderTransferState(
+				PEER_IP,
+				PEER_TCP_PORT,
+				FILE_ID,
+				'SUCCESS',
+			);
 		} else {
 			log("HASH DIDN'T MATCH", sendFileHash, receivedFileHash);
 			throw new Error('Hash Mismatch.');
@@ -94,12 +111,18 @@ export const useHashCheck = async (
 		}
 		updateTransferFileState(FILE_ID, 'ERROR');
 		updateTransferFileErrorMsg(FILE_ID, errMsg);
-
-		await fetchUpdateSenderTransferState(
+		await fetchUpdateSingleFileSenderTransferState(
+			PEER_IP,
+			PEER_TCP_PORT,
+			FILE_ID,
+			'ERROR',
+			errMsg,
+		);
+		await fetchUpdateOverallSenderTransferState(
 			PEER_IP,
 			PEER_TCP_PORT,
 			'ERROR',
-			'HASH MATCHED',
+			errMsg,
 		);
 
 		logError('Error during hash check:', error);

@@ -5,6 +5,7 @@ import CustomTask from '@/components/Misc/CustomTask.js';
 import {adjustStringLength, formatBytes} from '@/functions/helper.js';
 import {TaskStates} from '@/components/Transfer/Receiver/SingleFileTransferForReceiver.js';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
+import {spinners} from '@/components/Misc/Spinner.js';
 
 type PropType = {
 	file: SingleTransferFileInfo;
@@ -15,6 +16,7 @@ const taskState: TaskStates = {
 	DEFAULT: 'pending',
 	TRANSFERRING: 'loading',
 	TRANSFERRED: 'loading',
+	HASH_CHECKING: 'loading',
 	ERROR: 'error',
 	SUCCESS: 'success',
 };
@@ -34,7 +36,14 @@ const SingleFileTransferForSender = ({file, longestNameLength}: PropType) => {
 	return (
 		<Box>
 			<ProgressBar percent={progress} />
-			<CustomTask label={label} state={taskState[file.state]} />
+			<CustomTask
+				frames={
+					file.state == 'HASH_CHECKING' ? spinners.dotsMore : spinners.dots
+				}
+				color={file.state == 'HASH_CHECKING' ? 'blue' : undefined}
+				label={label}
+				state={taskState[file.state]}
+			/>
 			{file.errorMsg && <Text color="red">⠀{file.errorMsg}</Text>}
 		</Box>
 	);

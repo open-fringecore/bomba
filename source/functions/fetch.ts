@@ -33,7 +33,44 @@ export const fetchInitSenderTransfer = async (
 };
 
 // ! As a receiver, tell the sender about transfer state.
-export const fetchUpdateSenderTransferState = async (
+export const fetchUpdateSingleFileSenderTransferState = async (
+	peerIP: string,
+	peerHttpPort: number,
+	fileID: string,
+	state: TransferStates,
+	error?: string,
+): Promise<boolean> => {
+	const MY_ID = $baseInfo.get().MY_ID;
+
+	try {
+		const url = `http://${peerIP}:${peerHttpPort}/update-single-file-sender-transfer-state/${MY_ID}/${fileID}/${state}${
+			error ? `error=${error}` : ''
+		}`;
+		const response = await fetch(url, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			logError(errorData);
+			return false;
+		}
+
+		const data = await response.json();
+		log(data.msg);
+
+		return true;
+	} catch (error) {
+		logError(error);
+		return false;
+	}
+};
+
+// ! As a receiver, tell the sender about transfer state.
+export const fetchUpdateOverallSenderTransferState = async (
 	peerIP: string,
 	peerHttpPort: number,
 	state: TransferStates,
@@ -42,8 +79,8 @@ export const fetchUpdateSenderTransferState = async (
 	const MY_ID = $baseInfo.get().MY_ID;
 
 	try {
-		const url = `http://${peerIP}:${peerHttpPort}/update-sender-transfer-state/${MY_ID}/${state}?error=${
-			error ?? undefined
+		const url = `http://${peerIP}:${peerHttpPort}/update-overall-sender-transfer-state/${MY_ID}/${state}?${
+			error ? `error=${error}` : ''
 		}`;
 		const response = await fetch(url, {
 			method: 'GET',

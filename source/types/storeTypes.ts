@@ -43,6 +43,7 @@ export type TransferStates =
 	| 'DEFAULT'
 	| 'TRANSFERRING'
 	| 'TRANSFERRED'
+	| 'HASH_CHECKING'
 	| 'ERROR'
 	| 'SUCCESS';
 

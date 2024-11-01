@@ -20,15 +20,16 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 		);
 	}, [peerTransferInfo.totalTransferred, peerTransferInfo.totalFileSize]);
 
-	const defaultComponent = <Text dimColor={true}>Sending Files...⠀</Text>;
+	const defaultComponent = <Text dimColor={true}>Sending Files...</Text>;
 	const stateWiseComponent = {
 		DEFAULT: defaultComponent,
 		TRANSFERRING: defaultComponent,
 		TRANSFERRED: defaultComponent,
+		HASH_CHECKING: <Text dimColor={true}>Hash Checking...</Text>,
 		SUCCESS: <Text dimColor={true}>Files Transfer Complete 🎉</Text>,
 		ERROR: (
 			<Text color={'red'}>
-				{peerTransferInfo.errorMsg ?? 'Transfer Failed'} ✘
+				{peerTransferInfo.errorMsg ?? 'Transfer Failed'} 😥
 			</Text>
 		),
 	};
