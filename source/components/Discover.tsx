@@ -38,12 +38,12 @@ const Discover = () => {
 
 		// ! Notifying Sender that I have started receiving
 		const isSenderInitSuccess = await fetchInitSenderTransfer(
-			`http://${selectedPeer.ip}:${selectedPeer.httpPort}`,
+			selectedPeer.ip,
+			selectedPeer.httpPort,
 			baseInfo.MY_ID,
 		);
 		if (!isSenderInitSuccess) {
-			log('⭕ Sender init transfer failed. ⭕');
-			return;
+			return log('⭕ Sender init transfer failed. ⭕');
 		}
 
 		const totalFiles = Object.entries(selectedPeerFiles).length;

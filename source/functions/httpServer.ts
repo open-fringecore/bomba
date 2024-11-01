@@ -5,7 +5,7 @@ import path from 'path';
 import {hashFile, hashFolder} from '@/functions/useHashCheck.js';
 import {log, logError} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
-import {Files, SendingFiles} from '@/types/storeTypes.js';
+import {Files, SendingFiles, TransferStates} from '@/types/storeTypes.js';
 // import {default as tarFs} from 'tar-fs';
 import {c} from 'tar';
 import {updateTotalDownloaded} from '@/stores/fileHandlerStore.js';
@@ -62,18 +62,22 @@ export const useHttpServer = (
 			}
 		});
 
-		app.get('/on-transfer-complete/*', (req, res) => {
+		app.get('/update-sender-transfer-state/*/*', (req, res) => {
 			try {
 				const peerID = (req.params as any)['0'];
+				const state: TransferStates = (req.params as any)['1'];
 
 				if (!peerID) {
 					return res.status(400).json({msg: 'receiver peerID required.'});
 				}
+				if (!state) {
+					return res.status(400).json({msg: 'transfer state required.'});
+				}
 
-				updateTransferredState(peerID, 'SUCCESS');
+				updateTransferredState(peerID, state);
 
 				res.json({
-					msg: 'transfer completion acknowledged.',
+					msg: 'transfer state change acknowledged.',
 				});
 			} catch (error) {
 				logError(error);
