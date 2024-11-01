@@ -74,6 +74,7 @@ export const useCommands = () => {
 							// });
 							const files = argv.files;
 
+							// TODO:: Pre Check File Exists
 							// NOTE: // ! [-KEEP COMMENT-]
 							// ! Check if file exists | only for debugging
 							// files.forEach((file: string) => {
@@ -109,8 +110,8 @@ export const useCommands = () => {
 					}
 				},
 			)
-			.option('dev_mode', {
-				alias: 'dev',
+			.option('debug', {
+				alias: '-d',
 				type: 'boolean',
 				description: 'Start with debug mode.',
 			})
