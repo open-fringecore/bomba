@@ -15,6 +15,7 @@ import {
 	updateTransferredAmount,
 	updateTransferredState,
 } from '@/stores/senderFileHandlerStore.js';
+import {$sendingFiles} from '@/stores/baseStore.js';
 
 export const useHttpServer = (
 	MY_IP: string,
@@ -92,13 +93,20 @@ export const useHttpServer = (
 		app.get('/download/*/*', (req, res) => {
 			try {
 				const peerID = (req.params as any)['0'];
-				const filename = (req.params as any)['1'];
+				const fileID = (req.params as any)['1'];
+
+				console.log(peerID, fileID);
 
 				if (!peerID) {
 					return res.status(400).json({msg: 'receiver peerID required.'});
 				}
+				if (!fileID) {
+					return res.status(400).json({msg: 'fileID required.'});
+				}
+
+				const filename = $sendingFiles.get()[fileID]?.fileName;
 				if (!filename) {
-					return res.status(400).json({msg: 'filename required.'});
+					return res.status(400).json({msg: 'filename not found.'});
 				}
 
 				const filePath = path.join(SEND_PATH, filename);
@@ -148,13 +156,19 @@ export const useHttpServer = (
 		app.get('/download-tar/*/*', (req, res) => {
 			try {
 				const peerID = (req.params as any)['0'];
-				const foldername = (req.params as any)['1'];
+				const fileID = (req.params as any)['1'];
+				console.log(peerID, fileID);
 
 				if (!peerID) {
 					return res.status(400).json({msg: 'receiver peerID required.'});
 				}
+				if (!fileID) {
+					return res.status(400).json({msg: 'fileID required.'});
+				}
+
+				const foldername = $sendingFiles.get()[fileID]?.fileName;
 				if (!foldername) {
-					return res.status(400).json({msg: 'foldername required.'});
+					return res.status(400).json({msg: 'foldername not found.'});
 				}
 
 				const folderPath = path.join(SEND_PATH, foldername);
@@ -205,10 +219,14 @@ export const useHttpServer = (
 
 		app.get('/get-hash/*', async (req, res) => {
 			try {
-				const filename = (req.params as any)['0'];
+				const fileID = (req.params as any)['0'];
 
+				if (!fileID) {
+					return res.status(400).json({msg: 'fileID required.'});
+				}
+				const filename = $sendingFiles.get()[fileID]?.fileName;
 				if (!filename) {
-					return res.status(400).json({msg: 'filename required.'});
+					return res.status(400).json({msg: 'filename not found.'});
 				}
 
 				const filePath = path.join(SEND_PATH, filename);

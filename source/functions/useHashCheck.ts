@@ -61,7 +61,7 @@ export const useHashCheck = async (
 ) => {
 	log('Hash checking:', FILENAME);
 	try {
-		const url = `http://${PEER_IP}:${PEER_TCP_PORT}/get-hash/${FILENAME}`;
+		const url = `http://${PEER_IP}:${PEER_TCP_PORT}/get-hash/${FILE_ID}`;
 		const outputPath = path.join(RECEIVE_PATH, FILENAME);
 
 		const response = await fetch(url);
