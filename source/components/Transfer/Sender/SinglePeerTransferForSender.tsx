@@ -62,7 +62,7 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 				</Text>
 			</Box>
 
-			{Object.entries(peerTransferInfo.files).map(([key, value], index) => (
+			{Object.entries(peerTransferInfo.files).map(([key, value]) => (
 				<SingleFileTransferForSender key={key} file={value} />
 			))}
 		</Box>

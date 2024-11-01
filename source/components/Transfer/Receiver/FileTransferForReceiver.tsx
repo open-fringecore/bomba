@@ -88,20 +88,13 @@ const FileTransferForReceiver = ({}: TProps) => {
 				{formatBytes(currTransfer.totalFileSize)})
 			</Text>
 
-			{/* TODO:: Reduce props | Just send the main value */}
 			{Object.entries(files).map(([key, value], index) => (
 				<SingleFileTransferForReceiver
 					key={key}
 					index={index}
 					downloadIndex={downloadIndex}
-					state={value.state!}
-					error={value.errorMsg}
-					fileInfo={{
-						fileId: key,
-						fileName: value.fileName,
-						fileType: value.fileType,
-						fileSize: value.totalSize,
-					}}
+					fileId={key}
+					file={value}
 					peerInfo={currTransfer.peerInfo}
 					isStartedTransferring={isStartedTransferring}
 					isTransferComplete={isTransferComplete}

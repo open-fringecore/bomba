@@ -13,6 +13,7 @@ import {
 	TransferPeerInfo,
 	SingleFile,
 	TransferStates,
+	SingleTransferFileInfo,
 } from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
 import {$receiverTransferProgress} from '@/stores/fileHandlerStore.js';
@@ -24,9 +25,8 @@ export type TaskStates = Record<TransferStates, TaskStatus>;
 type TProps = {
 	index: number;
 	downloadIndex: number;
-	state: TransferStates;
-	error?: string;
-	fileInfo: SingleFile;
+	fileId: string;
+	file: SingleTransferFileInfo;
 	peerInfo: TransferPeerInfo;
 	isStartedTransferring: boolean;
 	isTransferComplete: boolean;
@@ -37,9 +37,8 @@ type TProps = {
 const SingleFileTransferForReceiver: React.FC<TProps> = ({
 	index,
 	downloadIndex,
-	state,
-	error,
-	fileInfo,
+	fileId,
+	file,
 	peerInfo,
 	isStartedTransferring,
 	isTransferComplete,
@@ -64,13 +63,12 @@ const SingleFileTransferForReceiver: React.FC<TProps> = ({
 			if (downloadAttempted.current) return;
 			downloadAttempted.current = true;
 
-			const {fileId, fileName, fileSize, fileType} = fileInfo;
 			const {peerIP, peerHttpPort} = peerInfo;
 
 			// const isNoDuplicationIssue = await checkDuplication(fileId, fileName);
 			// if (!isNoDuplicationIssue) return;
 
-			const isNoSpaceIssue = await checkEnoughSpace(fileId, fileSize);
+			const isNoSpaceIssue = await checkEnoughSpace(fileId, file.totalSize);
 			if (!isNoSpaceIssue) return;
 
 			await useFileDownloader(
@@ -78,16 +76,16 @@ const SingleFileTransferForReceiver: React.FC<TProps> = ({
 				peerIP,
 				peerHttpPort,
 				fileId,
-				fileName,
-				fileType,
-				fileSize,
+				file.fileName,
+				file.fileType,
+				file.totalSize,
 			);
-			await useHashCheck(peerIP, peerHttpPort, fileId, fileName);
+			await useHashCheck(peerIP, peerHttpPort, fileId, file.fileName);
 			onSingleDownloadComplete();
 		} catch (error) {
 			logError(error);
 		}
-	}, [fileInfo, peerInfo, onSingleDownloadComplete]);
+	}, [file, peerInfo, onSingleDownloadComplete]);
 
 	useEffect(() => {
 		if (downloadIndex === index && !downloadAttempted.current) {
@@ -96,21 +94,18 @@ const SingleFileTransferForReceiver: React.FC<TProps> = ({
 	}, [downloadIndex, index, startDownload]);
 
 	const label = useMemo(() => {
-		const fileName = adjustStringLength(fileInfo.fileName, longestNameLength);
-		const formattedSize = formatBytes(fileInfo.fileSize);
+		const fileName = adjustStringLength(file.fileName, longestNameLength);
+		const formattedSize = formatBytes(file.totalSize);
 		return `⠀${fileName} - ${formattedSize}`;
-	}, [fileInfo, longestNameLength]);
+	}, [file, longestNameLength]);
 
 	return (
 		<Box>
 			{isStartedTransferring && !isTransferComplete && (
-				<ProgressBar
-					left={0}
-					percent={receiverTransferProgress[fileInfo.fileId] ?? 0}
-				/>
+				<ProgressBar left={0} percent={receiverTransferProgress[fileId] ?? 0} />
 			)}
-			<CustomTask label={label} state={taskState[state]} />
-			{error && <Text color="red">⠀{error}</Text>}
+			<CustomTask label={label} state={taskState[file.state]} />
+			{file.errorMsg && <Text color="red">⠀{file.errorMsg}</Text>}
 		</Box>
 	);
 };
