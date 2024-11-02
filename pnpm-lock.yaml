@@ -23,9 +23,6 @@ importers:
       '@types/yargs':
         specifier: ^17.0.32
         version: 17.0.32
-      cli-spinners:
-        specifier: ^3.1.0
-        version: 3.1.0
       concurrently:
         specifier: ^8.2.2
         version: 8.2.2
@@ -35,15 +32,9 @@ importers:
       ink:
         specifier: ^4.1.0
         version: 4.4.1(@types/react@18.3.3)(react@18.3.1)
-      ink-color-pipe:
-        specifier: ^3.0.0
-        version: 3.0.0(ink@4.4.1(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       ink-select-input:
         specifier: ^6.0.0
         version: 6.0.0(ink@4.4.1(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
-      ink-task-list:
-        specifier: ^2.0.0
-        version: 2.0.0(ink@4.4.1(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       meow:
         specifier: ^11.0.0
         version: 11.0.0
@@ -75,9 +66,6 @@ importers:
       '@sindresorhus/tsconfig':
         specifier: ^3.0.1
         version: 3.0.1
-      '@types/cli-spinners':
-        specifier: ^1.3.3
-        version: 1.3.3
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
@@ -255,9 +243,6 @@ packages:
 
   '@types/body-parser@1.19.5':
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
-
-  '@types/cli-spinners@1.3.3':
-    resolution: {integrity: sha512-B5/ya7/tb6zH2sFza0WYMuuIP3klS94+bkGAJ4ISXstmIaesoG1PZ3glNllmPUx94Oh4kguzgoZucEBqBUds6w==}
 
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
@@ -626,10 +611,6 @@ packages:
     resolution: {integrity: sha512-DwGjNW9omn6EwP70aXsn7FQJx5kO12tX0bZkaTjzdVFM6/7nhA4t0EENocKGx6D2Bch9PE2KzCUf5SceBdeijg==}
     engines: {node: '>=12.19'}
 
-  chalk-pipe@5.1.2:
-    resolution: {integrity: sha512-WNkhG5BHb2UOoyay3P61yNa9BBdYHrlk2mYYBpHlYKL3rDlxRUVXMPfAdLFcKxRvxztegK3hzj3Yj4QQ3z/0rA==}
-    engines: {node: '>=12'}
-
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
     engines: {node: '>=4'}
@@ -683,10 +664,6 @@ packages:
   cli-cursor@4.0.0:
     resolution: {integrity: sha512-VGtlMu3x/4DOtIUwEkRezxUZ2lBacNJCHash0N0WeZDBS+7Ux1dm3XWAgWYxLJFMMdOeXMHXorshEFhbMSGelg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-
-  cli-spinners@3.1.0:
-    resolution: {integrity: sha512-2MH0N34TpDAs9ROPVkZJfBWFoYfv4zfkJF14PBHY4v/qRY75SLcm4WaEKNCLScsXieosa/tY/+slJ+BDswJxHQ==}
-    engines: {node: '>=18.20'}
 
   cli-truncate@3.1.0:
     resolution: {integrity: sha512-wfOBkjXteqSnI59oPcJkcPl/ZmwvMMOj340qUIY1SKZCv0B9Cf4D4fAucRkIKQmsIuYK3x1rrgU7MeGRruiuiA==}
@@ -1452,25 +1429,12 @@ packages:
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
-  ink-color-pipe@3.0.0:
-    resolution: {integrity: sha512-d/jrA0dE++6wNPrW4bj+954riqPMWmI2VBj/5d3ySx2H/dOY1MrAaZmz9CH19Hxr2EdpztH9NE81x1qH2F3YWQ==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      ink: '>=3.0.0'
-      react: '>=16.8.0'
-
   ink-select-input@6.0.0:
     resolution: {integrity: sha512-2mCbn1b9xeguA3qJiaf8Sx8W4MM005wACcLKwHWWJmJ8BapjsahmQPuY2U2qyGc817IdWFjNk/K41Vn39UlO4Q==}
     engines: {node: '>=18'}
     peerDependencies:
       ink: '>=5.0.0'
       react: '>=18.0.0'
-
-  ink-task-list@2.0.0:
-    resolution: {integrity: sha512-+WadfalLGUrYT/5D4cHeShN73t5urEsI5VOwFYw3qNWdOL+GQVTLbTS0tCZkzIcBcL+dfZcQAtuoW56ZBZV+Bg==}
-    peerDependencies:
-      ink: '>=3.0.0'
-      react: '>=16.8.0'
 
   ink-testing-library@3.0.0:
     resolution: {integrity: sha512-ItyyoOmcm6yftb7c5mZI2HU22BWzue8PBbO3DStmY8B9xaqfKr7QJONiWOXcwVsOk/6HuVQ0v7N5xhPaR3jycA==}
@@ -3103,8 +3067,6 @@ snapshots:
       '@types/connect': 3.4.38
       '@types/node': 20.14.10
 
-  '@types/cli-spinners@1.3.3': {}
-
   '@types/connect@3.4.38':
     dependencies:
       '@types/node': 20.14.10
@@ -3578,10 +3540,6 @@ snapshots:
     dependencies:
       nofilter: 3.1.0
 
-  chalk-pipe@5.1.2:
-    dependencies:
-      chalk: 4.1.2
-
   chalk@2.4.2:
     dependencies:
       ansi-styles: 3.2.1
@@ -3632,8 +3590,6 @@ snapshots:
   cli-cursor@4.0.0:
     dependencies:
       restore-cursor: 4.0.0
-
-  cli-spinners@3.1.0: {}
 
   cli-truncate@3.1.0:
     dependencies:
@@ -4559,12 +4515,6 @@ snapshots:
 
   inherits@2.0.4: {}
 
-  ink-color-pipe@3.0.0(ink@4.4.1(@types/react@18.3.3)(react@18.3.1))(react@18.3.1):
-    dependencies:
-      chalk-pipe: 5.1.2
-      ink: 4.4.1(@types/react@18.3.3)(react@18.3.1)
-      react: 18.3.1
-
   ink-select-input@6.0.0(ink@4.4.1(@types/react@18.3.3)(react@18.3.1))(react@18.3.1):
     dependencies:
       figures: 6.1.0
@@ -4572,11 +4522,6 @@ snapshots:
       lodash.isequal: 4.5.0
       react: 18.3.1
       to-rotated: 1.0.0
-
-  ink-task-list@2.0.0(ink@4.4.1(@types/react@18.3.3)(react@18.3.1))(react@18.3.1):
-    dependencies:
-      ink: 4.4.1(@types/react@18.3.3)(react@18.3.1)
-      react: 18.3.1
 
   ink-testing-library@3.0.0(@types/react@18.3.3):
     optionalDependencies:
