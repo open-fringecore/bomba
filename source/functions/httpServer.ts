@@ -8,7 +8,6 @@ import {SEND_PATH} from '@/functions/variables.js';
 import {Files, SendingFiles, TransferStates} from '@/types/storeTypes.js';
 // import {default as tarFs} from 'tar-fs';
 import {c} from 'tar';
-import {updateTotalDownloaded} from '@/stores/receiverfileHandlerStore.js';
 import {
 	initSenderTransfer,
 	updateSenderTransferState,

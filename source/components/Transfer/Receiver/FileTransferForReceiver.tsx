@@ -5,16 +5,12 @@ import SingleFileTransferForReceiver from '@/components/Transfer/Receiver/Single
 import {findLongestString, formatBytes} from '@/functions/helper.js';
 import {CurrTransfer} from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
-import {
-	$receiverTotalDownload,
-	$currTransfer,
-} from '@/stores/receiverfileHandlerStore.js';
+import {$currTransfer} from '@/stores/receiverfileHandlerStore.js';
 import {$baseInfo} from '@/stores/baseStore.js';
 
 type TProps = {};
 const FileTransferForReceiver = ({}: TProps) => {
 	const currTransfer = useStore($currTransfer);
-	const receiverTotalDownload = useStore($receiverTotalDownload);
 
 	const [downloadIndex, setDownloadIndex] = useState(-1);
 	const [isStartedTransferring, setIsStartedTransferring] = useState(false);
@@ -44,6 +40,15 @@ const FileTransferForReceiver = ({}: TProps) => {
 		return Math.min(longestLength, 30);
 	}, [currTransfer.files]);
 
+	const sumTotalTransferred = useMemo(
+		() =>
+			Object.values(currTransfer.files).reduce(
+				(sum, file) => sum + file.totalTransferred,
+				0,
+			),
+		[JSON.stringify(currTransfer.files)],
+	);
+
 	useEffect(() => {
 		if (!isStartedTransferring && !isTransferComplete) {
 			setIsStartedTransferring(true);
@@ -72,7 +77,7 @@ const FileTransferForReceiver = ({}: TProps) => {
 					: isStartedTransferring
 					? 'Receiving Files...'
 					: 'Files'}
-				⠀({formatBytes(receiverTotalDownload)}⠀/⠀
+				⠀({formatBytes(sumTotalTransferred)}⠀/⠀
 				{formatBytes(currTransfer.totalFileSize)})
 			</Text>
 

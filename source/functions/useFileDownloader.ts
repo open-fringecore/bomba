@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import {
-	updateTotalDownloaded,
 	updateTransferFileErrorMsg,
 	updateTransferFileState,
 	updateReceiverTransferProgress,
@@ -136,9 +135,7 @@ export const useFileDownloader = async (
 		const writer = fs.createWriteStream(outputPath);
 
 		reader.on('data', chunk => {
-			updateTotalDownloaded(chunk.length);
 			updateReceiverTransferProgress(FILE_ID, chunk.length);
-
 			updateTransferFileState(FILE_ID, 'TRANSFERRING');
 		});
 

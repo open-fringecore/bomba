@@ -38,7 +38,7 @@ export type ConnectedPeersType = {
 	[peerID: string]: ConnectedPeerType;
 };
 
-// ! FileHandlerStore
+// ! FileHandlerStore | Common
 export type TransferStates =
 	| 'DEFAULT'
 	| 'TRANSFERRING'
@@ -64,6 +64,8 @@ export type TransferPeerInfo = {
 	peerHttpPort: number;
 	peerName: string;
 };
+
+// ! ReceiverFileHandlerStore
 export type CurrTransfer = {
 	peerInfo: TransferPeerInfo;
 	totalFiles: number;
