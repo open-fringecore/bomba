@@ -43,7 +43,7 @@ export const fetchUpdateSenderTransferState = async (
 	const MY_ID = $baseInfo.get().MY_ID;
 
 	try {
-		const url = `http://${peerIP}:${peerHttpPort}/update-single-file-sender-transfer-state/${MY_ID}/${fileID}/${state}${
+		const url = `http://${peerIP}:${peerHttpPort}/update-sender-transfer-state/${MY_ID}/${fileID}/${state}?${
 			error ? `error=${error}` : ''
 		}`;
 		const response = await fetch(url, {

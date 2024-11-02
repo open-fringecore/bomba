@@ -64,7 +64,7 @@ export const useHttpServer = (
 			}
 		});
 
-		app.get('/update-single-file-sender-transfer-state/*/*/*', (req, res) => {
+		app.get('/update-sender-transfer-state/*/*/*', (req, res) => {
 			try {
 				const peerID = (req.params as any)['0'];
 				const fileID = (req.params as any)['1'];
