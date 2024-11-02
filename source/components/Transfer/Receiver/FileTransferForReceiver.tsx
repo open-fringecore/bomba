@@ -8,9 +8,8 @@ import {useStore} from '@nanostores/react';
 import {
 	$receiverTotalDownload,
 	$currTransfer,
-} from '@/stores/fileHandlerStore.js';
+} from '@/stores/receiverfileHandlerStore.js';
 import {$baseInfo} from '@/stores/baseStore.js';
-import {fetchUpdateOverallSenderTransferState} from '@/functions/fetch.js';
 
 type TProps = {};
 const FileTransferForReceiver = ({}: TProps) => {
@@ -24,17 +23,6 @@ const FileTransferForReceiver = ({}: TProps) => {
 	const totalFiles = Object.keys(currTransfer.files)?.length;
 
 	const endTransfer = async () => {
-		// ! Notifying Sender: All files have been successfully transferred.
-		const isUpdatedSenderState = await fetchUpdateOverallSenderTransferState(
-			currTransfer.peerInfo.peerIP,
-			currTransfer.peerInfo.peerHttpPort,
-			'SUCCESS',
-		);
-		if (!isUpdatedSenderState) {
-			log("Sender haven't acknowledged transfer completion.");
-			return;
-		}
-
 		setIsTransferComplete(true);
 		log('💯 Download Complete 💯');
 		process.exit(0);

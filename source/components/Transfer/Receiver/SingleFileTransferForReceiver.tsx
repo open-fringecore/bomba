@@ -16,7 +16,7 @@ import {
 	SingleTransferFileInfo,
 } from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
-import {$receiverTransferProgress} from '@/stores/fileHandlerStore.js';
+import {$receiverTransferProgress} from '@/stores/receiverfileHandlerStore.js';
 import {$baseInfo} from '@/stores/baseStore.js';
 import {spinners} from '@/components/Misc/Spinner.js';
 

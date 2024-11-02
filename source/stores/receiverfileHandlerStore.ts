@@ -15,7 +15,7 @@ export const $currTransfer = deepMap<CurrTransfer>();
 export const $receiverTotalDownload = atom(0);
 export const $receiverTransferProgress = map<ReceiverTransferProgress>();
 
-export const initTransferInfo = (
+export const initReceiverTransferInfo = (
 	peerInfo: TransferPeerInfo,
 	totalFiles: number,
 	sendingFiles: Files,

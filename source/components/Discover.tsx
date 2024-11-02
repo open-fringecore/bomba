@@ -4,7 +4,10 @@ import {useStore} from '@nanostores/react';
 import {$baseInfo} from '@/stores/baseStore.js';
 import {$connectedPeers} from '@/stores/peersStore.js';
 import PeerList from '@/components/PeerList.js';
-import {$peersFiles, initTransferInfo} from '@/stores/fileHandlerStore.js';
+import {
+	$peersFiles,
+	initReceiverTransferInfo,
+} from '@/stores/receiverfileHandlerStore.js';
 import {log} from '@/functions/log.js';
 import {fetchInitSenderTransfer} from '@/functions/fetch.js';
 import WaveAnimation from '@/components/Misc/WaveAnimation.js';
@@ -47,7 +50,7 @@ const Discover = () => {
 		}
 
 		const totalFiles = Object.entries(selectedPeerFiles).length;
-		initTransferInfo(
+		initReceiverTransferInfo(
 			{
 				peerID: peerID,
 				peerIP: selectedPeer.ip,

@@ -6,7 +6,7 @@ import {
 	removeDiscoveredPeer,
 } from '@/stores/peersStore.js';
 import {useStore} from '@nanostores/react';
-import {$peersFiles} from '@/stores/fileHandlerStore.js';
+import {$peersFiles} from '@/stores/receiverfileHandlerStore.js';
 import {
 	DiscoveredPeerType,
 	Files,

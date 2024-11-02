@@ -8,14 +8,12 @@ import {SEND_PATH} from '@/functions/variables.js';
 import {Files, SendingFiles, TransferStates} from '@/types/storeTypes.js';
 // import {default as tarFs} from 'tar-fs';
 import {c} from 'tar';
-import {updateTotalDownloaded} from '@/stores/fileHandlerStore.js';
+import {updateTotalDownloaded} from '@/stores/receiverfileHandlerStore.js';
 import {
 	initSenderTransfer,
-	updateOverallTransferredState,
-	updateSingleFileTransferredState,
-	updateOverallTransferErrorMsg,
-	updateTransferredAmount,
-	updateSingleFileTransferErrorMsg,
+	updateSenderTransferState,
+	updateSenderTransferProgress,
+	updateSenderTransferError,
 } from '@/stores/senderFileHandlerStore.js';
 import {$sendingFiles} from '@/stores/baseStore.js';
 
@@ -83,35 +81,9 @@ export const useHttpServer = (
 					return res.status(400).json({msg: 'transfer state required.'});
 				}
 
-				updateSingleFileTransferredState(peerID, fileID, state);
+				updateSenderTransferState(peerID, fileID, state);
 				if (error) {
-					updateSingleFileTransferErrorMsg(peerID, fileID, error);
-				}
-
-				res.json({
-					msg: 'transfer state change acknowledged.',
-				});
-			} catch (error) {
-				logError(error);
-			}
-		});
-
-		app.get('/update-overall-sender-transfer-state/*/*', (req, res) => {
-			try {
-				const peerID = (req.params as any)['0'];
-				const state: TransferStates = (req.params as any)['1'];
-				const error = req.query['error'] as string;
-
-				if (!peerID) {
-					return res.status(400).json({msg: 'receiver peerID required.'});
-				}
-				if (!state) {
-					return res.status(400).json({msg: 'transfer state required.'});
-				}
-
-				updateOverallTransferredState(peerID, state);
-				if (error) {
-					updateOverallTransferErrorMsg(peerID, error);
+					updateSenderTransferError(peerID, fileID, error);
 				}
 
 				res.json({
@@ -145,8 +117,7 @@ export const useHttpServer = (
 					return res.status(404).json({msg: 'File not found!', filePath});
 				}
 
-				updateSingleFileTransferredState(peerID, fileID, 'TRANSFERRING');
-				updateOverallTransferredState(peerID, 'TRANSFERRING');
+				updateSenderTransferState(peerID, fileID, 'TRANSFERRING');
 
 				// const stat = fs.statSync(filePath);
 				// const fileSize = stat.size;
@@ -161,12 +132,12 @@ export const useHttpServer = (
 				fileStream.pipe(res);
 
 				fileStream.on('data', chunk => {
-					updateTransferredAmount(peerID, fileID, chunk.length);
+					updateSenderTransferProgress(peerID, fileID, chunk.length);
 				});
 
 				fileStream.on('close', () => {});
 				fileStream.on('end', () => {
-					updateSingleFileTransferredState(peerID, fileID, 'TRANSFERRED');
+					updateSenderTransferState(peerID, fileID, 'TRANSFERRED');
 				});
 
 				fileStream.on('error', (err: any) => {
@@ -209,8 +180,7 @@ export const useHttpServer = (
 					return res.status(404).json({msg: 'Folder not found!', folderPath});
 				}
 
-				updateSingleFileTransferredState(peerID, fileID, 'TRANSFERRING');
-				updateOverallTransferredState(peerID, 'TRANSFERRING');
+				updateSenderTransferState(peerID, fileID, 'TRANSFERRING');
 
 				// const folderSize = getFolderSize(folderPath);
 
@@ -235,7 +205,7 @@ export const useHttpServer = (
 				});
 
 				pack.on('end', () => {
-					updateSingleFileTransferredState(peerID, fileID, 'TRANSFERRED');
+					updateSenderTransferState(peerID, fileID, 'TRANSFERRED');
 				});
 
 				res.on('error', err => {
@@ -245,7 +215,7 @@ export const useHttpServer = (
 				res.on('close', () => {});
 
 				pack.on('data', chunk => {
-					updateTransferredAmount(peerID, fileID, chunk.length);
+					updateSenderTransferProgress(peerID, fileID, chunk.length);
 				});
 
 				pack.pipe(res);

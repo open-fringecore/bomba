@@ -20,20 +20,6 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 		);
 	}, [peerTransferInfo.totalTransferred, peerTransferInfo.totalFileSize]);
 
-	const defaultComponent = <Text dimColor={true}>Sending Files...</Text>;
-	const stateWiseComponent = {
-		DEFAULT: defaultComponent,
-		TRANSFERRING: defaultComponent,
-		TRANSFERRED: defaultComponent,
-		HASH_CHECKING: <Text dimColor={true}>Hash Checking...</Text>,
-		SUCCESS: <Text dimColor={true}>Files Transfer Complete 🎉</Text>,
-		ERROR: (
-			<Text color={'red'}>
-				{peerTransferInfo.errorMsg ?? 'Transfer Failed'} 😥
-			</Text>
-		),
-	};
-
 	const longestNameLength = useMemo(() => {
 		const longestLength =
 			findLongestString(
@@ -55,13 +41,11 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 					{' '}
 					{peerTransferInfo.peerInfo.peerName}{' '}
 				</Text>
-				{['TRANSFERRING', 'TRANSFERRED'].includes(peerTransferInfo.state) && (
-					<SendArrowAnimation />
-				)}
+				<SendArrowAnimation />
 			</Box>
 
 			<Box>
-				{stateWiseComponent[peerTransferInfo.state]}
+				<Text dimColor={true}>Sending Files...</Text>
 				<Text dimColor={true}>
 					⠀({formatBytes(peerTransferInfo.totalTransferred)}⠀/⠀
 					{formatBytes(peerTransferInfo.totalFileSize)})

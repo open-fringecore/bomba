@@ -11,7 +11,7 @@ import {deepMap} from 'nanostores';
 
 export const $senderTransferInfo = deepMap<SenderTransferInfo>();
 
-export const updateTransferredAmount = (
+export const updateSenderTransferProgress = (
 	peerID: string,
 	fileID: string,
 	transferSize: number,
@@ -33,32 +33,20 @@ export const updateTransferredAmount = (
 	);
 };
 
-export const updateSingleFileTransferredState = (
+export const updateSenderTransferState = (
 	peerID: string,
 	fileID: string,
 	state: TransferStates,
 ) => {
 	$senderTransferInfo.setKey(`${peerID}.files.${fileID}.state`, state);
 };
-export const updateOverallTransferredState = (
-	peerID: string,
-	state: TransferStates,
-) => {
-	$senderTransferInfo.setKey(`${peerID}.state`, state);
-};
 
-export const updateSingleFileTransferErrorMsg = (
+export const updateSenderTransferError = (
 	peerID: string,
 	fileID: string,
 	error: string,
 ) => {
 	$senderTransferInfo.setKey(`${peerID}.files.${fileID}.errorMsg`, error);
-};
-export const updateOverallTransferErrorMsg = (
-	peerID: string,
-	error: string,
-) => {
-	$senderTransferInfo.setKey(`${peerID}.errorMsg`, error);
 };
 
 export const addToSenderTransferInfo = (
@@ -105,7 +93,6 @@ export const initSenderTransfer = (peerID: string) => {
 
 	// TODO:: Return
 	const newTransferInfo: SenderSinglePeerTransferInfo = {
-		state: 'DEFAULT',
 		peerInfo: {
 			peerID: peerID,
 			peerIP: selectedPeer.ip,

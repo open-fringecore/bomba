@@ -3,7 +3,7 @@ import {Box, Text} from 'ink';
 import Discover from '@/components/Discover.js';
 import {useStore} from '@nanostores/react';
 import {$action, $baseInfo, $sendingFiles} from '@/stores/baseStore.js';
-import {$currTransfer} from '@/stores/fileHandlerStore.js';
+import {$currTransfer} from '@/stores/receiverfileHandlerStore.js';
 import FileTransferForReceiver from '@/components/Transfer/Receiver/FileTransferForReceiver.js';
 import FileTransferForSender from '@/components/Transfer/Sender/FileTransferForSender.js';
 import {useUdpServer} from '@/functions/udpServer.js';

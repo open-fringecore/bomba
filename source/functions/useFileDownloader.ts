@@ -5,7 +5,7 @@ import {
 	updateTransferFileErrorMsg,
 	updateTransferFileState,
 	updateTransferProgress,
-} from '@/stores/fileHandlerStore.js';
+} from '@/stores/receiverfileHandlerStore.js';
 import {RECEIVE_PATH, SEND_PATH} from '@/functions/variables.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
 import readlineSync from 'readline-sync';
@@ -17,10 +17,7 @@ import {promisify} from 'util';
 import {ReadableStream} from 'stream/web';
 // import {default as tarFs} from 'tar-fs';
 import {x as extract} from 'tar';
-import {
-	fetchUpdateOverallSenderTransferState,
-	fetchUpdateSingleFileSenderTransferState,
-} from '@/functions/fetch.js';
+import {fetchUpdateSingleFileSenderTransferState} from '@/functions/fetch.js';
 
 const pipelineAsync = promisify(pipeline);
 
@@ -179,12 +176,6 @@ export const useFileDownloader = async (
 			PEER_IP,
 			PEER_TCP_PORT,
 			FILE_ID,
-			'ERROR',
-			errMsg,
-		);
-		await fetchUpdateOverallSenderTransferState(
-			PEER_IP,
-			PEER_TCP_PORT,
 			'ERROR',
 			errMsg,
 		);

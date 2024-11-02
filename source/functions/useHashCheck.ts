@@ -4,13 +4,10 @@ import fs from 'fs';
 import {
 	updateTransferFileErrorMsg,
 	updateTransferFileState,
-} from '@/stores/fileHandlerStore.js';
+} from '@/stores/receiverfileHandlerStore.js';
 import {RECEIVE_PATH} from '@/functions/variables.js';
 import {log, logError} from '@/functions/log.js';
-import {
-	fetchUpdateOverallSenderTransferState,
-	fetchUpdateSingleFileSenderTransferState,
-} from '@/functions/fetch.js';
+import {fetchUpdateSingleFileSenderTransferState} from '@/functions/fetch.js';
 
 export const hashFile = async (filePath: string) => {
 	return new Promise((resolve, reject) => {
@@ -115,12 +112,6 @@ export const useHashCheck = async (
 			PEER_IP,
 			PEER_TCP_PORT,
 			FILE_ID,
-			'ERROR',
-			errMsg,
-		);
-		await fetchUpdateOverallSenderTransferState(
-			PEER_IP,
-			PEER_TCP_PORT,
 			'ERROR',
 			errMsg,
 		);
