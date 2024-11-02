@@ -11,7 +11,7 @@ type PropType = {
 	peerTransferInfo: SenderSinglePeerTransferInfo;
 };
 
-const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
+const SenderSinglePeerTransfer = ({peerTransferInfo}: PropType) => {
 	const longestNameLength = useMemo(() => {
 		const longestLength =
 			findLongestString(
@@ -86,4 +86,4 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 	);
 };
 
-export default SinglePeerTransferForSender;
+export default SenderSinglePeerTransfer;

@@ -3,7 +3,7 @@ import {Box, Text} from 'ink';
 import {SingleTransferFileInfo} from '@/types/storeTypes.js';
 import CustomTask from '@/components/Misc/CustomTask.js';
 import {adjustStringLength, formatBytes} from '@/functions/helper.js';
-import {TaskStates} from '@/components/Transfer/Receiver/SingleFileTransferForReceiver.js';
+import {TaskStates} from '@/components/Transfer/Receiver/ReceiverSingleFileTransfer.js';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 import {spinners} from '@/components/Misc/Spinner.js';
 

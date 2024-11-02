@@ -4,8 +4,8 @@ import Discover from '@/components/Discover.js';
 import {useStore} from '@nanostores/react';
 import {$action, $baseInfo, $sendingFiles} from '@/stores/baseStore.js';
 import {$receiverTransferInfo} from '@/stores/receiverfileHandlerStore.js';
-import FileTransferForReceiver from '@/components/Transfer/Receiver/FileTransferForReceiver.js';
-import FileTransferForSender from '@/components/Transfer/Sender/FileTransferForSender.js';
+import ReceiverFileTransfer from '@/components/Transfer/Receiver/ReceiverFileTransfer.js';
+import SenderFileTransfer from '@/components/Transfer/Sender/SenderFileTransfer.js';
 import {useUdpServer} from '@/functions/udpServer.js';
 import {useHttpServer} from '@/functions/httpServer.js';
 import {isObjectEmpty} from '@/functions/helper.js';
@@ -55,9 +55,9 @@ export default function MainApp({}: TProps) {
 		<Box flexDirection="column">
 			{isTransferring ? (
 				action == 'SEND' ? (
-					<FileTransferForSender />
+					<SenderFileTransfer />
 				) : (
-					<FileTransferForReceiver />
+					<ReceiverFileTransfer />
 				)
 			) : (
 				<Discover />

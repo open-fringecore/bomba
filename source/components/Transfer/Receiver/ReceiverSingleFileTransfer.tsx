@@ -44,7 +44,7 @@ const taskState: TaskStates = {
 	SUCCESS: 'success',
 };
 
-const SingleFileTransferForReceiver: React.FC<TProps> = ({
+const ReceiverSingleFileTransfer: React.FC<TProps> = ({
 	index,
 	downloadIndex,
 	fileId,
@@ -101,4 +101,4 @@ const SingleFileTransferForReceiver: React.FC<TProps> = ({
 	);
 };
 
-export default SingleFileTransferForReceiver;
+export default ReceiverSingleFileTransfer;
