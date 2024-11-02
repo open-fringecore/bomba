@@ -58,9 +58,6 @@ export type SingleTransferFileInfo = {
 export type TransferFiles = {
 	[fileID: string]: SingleTransferFileInfo;
 };
-export type ReceiverTransferProgress = {
-	[fileID: string]: number;
-};
 export type TransferPeerInfo = {
 	peerID: string;
 	peerIP: string;

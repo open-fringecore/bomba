@@ -16,9 +16,9 @@ import {
 	SingleTransferFileInfo,
 } from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
-import {$receiverTransferProgress} from '@/stores/receiverfileHandlerStore.js';
 import {$baseInfo} from '@/stores/baseStore.js';
 import {spinners} from '@/components/Misc/Spinner.js';
+import SingleFileTransfer from '@/components/Transfer/SingleFileTransfer.js';
 
 type TaskStatus = 'pending' | 'success' | 'error' | 'loading';
 export type TaskStates = Record<TransferStates, TaskStatus>;
@@ -55,7 +55,6 @@ const SingleFileTransferForReceiver: React.FC<TProps> = ({
 	onSingleDownloadComplete,
 	longestNameLength,
 }) => {
-	const receiverTransferProgress = useStore($receiverTransferProgress);
 	const baseInfo = useStore($baseInfo);
 
 	const downloadAttempted = useRef(false);
@@ -95,26 +94,9 @@ const SingleFileTransferForReceiver: React.FC<TProps> = ({
 		}
 	}, [downloadIndex, index, startDownload]);
 
-	const label = useMemo(() => {
-		const fileName = adjustStringLength(file.fileName, longestNameLength);
-		const formattedSize = formatBytes(file.totalSize);
-		return `⠀${fileName} - ${formattedSize}`;
-	}, [file, longestNameLength]);
-
 	return (
 		<Box>
-			{isStartedTransferring && !isTransferComplete && (
-				<ProgressBar percent={receiverTransferProgress[fileId] ?? 0} />
-			)}
-			<CustomTask
-				frames={
-					file.state == 'HASH_CHECKING' ? spinners.dotsMore : spinners.dots
-				}
-				color={file.state == 'HASH_CHECKING' ? 'blue' : undefined}
-				label={label}
-				state={taskState[file.state]}
-			/>
-			{file.errorMsg && <Text color="red">⠀{file.errorMsg}</Text>}
+			<SingleFileTransfer file={file} longestNameLength={longestNameLength} />
 		</Box>
 	);
 };

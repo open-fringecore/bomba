@@ -4,7 +4,7 @@ import {
 	updateTotalDownloaded,
 	updateTransferFileErrorMsg,
 	updateTransferFileState,
-	updateTransferProgress,
+	updateReceiverTransferProgress,
 } from '@/stores/receiverfileHandlerStore.js';
 import {RECEIVE_PATH, SEND_PATH} from '@/functions/variables.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
@@ -132,21 +132,12 @@ export const useFileDownloader = async (
 		// const totalLength = parseInt(res.headers.get('content-length') || '0', 10);
 		const totalLength = FILESIZE;
 
-		let downloaded = 0;
-		let progress = 0;
-
 		const reader = Readable.fromWeb(res.body! as ReadableStream);
 		const writer = fs.createWriteStream(outputPath);
 
 		reader.on('data', chunk => {
-			downloaded += chunk.length;
-			const progress = Math.min(
-				parseFloat(((downloaded / totalLength) * 100).toFixed(2)),
-				100,
-			);
-
 			updateTotalDownloaded(chunk.length);
-			updateTransferProgress(FILE_ID, progress);
+			updateReceiverTransferProgress(FILE_ID, chunk.length);
 
 			updateTransferFileState(FILE_ID, 'TRANSFERRING');
 		});

@@ -21,7 +21,7 @@ const taskState: TaskStates = {
 	SUCCESS: 'success',
 };
 
-const SingleFileTransferForSender = ({file, longestNameLength}: PropType) => {
+const SingleFileTransfer = ({file, longestNameLength}: PropType) => {
 	const label = useMemo(() => {
 		const fileName = adjustStringLength(file.fileName, longestNameLength);
 		const formattedSize = formatBytes(file.totalSize);
@@ -35,6 +35,7 @@ const SingleFileTransferForSender = ({file, longestNameLength}: PropType) => {
 
 	return (
 		<Box>
+			{/* TODO:: Hide ProgressBar while not transferring */}
 			<ProgressBar percent={progress} />
 			<CustomTask
 				frames={
@@ -49,4 +50,4 @@ const SingleFileTransferForSender = ({file, longestNameLength}: PropType) => {
 	);
 };
 
-export default SingleFileTransferForSender;
+export default SingleFileTransfer;

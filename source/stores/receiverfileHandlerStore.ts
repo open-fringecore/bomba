@@ -2,7 +2,6 @@ import {
 	CurrTransfer,
 	TransferFiles,
 	TransferPeerInfo,
-	ReceiverTransferProgress,
 	Files,
 	PeersFiles,
 	SingleTransferFileInfo,
@@ -13,7 +12,6 @@ import {atom, deepMap, map} from 'nanostores';
 export const $peersFiles = deepMap<PeersFiles>({});
 export const $currTransfer = deepMap<CurrTransfer>();
 export const $receiverTotalDownload = atom(0);
-export const $receiverTransferProgress = map<ReceiverTransferProgress>();
 
 export const initReceiverTransferInfo = (
 	peerInfo: TransferPeerInfo,
@@ -52,8 +50,17 @@ export const updateTotalDownloaded = (downloaded: number) => {
 	const prev = $receiverTotalDownload.get();
 	$receiverTotalDownload.set(prev + downloaded);
 };
-export const updateTransferProgress = (fileID: string, progress: number) => {
-	$receiverTransferProgress.setKey(fileID, progress);
+
+export const updateReceiverTransferProgress = (
+	fileID: string,
+	transferSize: number,
+) => {
+	const prevTransferred =
+		$currTransfer.get().files[fileID]?.totalTransferred ?? 0;
+	$currTransfer.setKey(
+		`files.${fileID}.totalTransferred`,
+		prevTransferred + transferSize,
+	);
 };
 
 export const updateTransferFileState = (

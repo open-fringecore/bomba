@@ -5,7 +5,7 @@ import {useStore} from '@nanostores/react';
 import {findLongestString, formatBytes} from '@/functions/helper.js';
 import ProgressBar from '@/components/Misc/ProgressBar.js';
 import {SenderSinglePeerTransferInfo} from '@/types/storeTypes.js';
-import SingleFileTransferForSender from '@/components/Transfer/Sender/SingleFileTransferForSender.js';
+import SingleFileTransfer from '@/components/Transfer/SingleFileTransfer.js';
 
 type PropType = {
 	peerTransferInfo: SenderSinglePeerTransferInfo;
@@ -77,7 +77,7 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 			</Box>
 
 			{Object.entries(peerTransferInfo.files).map(([key, value]) => (
-				<SingleFileTransferForSender
+				<SingleFileTransfer
 					key={key}
 					file={value}
 					longestNameLength={longestNameLength}
