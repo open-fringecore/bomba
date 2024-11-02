@@ -13,7 +13,6 @@ import {FileTypes} from '@/types/storeTypes.js';
 import {pipeline, Readable} from 'stream';
 import {promisify} from 'util';
 import {ReadableStream} from 'stream/web';
-// import {default as tarFs} from 'tar-fs';
 import {x as extract} from 'tar';
 import {fetchUpdateSenderTransferState} from '@/functions/fetch.js';
 

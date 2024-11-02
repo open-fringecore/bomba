@@ -6,7 +6,6 @@ import {hashFile, hashFolder} from '@/functions/useHashCheck.js';
 import {log, logError} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {Files, SendingFiles, TransferStates} from '@/types/storeTypes.js';
-// import {default as tarFs} from 'tar-fs';
 import {c} from 'tar';
 import {
 	initSenderTransfer,
@@ -190,7 +189,6 @@ export const useHttpServer = (
 					`attachment; filename=${foldername}.tar`,
 				);
 
-				// const pack = tarFs.pack(folderPath);
 				const pack = c(
 					{
 						C: folderPath,
