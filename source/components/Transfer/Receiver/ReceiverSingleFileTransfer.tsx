@@ -24,8 +24,6 @@ type TProps = {
 	fileId: string;
 	file: SingleTransferFileInfo;
 	peerInfo: TransferPeerInfo;
-	isStartedTransferring: boolean;
-	isTransferComplete: boolean;
 	onSingleDownloadComplete: () => void;
 	longestNameLength: number;
 };
@@ -45,8 +43,6 @@ const ReceiverSingleFileTransfer: React.FC<TProps> = ({
 	fileId,
 	file,
 	peerInfo,
-	isStartedTransferring,
-	isTransferComplete,
 	onSingleDownloadComplete,
 	longestNameLength,
 }) => {

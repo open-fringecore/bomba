@@ -86,8 +86,6 @@ const ReceiverFileTransferFor = ({}: TProps) => {
 					fileId={key}
 					file={value}
 					peerInfo={receiverTransferInfo.peerInfo}
-					isStartedTransferring={isStartedTransferring}
-					isTransferComplete={isTransferComplete}
 					onSingleDownloadComplete={onSingleDownloadComplete}
 					longestNameLength={longestNameLength}
 				/>
