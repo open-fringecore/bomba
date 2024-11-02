@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import SelectInput from 'ink-select-input';
 import {Box, Text} from 'ink';
 import {useStore} from '@nanostores/react';
@@ -47,9 +47,9 @@ const PeerList = ({peers, onSelect}: PropsType) => {
 		[onlySenders, peersFiles],
 	);
 
-	const handleSelect = useCallback((item: ItemType) => {
+	const handleSelect = (item: ItemType) => {
 		if (item) onSelect(item.value);
-	}, []);
+	};
 
 	const isIAmSender = useMemo(
 		() => JSON.stringify(sendingFiles) == '{}',

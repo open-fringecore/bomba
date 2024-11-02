@@ -35,7 +35,7 @@ const Discover = () => {
 			return;
 		}
 		if (!selectedPeerFiles) {
-			log('No sending files found');
+			console.log('No sending files found');
 			return;
 		}
 
