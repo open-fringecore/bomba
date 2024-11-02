@@ -59,13 +59,16 @@ const PeerList = ({peers, onSelect}: PropsType) => {
 	return (
 		<Box flexDirection="column" marginTop={1} marginLeft={1}>
 			{items.length > 0 && (
-				<Box marginBottom={1}>
+				<Box flexDirection="column" marginBottom={1}>
 					<Text>
 						Press{' '}
 						<Text backgroundColor={isIAmSender ? 'green' : '#A855F7'}>
 							⠀↩ Enter⠀
 						</Text>{' '}
 						to select peer
+					</Text>
+					<Text>
+						Only receiver can select file for now. We are still working on it.
 					</Text>
 				</Box>
 			)}

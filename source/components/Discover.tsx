@@ -11,6 +11,7 @@ import {
 import {log} from '@/functions/log.js';
 import {fetchInitSenderTransfer} from '@/functions/fetch.js';
 import WaveAnimation from '@/components/Misc/WaveAnimation.js';
+import {isObjectEmpty} from '@/functions/helper.js';
 
 const Discover = () => {
 	const baseInfo = useStore($baseInfo);
@@ -34,7 +35,7 @@ const Discover = () => {
 			log('Selected Peer not found');
 			return;
 		}
-		if (!selectedPeerFiles) {
+		if (!selectedPeerFiles || isObjectEmpty(selectedPeerFiles)) {
 			console.log('No sending files found');
 			return;
 		}
