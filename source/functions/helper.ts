@@ -122,7 +122,9 @@ export const adjustStringLength = (str: string, length: number): string => {
 	if (str.length < length) {
 		return str.padEnd(length, ' ');
 	} else if (str.length > length) {
-		return '...' + str.slice(-length + 3);
+		const charBeforeDots = Math.floor(length / 2) - 1;
+		const charAfterDots = length - (charBeforeDots + 3);
+		return str.slice(0, charBeforeDots) + '...' + str.slice(-charAfterDots);
 	} else {
 		return str;
 	}
