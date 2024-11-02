@@ -3,20 +3,20 @@ import {Box, Text, useApp} from 'ink';
 import {log} from '@/functions/log.js';
 import SingleFileTransferForReceiver from '@/components/Transfer/Receiver/SingleFileTransferForReceiver.js';
 import {findLongestString, formatBytes} from '@/functions/helper.js';
-import {CurrTransfer} from '@/types/storeTypes.js';
+import {ReceiverTransferInfo} from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
-import {$currTransfer} from '@/stores/receiverfileHandlerStore.js';
+import {$receiverTransferInfo} from '@/stores/receiverfileHandlerStore.js';
 import {$baseInfo} from '@/stores/baseStore.js';
 
 type TProps = {};
 const FileTransferForReceiver = ({}: TProps) => {
-	const currTransfer = useStore($currTransfer);
+	const receiverTransferInfo = useStore($receiverTransferInfo);
 
 	const [downloadIndex, setDownloadIndex] = useState(-1);
 	const [isStartedTransferring, setIsStartedTransferring] = useState(false);
 	const [isTransferComplete, setIsTransferComplete] = useState(false);
 
-	const totalFiles = Object.keys(currTransfer.files)?.length;
+	const totalFiles = Object.keys(receiverTransferInfo.files)?.length;
 
 	const endTransfer = async () => {
 		setIsTransferComplete(true);
@@ -35,18 +35,18 @@ const FileTransferForReceiver = ({}: TProps) => {
 	const longestNameLength = useMemo(() => {
 		const longestLength =
 			findLongestString(
-				Object.values(currTransfer.files).map(file => file.fileName),
+				Object.values(receiverTransferInfo.files).map(file => file.fileName),
 			)?.length ?? Infinity;
 		return Math.min(longestLength, 30);
-	}, [currTransfer.files]);
+	}, [receiverTransferInfo.files]);
 
 	const sumTotalTransferred = useMemo(
 		() =>
-			Object.values(currTransfer.files).reduce(
+			Object.values(receiverTransferInfo.files).reduce(
 				(sum, file) => sum + file.totalTransferred,
 				0,
 			),
-		[JSON.stringify(currTransfer.files)],
+		[JSON.stringify(receiverTransferInfo.files)],
 	);
 
 	useEffect(() => {
@@ -66,8 +66,7 @@ const FileTransferForReceiver = ({}: TProps) => {
 		>
 			<Box flexDirection="column">
 				<Text backgroundColor="green" color="white" bold>
-					{' '}
-					{currTransfer.peerInfo.peerName}{' '}
+					⠀{receiverTransferInfo.peerInfo.peerName}⠀
 				</Text>
 			</Box>
 
@@ -78,17 +77,17 @@ const FileTransferForReceiver = ({}: TProps) => {
 					? 'Receiving Files...'
 					: 'Files'}
 				⠀({formatBytes(sumTotalTransferred)}⠀/⠀
-				{formatBytes(currTransfer.totalFileSize)})
+				{formatBytes(receiverTransferInfo.totalFileSize)})
 			</Text>
 
-			{Object.entries(currTransfer.files).map(([key, value], index) => (
+			{Object.entries(receiverTransferInfo.files).map(([key, value], index) => (
 				<SingleFileTransferForReceiver
 					key={key}
 					index={index}
 					downloadIndex={downloadIndex}
 					fileId={key}
 					file={value}
-					peerInfo={currTransfer.peerInfo}
+					peerInfo={receiverTransferInfo.peerInfo}
 					isStartedTransferring={isStartedTransferring}
 					isTransferComplete={isTransferComplete}
 					onSingleDownloadComplete={onSingleDownloadComplete}

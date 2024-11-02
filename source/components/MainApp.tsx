@@ -3,7 +3,7 @@ import {Box, Text} from 'ink';
 import Discover from '@/components/Discover.js';
 import {useStore} from '@nanostores/react';
 import {$action, $baseInfo, $sendingFiles} from '@/stores/baseStore.js';
-import {$currTransfer} from '@/stores/receiverfileHandlerStore.js';
+import {$receiverTransferInfo} from '@/stores/receiverfileHandlerStore.js';
 import FileTransferForReceiver from '@/components/Transfer/Receiver/FileTransferForReceiver.js';
 import FileTransferForSender from '@/components/Transfer/Sender/FileTransferForSender.js';
 import {useUdpServer} from '@/functions/udpServer.js';
@@ -17,7 +17,7 @@ type TProps = {};
 export default function MainApp({}: TProps) {
 	const baseInfo = useStore($baseInfo);
 	const action = useStore($action);
-	const currTransfer = useStore($currTransfer);
+	const receiverTransferInfo = useStore($receiverTransferInfo);
 	const senderTransferInfo = useStore($senderTransferInfo);
 	const sendingFiles = useStore($sendingFiles);
 
@@ -49,7 +49,7 @@ export default function MainApp({}: TProps) {
 	useActivePeers();
 
 	const isTransferring =
-		!isObjectEmpty(currTransfer) || !isObjectEmpty(senderTransferInfo);
+		!isObjectEmpty(receiverTransferInfo) || !isObjectEmpty(senderTransferInfo);
 
 	return (
 		<Box flexDirection="column">

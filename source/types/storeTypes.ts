@@ -66,7 +66,7 @@ export type TransferPeerInfo = {
 };
 
 // ! ReceiverFileHandlerStore
-export type CurrTransfer = {
+export type ReceiverTransferInfo = {
 	peerInfo: TransferPeerInfo;
 	totalFiles: number;
 	totalFileSize: number;

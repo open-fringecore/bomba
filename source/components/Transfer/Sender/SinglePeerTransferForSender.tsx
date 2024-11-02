@@ -62,8 +62,7 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 		>
 			<Box>
 				<Text backgroundColor="green" color="white" bold>
-					{' '}
-					{peerTransferInfo.peerInfo.peerName}{' '}
+					⠀{peerTransferInfo.peerInfo.peerName}⠀
 				</Text>
 				{overallState == 'IN_PROGRESS' && <SendArrowAnimation />}
 			</Box>

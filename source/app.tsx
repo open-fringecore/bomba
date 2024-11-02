@@ -8,7 +8,6 @@ import {useStore} from '@nanostores/react';
 import {$action, $baseInfo} from '@/stores/baseStore.js';
 import {hasNullValue} from '@/functions/helper.js';
 import {useCommands} from '@/functions/commands.js';
-import {$currTransfer} from '@/stores/receiverfileHandlerStore.js';
 import MainApp from '@/components/MainApp.js';
 
 type TProps = {

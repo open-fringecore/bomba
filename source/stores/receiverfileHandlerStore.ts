@@ -1,5 +1,5 @@
 import {
-	CurrTransfer,
+	ReceiverTransferInfo,
 	TransferFiles,
 	TransferPeerInfo,
 	Files,
@@ -10,7 +10,7 @@ import {
 import {atom, deepMap, map} from 'nanostores';
 
 export const $peersFiles = deepMap<PeersFiles>({});
-export const $currTransfer = deepMap<CurrTransfer>();
+export const $receiverTransferInfo = deepMap<ReceiverTransferInfo>();
 
 export const initReceiverTransferInfo = (
 	peerInfo: TransferPeerInfo,
@@ -37,7 +37,7 @@ export const initReceiverTransferInfo = (
 	);
 
 	// TODO:: Return
-	$currTransfer.set({
+	$receiverTransferInfo.set({
 		peerInfo: peerInfo,
 		totalFiles: totalFiles,
 		totalFileSize: totalFileSize,
@@ -50,8 +50,8 @@ export const updateReceiverTransferProgress = (
 	transferSize: number,
 ) => {
 	const prevTransferred =
-		$currTransfer.get().files[fileID]?.totalTransferred ?? 0;
-	$currTransfer.setKey(
+		$receiverTransferInfo.get().files[fileID]?.totalTransferred ?? 0;
+	$receiverTransferInfo.setKey(
 		`files.${fileID}.totalTransferred`,
 		prevTransferred + transferSize,
 	);
@@ -61,9 +61,9 @@ export const updateTransferFileState = (
 	fileID: string,
 	state: TransferStates,
 ) => {
-	$currTransfer.setKey(`files.${fileID}.state`, state);
+	$receiverTransferInfo.setKey(`files.${fileID}.state`, state);
 };
 
 export const updateTransferFileErrorMsg = (fileID: string, error: string) => {
-	$currTransfer.setKey(`files.${fileID}.errorMsg`, error);
+	$receiverTransferInfo.setKey(`files.${fileID}.errorMsg`, error);
 };
