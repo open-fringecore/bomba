@@ -16,20 +16,11 @@ export const updateSenderTransferProgress = (
 	fileID: string,
 	transferSize: number,
 ) => {
-	// ! Update Full transfer progress
-	const prevOverallTransferred =
-		$senderTransferInfo.get()[peerID]?.totalTransferred ?? 0;
-	$senderTransferInfo.setKey(
-		`${peerID}.totalTransferred`,
-		prevOverallTransferred + transferSize,
-	);
-
-	// ! Update Progress for single file
-	const prevSingleFileTransferred =
+	const prevTransferred =
 		$senderTransferInfo.get()[peerID]?.files[fileID]?.totalTransferred ?? 0;
 	$senderTransferInfo.setKey(
 		`${peerID}.files.${fileID}.totalTransferred`,
-		prevSingleFileTransferred + transferSize,
+		prevTransferred + transferSize,
 	);
 };
 
@@ -101,7 +92,6 @@ export const initSenderTransfer = (peerID: string) => {
 		},
 		totalFiles: totalFiles,
 		totalFileSize: totalFileSize,
-		totalTransferred: 0,
 		files: files,
 	};
 

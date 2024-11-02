@@ -12,14 +12,6 @@ type PropType = {
 };
 
 const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
-	const totalProgress = useMemo(() => {
-		return Math.min(
-			(peerTransferInfo.totalTransferred / peerTransferInfo.totalFileSize) *
-				100,
-			100,
-		);
-	}, [peerTransferInfo.totalTransferred, peerTransferInfo.totalFileSize]);
-
 	const longestNameLength = useMemo(() => {
 		const longestLength =
 			findLongestString(
@@ -27,6 +19,38 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 			)?.length ?? Infinity;
 		return Math.min(longestLength, 30);
 	}, [peerTransferInfo.files]);
+
+	const sumTotalTransferred = useMemo(
+		() =>
+			Object.values(peerTransferInfo.files).reduce(
+				(sum, file) => sum + file.totalTransferred,
+				0,
+			),
+		[JSON.stringify(peerTransferInfo.files)],
+	);
+
+	const overallState = useMemo(() => {
+		const fileStates = Object.values(peerTransferInfo.files).map(
+			file => file.state,
+		);
+		if (fileStates.includes('ERROR')) {
+			return 'FAILED';
+		}
+
+		return fileStates.every(state => state === 'SUCCESS')
+			? 'COMPLETE'
+			: 'IN_PROGRESS';
+	}, [JSON.stringify(peerTransferInfo.files)]);
+
+	const stateMessageComponent = {
+		IN_PROGRESS: <Text dimColor={true}>Sending Files...</Text>,
+		COMPLETE: <Text dimColor={true}>Files Transfer Complete 🎉</Text>,
+		FAILED: (
+			<Text dimColor={true} color={'red'}>
+				Transfer Failed ✘
+			</Text>
+		),
+	};
 
 	return (
 		<Box
@@ -41,13 +65,13 @@ const SinglePeerTransferForSender = ({peerTransferInfo}: PropType) => {
 					{' '}
 					{peerTransferInfo.peerInfo.peerName}{' '}
 				</Text>
-				<SendArrowAnimation />
+				{overallState == 'IN_PROGRESS' && <SendArrowAnimation />}
 			</Box>
 
 			<Box>
-				<Text dimColor={true}>Sending Files...</Text>
+				{stateMessageComponent[overallState]}
 				<Text dimColor={true}>
-					⠀({formatBytes(peerTransferInfo.totalTransferred)}⠀/⠀
+					⠀({formatBytes(sumTotalTransferred)}⠀/⠀
 					{formatBytes(peerTransferInfo.totalFileSize)})
 				</Text>
 			</Box>

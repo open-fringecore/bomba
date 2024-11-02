@@ -88,7 +88,7 @@ export const useHashCheck = async (
 			? await hashFolder(outputPath)
 			: await hashFile(outputPath);
 
-		if (sendFileHash === receivedFileHash) {
+		if (sendFileHash == receivedFileHash) {
 			log('HASH MATCHED');
 			updateTransferFileState(FILE_ID, 'SUCCESS');
 			await fetchUpdateSingleFileSenderTransferState(

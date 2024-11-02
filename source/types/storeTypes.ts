@@ -55,11 +55,11 @@ export type SingleTransferFileInfo = {
 	totalSize: number;
 	totalTransferred: number;
 };
-export type ReceiverTransferProgress = {
-	[fileID: string]: number;
-};
 export type TransferFiles = {
 	[fileID: string]: SingleTransferFileInfo;
+};
+export type ReceiverTransferProgress = {
+	[fileID: string]: number;
 };
 export type TransferPeerInfo = {
 	peerID: string;
@@ -93,7 +93,6 @@ export type SenderSinglePeerTransferInfo = {
 	peerInfo: TransferPeerInfo;
 	totalFiles: number;
 	totalFileSize: number;
-	totalTransferred: number;
 	files: TransferFiles;
 };
 export type SenderTransferInfo = {
