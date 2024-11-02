@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Box, Text} from 'ink';
+import React from 'react';
+import {Box} from 'ink';
 import Discover from '@/components/Discover.js';
 import {useStore} from '@nanostores/react';
 import {$action, $baseInfo, $sendingFiles} from '@/stores/baseStore.js';

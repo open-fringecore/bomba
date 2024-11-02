@@ -1,6 +1,4 @@
 import * as fs from 'fs';
-import {fileURLToPath} from 'url';
-import {dirname, join} from 'path';
 import chalk from 'chalk';
 
 export const logError = (...args: any) => {

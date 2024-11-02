@@ -4,7 +4,7 @@ import {
 	DiscoveredPeersType,
 	DiscoveredPeerType,
 } from '@/types/storeTypes.js';
-import {atom, deepMap} from 'nanostores';
+import {deepMap} from 'nanostores';
 
 export const $discoveredPeers = deepMap<DiscoveredPeersType>({});
 

@@ -1,9 +1,7 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import SendArrowAnimation from '@/components/Misc/SendArrowAnimation.js';
 import {Box, Text} from 'ink';
-import {useStore} from '@nanostores/react';
 import {findLongestString, formatBytes} from '@/functions/helper.js';
-import ProgressBar from '@/components/Misc/ProgressBar.js';
 import {SenderSinglePeerTransferInfo} from '@/types/storeTypes.js';
 import SingleFileTransfer from '@/components/Transfer/SingleFileTransfer.js';
 

@@ -1,6 +1,5 @@
-import {useState, useEffect} from 'react';
+import {useEffect} from 'react';
 import * as os from 'os';
-import {useStore} from '@nanostores/react';
 import {$baseInfo} from '@/stores/baseStore.js';
 
 function getComputerName(): string {

@@ -49,7 +49,7 @@ export const useUdpServer = (
 
 		server.on('listening', function () {
 			const address = server.address();
-			// log(`Listening on ${address.address}:${address.port}`);
+			log(`Listening on ${address.address}:${address.port}`);
 			server.setBroadcast(true);
 
 			initialBroadcast();

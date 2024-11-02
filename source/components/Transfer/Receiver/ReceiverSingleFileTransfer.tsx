@@ -1,23 +1,18 @@
-import React, {useEffect, useMemo, useCallback, useRef} from 'react';
-import {Box, Text} from 'ink';
-import ProgressBar from '@/components/Misc/ProgressBar.js';
-import CustomTask from '@/components/Misc/CustomTask.js';
+import React, {useEffect, useCallback, useRef} from 'react';
+import {Box} from 'ink';
 import {logError} from '@/functions/log.js';
 import {
 	checkEnoughSpace,
 	useFileDownloader,
 } from '@/functions/useFileDownloader.js';
 import {useHashCheck} from '@/functions/useHashCheck.js';
-import {adjustStringLength, formatBytes} from '@/functions/helper.js';
 import {
 	TransferPeerInfo,
-	SingleFile,
 	TransferStates,
 	SingleTransferFileInfo,
 } from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
 import {$baseInfo} from '@/stores/baseStore.js';
-import {spinners} from '@/components/Misc/Spinner.js';
 import SingleFileTransfer from '@/components/Transfer/SingleFileTransfer.js';
 
 type TaskStatus = 'pending' | 'success' | 'error' | 'loading';
@@ -95,9 +90,9 @@ const ReceiverSingleFileTransfer: React.FC<TProps> = ({
 	}, [downloadIndex, index, startDownload]);
 
 	return (
-		<Box>
+		<>
 			<SingleFileTransfer file={file} longestNameLength={longestNameLength} />
-		</Box>
+		</>
 	);
 };
 

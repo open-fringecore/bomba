@@ -5,8 +5,7 @@ import {
 	updateTransferFileState,
 	updateReceiverTransferProgress,
 } from '@/stores/receiverfileHandlerStore.js';
-import {RECEIVE_PATH, SEND_PATH} from '@/functions/variables.js';
-import {useHashCheck} from '@/functions/useHashCheck.js';
+import {RECEIVE_PATH} from '@/functions/variables.js';
 import readlineSync from 'readline-sync';
 import {log, logError} from '@/functions/log.js';
 import {fileExists, getDiskSpace} from '@/functions/helper.js';

@@ -92,8 +92,8 @@ export const getDiskSpace = async (): Promise<number> => {
 
 	return new Promise((resolve, reject) => {
 		statfs(drive, (err, stats) => {
-			// log('Total free space', stats.bsize * stats.bfree);
-			// log('Available for user', stats.bsize * stats.bavail);
+			log('Total free space', stats.bsize * stats.bfree);
+			log('Available for user', stats.bsize * stats.bavail);
 			if (err) {
 				reject(err);
 			} else {

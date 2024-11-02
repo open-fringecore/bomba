@@ -35,7 +35,6 @@ const SingleFileTransfer = ({file, longestNameLength}: PropType) => {
 
 	return (
 		<Box>
-			{/* TODO:: Hide ProgressBar while not transferring */}
 			<ProgressBar percent={progress} />
 			<CustomTask
 				frames={

@@ -11,11 +11,11 @@ const SenderFileTransfer = () => {
 	const senderTransferInfo = useStore($senderTransferInfo);
 
 	return (
-		<Box flexDirection="column">
+		<>
 			{Object.entries(senderTransferInfo).map(([key, value]) => (
 				<SenderSinglePeerTransfer key={key} peerTransferInfo={value} />
 			))}
-		</Box>
+		</>
 	);
 };
 

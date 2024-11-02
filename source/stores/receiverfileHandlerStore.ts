@@ -4,10 +4,9 @@ import {
 	TransferPeerInfo,
 	Files,
 	PeersFiles,
-	SingleTransferFileInfo,
 	TransferStates,
 } from '@/types/storeTypes.js';
-import {atom, deepMap, map} from 'nanostores';
+import {deepMap} from 'nanostores';
 
 export const $peersFiles = deepMap<PeersFiles>({});
 export const $receiverTransferInfo = deepMap<ReceiverTransferInfo>();

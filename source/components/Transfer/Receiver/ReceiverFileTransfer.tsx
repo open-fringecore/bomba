@@ -1,12 +1,10 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Box, Text, useApp} from 'ink';
+import {Box, Text} from 'ink';
 import {log} from '@/functions/log.js';
 import ReceiverSingleFileTransfer from '@/components/Transfer/Receiver/ReceiverSingleFileTransfer.js';
 import {findLongestString, formatBytes} from '@/functions/helper.js';
-import {ReceiverTransferInfo} from '@/types/storeTypes.js';
 import {useStore} from '@nanostores/react';
 import {$receiverTransferInfo} from '@/stores/receiverfileHandlerStore.js';
-import {$baseInfo} from '@/stores/baseStore.js';
 
 type TProps = {};
 const ReceiverFileTransferFor = ({}: TProps) => {
