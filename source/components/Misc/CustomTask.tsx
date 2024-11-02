@@ -7,7 +7,7 @@ export const icon = {
 	loading: (frames: string[], color: string) => (
 		<Spinner frames={frames} color={color} />
 	),
-	success: <Text color={'green'}>✔</Text>,
+	success: <Text color={'#10B981'}>✔</Text>,
 	warning: <Text color={'yellow'}>⚠</Text>,
 	error: <Text color={'red'}>✘</Text>,
 };
