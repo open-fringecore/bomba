@@ -33,7 +33,7 @@ export const fetchInitSenderTransfer = async (
 };
 
 // ! As a receiver, tell the sender about transfer state.
-export const fetchUpdateSingleFileSenderTransferState = async (
+export const fetchUpdateSenderTransferState = async (
 	peerIP: string,
 	peerHttpPort: number,
 	fileID: string,

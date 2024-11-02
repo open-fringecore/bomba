@@ -17,7 +17,7 @@ import {promisify} from 'util';
 import {ReadableStream} from 'stream/web';
 // import {default as tarFs} from 'tar-fs';
 import {x as extract} from 'tar';
-import {fetchUpdateSingleFileSenderTransferState} from '@/functions/fetch.js';
+import {fetchUpdateSenderTransferState} from '@/functions/fetch.js';
 
 const pipelineAsync = promisify(pipeline);
 
@@ -172,7 +172,7 @@ export const useFileDownloader = async (
 		const errMsg = error instanceof Error ? error.message : 'Unknown Error';
 		updateTransferFileState(FILE_ID, 'ERROR');
 		updateTransferFileErrorMsg(FILE_ID, errMsg);
-		await fetchUpdateSingleFileSenderTransferState(
+		await fetchUpdateSenderTransferState(
 			PEER_IP,
 			PEER_TCP_PORT,
 			FILE_ID,

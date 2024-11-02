@@ -7,7 +7,7 @@ import {
 } from '@/stores/receiverfileHandlerStore.js';
 import {RECEIVE_PATH} from '@/functions/variables.js';
 import {log, logError} from '@/functions/log.js';
-import {fetchUpdateSingleFileSenderTransferState} from '@/functions/fetch.js';
+import {fetchUpdateSenderTransferState} from '@/functions/fetch.js';
 
 export const hashFile = async (filePath: string) => {
 	return new Promise((resolve, reject) => {
@@ -65,7 +65,7 @@ export const useHashCheck = async (
 		const outputPath = path.join(RECEIVE_PATH, FILENAME);
 
 		updateTransferFileState(FILE_ID, 'HASH_CHECKING');
-		await fetchUpdateSingleFileSenderTransferState(
+		await fetchUpdateSenderTransferState(
 			PEER_IP,
 			PEER_TCP_PORT,
 			FILE_ID,
@@ -91,7 +91,7 @@ export const useHashCheck = async (
 		if (sendFileHash == receivedFileHash) {
 			log('HASH MATCHED');
 			updateTransferFileState(FILE_ID, 'SUCCESS');
-			await fetchUpdateSingleFileSenderTransferState(
+			await fetchUpdateSenderTransferState(
 				PEER_IP,
 				PEER_TCP_PORT,
 				FILE_ID,
@@ -108,7 +108,7 @@ export const useHashCheck = async (
 		}
 		updateTransferFileState(FILE_ID, 'ERROR');
 		updateTransferFileErrorMsg(FILE_ID, errMsg);
-		await fetchUpdateSingleFileSenderTransferState(
+		await fetchUpdateSenderTransferState(
 			PEER_IP,
 			PEER_TCP_PORT,
 			FILE_ID,
