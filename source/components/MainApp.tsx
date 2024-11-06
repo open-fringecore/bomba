@@ -14,6 +14,11 @@ import {useActivePeers} from '@/functions/useActivePeers.js';
 
 type TProps = {};
 
+const transferComponent = {
+	SEND: <SenderFileTransfer />,
+	RECEIVE: <ReceiverFileTransfer />,
+	NOTHING: <></>,
+};
 export default function MainApp({}: TProps) {
 	const baseInfo = useStore($baseInfo);
 	const action = useStore($action);
@@ -53,15 +58,7 @@ export default function MainApp({}: TProps) {
 
 	return (
 		<Box flexDirection="column">
-			{isTransferring ? (
-				action == 'SEND' ? (
-					<SenderFileTransfer />
-				) : (
-					<ReceiverFileTransfer />
-				)
-			) : (
-				<Discover />
-			)}
+			{isTransferring ? transferComponent[action] : <Discover />}
 		</Box>
 	);
 }

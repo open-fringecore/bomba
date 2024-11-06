@@ -65,10 +65,6 @@ const Discover = () => {
 
 	return (
 		<Box flexDirection="column">
-			{/* <Text>
-				<Spinner frames={spinners.dotsRound} color="magenta" />{' '}
-				{action == 'SEND' ? 'Sending' : 'Receiving'}
-			</Text> */}
 			<Text>
 				<WaveAnimation />
 				⠀DISCOVERING⠀

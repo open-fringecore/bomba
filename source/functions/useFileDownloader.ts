@@ -8,7 +8,7 @@ import {
 import {RECEIVE_PATH} from '@/functions/variables.js';
 import readlineSync from 'readline-sync';
 import {log, logError} from '@/functions/log.js';
-import {fileExists, getDiskSpace} from '@/functions/helper.js';
+import {checkFileExists, getDiskSpace} from '@/functions/helper.js';
 import {FileTypes} from '@/types/storeTypes.js';
 import {pipeline, Readable} from 'stream';
 import {promisify} from 'util';
@@ -24,7 +24,7 @@ export const checkDuplication = (
 ): Promise<boolean> => {
 	return new Promise<boolean>(async (resolve, reject) => {
 		try {
-			const isDuplicate = fileExists(`${RECEIVE_PATH}/${fileName}`);
+			const isDuplicate = await checkFileExists(`${RECEIVE_PATH}/${fileName}`);
 			if (isDuplicate) {
 				if (
 					readlineSync.keyInYN(

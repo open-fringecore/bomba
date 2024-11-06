@@ -5,19 +5,27 @@ import yargs, {Arguments, Argv} from 'yargs';
 import {hideBin} from 'yargs/helpers';
 import express from 'express';
 import {useEffect, useMemo} from 'react';
-import {$action, $baseInfo, $isDev, $sendingFiles} from '@/stores/baseStore.js';
+import {
+	$action,
+	$baseInfo,
+	$errorMsg,
+	$isDev,
+	$sendingFiles,
+} from '@/stores/baseStore.js';
 import {
 	cleanFileName,
-	fileExists,
+	checkFileExists,
 	getAllFiles,
 	getFileSize,
 	getFileType,
 	getFolderSize,
+	getMissingFiles,
 } from '@/functions/helper.js';
 import {v4 as uuidv4} from 'uuid';
 import {log, logError} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {SendingFiles} from '@/types/storeTypes.js';
+import chalk from 'chalk';
 
 type DefaultArgvType = {
 	files?: string[];
@@ -51,7 +59,7 @@ export const useCommands = () => {
 						type: 'string',
 					});
 				},
-				(argv: DefaultArgvType) => {
+				async (argv: DefaultArgvType) => {
 					if (argv.dev_mode) {
 						$isDev.set(true);
 					}
@@ -61,8 +69,6 @@ export const useCommands = () => {
 
 					if (argv.files && argv.files?.length > 0) {
 						try {
-							$action.set('SEND');
-
 							// NOTE: // ! [-KEEP COMMENT-]
 							// ! Get all files from the command line
 							// const files: any = argv.files?.flatMap(item => {
@@ -74,16 +80,18 @@ export const useCommands = () => {
 							// });
 							const files = argv.files;
 
-							// TODO:: Pre Check File Exists
-							// NOTE: // ! [-KEEP COMMENT-]
-							// ! Check if file exists | only for debugging
-							// files.forEach((file: string) => {
-							// 	log(
-							// 		`${
-							// 			fileExists(`${SEND_PATH}/${file}`) ? 'Exists' : 'Not Exists'
-							// 		}: ${file}`,
-							// 	);
-							// });
+							// ! Check if file exists
+							const missingFiles = await getMissingFiles(files);
+							if (missingFiles.length) {
+								const errorMessage =
+									missingFiles.length === 1
+										? `The file "${missingFiles[0]}" is missing.`
+										: `The following files are missing: ${missingFiles.join(
+												', ',
+										  )}.`;
+								$errorMsg.set(errorMessage);
+								return;
+							}
 
 							// ! Create peer transfer info
 							const peerTransferInfo = files?.reduce(
@@ -102,6 +110,7 @@ export const useCommands = () => {
 							);
 
 							$sendingFiles.set(peerTransferInfo);
+							$action.set('SEND');
 						} catch (error) {
 							logError(error);
 						}
@@ -127,8 +136,3 @@ export const useCommands = () => {
 
 	return {};
 };
-
-// ! khamba
-// ! khamba --version
-// ! khamba --name Mr. Ghost | khamba --name "Mr. Ghost"
-// ! khamba .\Brain.png .\brainfuck_code.png

@@ -78,14 +78,25 @@ export const getFolderSize = (_path: string) => {
 	return totalSize;
 };
 
-export const fileExists = (filePath: string) => {
+export async function checkFileExists(filePath: string): Promise<boolean> {
 	try {
-		return fs.existsSync(filePath);
-	} catch (err) {
-		logError(err);
+		await fs.promises.access(filePath);
+		return true;
+	} catch {
 		return false;
 	}
-};
+}
+export async function getMissingFiles(files: string[]): Promise<string[]> {
+	const results = await Promise.all(
+		files.map(async file => {
+			const filePath = path.join(SEND_PATH, file);
+			const exists = await checkFileExists(filePath);
+			return exists ? null : file;
+		}),
+	);
+
+	return results.filter(file => file !== null) as string[];
+}
 
 export const getDiskSpace = async (): Promise<number> => {
 	const drive = path.parse(process.cwd()).root;
