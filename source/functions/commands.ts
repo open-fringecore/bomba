@@ -26,6 +26,7 @@ import {log, logError} from '@/functions/log.js';
 import {SEND_PATH} from '@/functions/variables.js';
 import {SendingFiles} from '@/types/storeTypes.js';
 import chalk from 'chalk';
+import {hashFile, hashFolder} from '@/functions/useHashCheck.js';
 
 type DefaultArgvType = {
 	files?: string[];
@@ -94,21 +95,36 @@ export const useCommands = () => {
 							}
 
 							// ! Create peer transfer info
-							const peerTransferInfo = files?.reduce(
-								(acc: SendingFiles, uncleanFileName: string, index: number) => {
+							const peerTransferInfo = await Promise.all(
+								files?.map(async (uncleanFileName: string) => {
 									const fileName = cleanFileName(uncleanFileName);
 									const filePath = path.join(SEND_PATH, fileName);
 									const fileType = getFileType(filePath);
+
+									const stats = fs.statSync(filePath);
+									const fileHash = (
+										stats.isDirectory()
+											? await hashFolder(filePath)
+											: await hashFile(filePath)
+									) as string;
 									const fileSize =
-										fileType == 'folder'
+										fileType === 'folder'
 											? getFolderSize(filePath)
 											: getFileSize(filePath);
-									acc[uuidv4()] = {fileName, fileSize, fileType};
+
+									return {
+										id: uuidv4(),
+										data: {fileName, fileHash, fileSize, fileType},
+									};
+								}),
+							).then(results =>
+								results.reduce((acc, {id, data}) => {
+									acc[id] = data;
 									return acc;
-								},
-								{},
+								}, {} as SendingFiles),
 							);
 
+							console.log(peerTransferInfo);
 							$sendingFiles.set(peerTransferInfo);
 							$action.set('SEND');
 						} catch (error) {

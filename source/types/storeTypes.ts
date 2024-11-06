@@ -10,6 +10,7 @@ export type InfoType = {
 export type FileTypes = 'image' | 'video' | 'text' | 'folder' | 'others';
 export type SingleSendingFile = {
 	fileName: string;
+	fileHash: string;
 	fileSize: number;
 	fileType: FileTypes;
 };
