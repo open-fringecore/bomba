@@ -124,7 +124,6 @@ export const useCommands = () => {
 								}, {} as SendingFiles),
 							);
 
-							console.log(peerTransferInfo);
 							$sendingFiles.set(peerTransferInfo);
 							$action.set('SEND');
 						} catch (error) {

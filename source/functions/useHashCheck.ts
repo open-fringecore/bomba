@@ -48,7 +48,7 @@ export const hashFolder = async (folderPath: string) => {
 			}
 		}
 	} catch (error) {
-		console.log('first', error);
+		logError(error);
 	}
 	return hash.digest('hex');
 };
