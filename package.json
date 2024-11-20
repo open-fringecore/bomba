@@ -1,6 +1,6 @@
 {
 	"name": "khamba",
-	"version": "0.0.16",
+	"version": "0.0.18",
 	"license": "MIT",
 	"description": "A cli tool for sharing files through local network.",
 	"bin": {
